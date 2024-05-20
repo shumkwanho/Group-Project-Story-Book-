@@ -1,6 +1,7 @@
 import express from "express";
 import { Request, Response } from "express";
 import expressSession from "express-session";
+import { router } from "./router";
 const app = express();
 const PORT = 8080;
 
@@ -14,7 +15,7 @@ app.use(
 
 declare module "express-session" {
     interface SessionData {
-        username?: string;
+        userId?: string;
     }
 }
 
@@ -25,7 +26,7 @@ app.get('/', function(req, res){
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
+app.use("/",router)
 app.use(express.static("public"));
 app.use((req: Request, res: Response) => {
     res.status(404).json({ "Message": "404 NOT FOUND" })
