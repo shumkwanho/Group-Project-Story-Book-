@@ -8,7 +8,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-async function main() {
+//for testing chat model
+async function chatModel() {
   const chatCompletion = await openai.chat.completions.create({
     messages: [{ role: 'user', content: 'Say "Hello World" in English, Japanese, and Chinese' }],
     model: 'gpt-3.5-turbo',
@@ -17,4 +18,4 @@ async function main() {
   console.log(chatCompletion.choices[0]);
 }
 
-main();
+chatModel();
