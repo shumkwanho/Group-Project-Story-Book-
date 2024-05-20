@@ -1,6 +1,12 @@
 import { Router } from "express"
-import { Request, Response } from "express";
+import { knex } from "./utils/knex"
+import { CharacterService } from "./service/characterService";
+import { CharacterController } from "./controller/characterController";
 export const router = Router()
-router.get("/", somefunction)
+const characterService = new CharacterService(knex)
+const characterController = new CharacterController (characterService)
 
-function somefunction(req: Request, res: Response) { }
+
+
+router.post("/character", characterController.createCharacter)
+router.delete("/character", characterController.deleteCharacter)
