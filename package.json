@@ -31,6 +31,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@types/knex": "^0.16.1",
     "dotenv": "^16.4.5"
   },
   "repository": "git@github.com:shumkwanho/Group-Project-Story-Book-.git"
