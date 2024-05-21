@@ -10,3 +10,4 @@ const characterController = new CharacterController (characterService)
 
 router.post("/character", characterController.createCharacter)
 router.delete("/character", characterController.deleteCharacter)
+

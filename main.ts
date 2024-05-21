@@ -2,6 +2,9 @@ import express from "express";
 import { Request, Response } from "express";
 import expressSession from "express-session";
 import { router } from "./router";
+import loginRoute from './loginRoute';
+import userRoute from './userRoute';
+
 const app = express();
 const PORT = 8080;
 
@@ -19,13 +22,13 @@ declare module "express-session" {
     }
 }
 
-app.get('/', function(req, res){
-    res.sendFile('login.html', { root: __dirname + "/public/html/" } );
-});
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use("/login", express.static("public/login"))
+
+app.use('/api', loginRoute);
+app.use('/api', userRoute);
 app.use("/",router)
 app.use(express.static("public"));
 app.use((req: Request, res: Response) => {
