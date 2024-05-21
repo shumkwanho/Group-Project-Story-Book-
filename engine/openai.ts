@@ -5,7 +5,7 @@ dotenv.config();
 
 export const teckyOpenAI = new OpenAI({
     baseURL: process.env.TECKY_OPENAI_API_URL,
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.TECKY_OPENAI_API_KEY,
 });
 
 export const adamOpenAI = new OpenAI({

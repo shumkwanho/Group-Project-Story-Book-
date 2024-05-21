@@ -1,5 +1,11 @@
 import { adamOpenAI, teckyOpenAI } from "./openai";
 
+// chatModel();
+imageModel();
+
+
+/****************/
+
 //for testing chat model
 async function chatModel() {
   const chatCompletion = await teckyOpenAI.chat.completions.create({
@@ -9,8 +15,6 @@ async function chatModel() {
 
   console.log(chatCompletion.choices[0]);
 }
-
-chatModel();
 
 //for testing image model
 async function imageModel() {
@@ -24,5 +28,3 @@ async function imageModel() {
 
   console.log(image_url);
 }
-
-// imageModel()
