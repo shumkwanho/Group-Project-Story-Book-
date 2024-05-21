@@ -5,10 +5,22 @@ import { CharacterController } from "./controller/characterController";
 import { payment,webhook } from "./utils/payment";
 import  express from "express";
 
+import { CommentService } from "./service/commentService";
+import { CommentController } from "./controller/commentController";
+
+
 export const router = Router()
 const characterService = new CharacterService(knex)
 const characterController = new CharacterController (characterService)
 
+const commentService = new CommentService (knex)
+const commentController = new CommentController (commentService)
+
+
+router.get("/comment",commentController.getAllComment);
+router.post("/comment",commentController.createComment);
+router.put("/comment",commentController.updateComment);
+router.delete("/comment",commentController.deleteComment);
 
 
 
