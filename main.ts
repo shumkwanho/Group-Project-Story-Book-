@@ -21,7 +21,7 @@ declare module "express-session" {
 
 
 app.get('/test', function(req, res){
-    res.sendFile('index.html', { root: __dirname + "/public/index.html/" } );
+    res.sendFile('index.html', { root: __dirname + "/public/" } );
 });
 
 app.get('/', function(req, res){
