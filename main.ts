@@ -19,12 +19,16 @@ declare module "express-session" {
     }
 }
 
+
+app.get('/test', function(req, res){
+    res.sendFile('index.html', { root: __dirname + "/public/index.html/" } );
+});
+
 app.get('/', function(req, res){
     res.sendFile('login.html', { root: __dirname + "/public/html/" } );
 });
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+
 
 app.use("/",router)
 app.use(express.static("public"));

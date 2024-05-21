@@ -33,7 +33,8 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "fs": "^0.0.1-security",
-    "openai": "^4.47.1"
+    "openai": "^4.47.1",
+    "stripe": "^15.7.0"
   },
   "repository": "git@github.com:shumkwanho/Group-Project-Story-Book-.git"
 }
