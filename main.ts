@@ -22,8 +22,11 @@ declare module "express-session" {
     }
 }
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.get('/', function(req, res){
+    res.sendFile('login.html', { root: __dirname + "/public/html/" } );
+});
+
+
 
 app.use("/login", express.static("public/login"))
 
