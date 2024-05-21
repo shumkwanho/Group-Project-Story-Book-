@@ -27,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/",router)
+
 app.use(express.static("public"));
 app.use((req: Request, res: Response) => {
     res.status(404).json({ "Message": "404 NOT FOUND" })
