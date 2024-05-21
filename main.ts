@@ -22,12 +22,6 @@ declare module "express-session" {
     }
 }
 
-app.get('/', function(req, res){
-    res.sendFile('login.html', { root: __dirname + "/public/html/" } );
-});
-
-
-
 app.use("/login", express.static("public/login"))
 
 app.use('/api', loginRoute);
