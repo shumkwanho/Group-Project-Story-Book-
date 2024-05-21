@@ -1,5 +1,5 @@
 {
-  "name": "group_project(story_book)",
+  "name": "group_project_story_book",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,6 @@
   "keywords": [],
   "author": "Ah Ho <shumkwanho@gmail.com>",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
@@ -35,5 +34,13 @@
     "fs": "^0.0.1-security",
     "openai": "^4.47.1"
   },
-  "repository": "git@github.com:shumkwanho/Group-Project-Story-Book-.git"
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/shumkwanho/Group-Project-Story-Book-.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shumkwanho/Group-Project-Story-Book-/issues"
+  },
+  "homepage": "https://github.com/shumkwanho/Group-Project-Story-Book-#readme",
+  "description": ""
 }
