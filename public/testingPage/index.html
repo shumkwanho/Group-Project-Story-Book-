@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <form>
+    <label for="characterName">characterName</label>
+    <input type="text" name="characterName" value="Bobby">
+    <label for="description">description</label>
+    <input type="text" name="description" value="cute cat">
+    <input type="submit">
+  </form>
+  <script async src="https://js.stripe.com/v3/buy-button.js">
+  </script>
+
+  <div class="product">
+    <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" />
+    <div class="description">
+      <h3>Stubborn Attachments</h3>
+      <h5>$20.00</h5>
+    </div>
+  </div>
+  <form action="/create-checkout-session" method="POST">
+    <button type="submit" id="checkout-button">Checkout</button>
+  </form>
+
+
+  <script src="index.js"></script>
+</body>
+
+</html>
