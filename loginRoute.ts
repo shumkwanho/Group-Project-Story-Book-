@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import { Pool } from 'pg';
+import bcrypt from 'bcrypt';
 
+declare module 'bcrypt';
 const loginRoute = express.Router();
 
 // Create a PostgreSQL client
@@ -14,13 +16,13 @@ const pool = new Pool({
 
 // Login route
 loginRoute.post('/login', async (req: Request, res: Response) => {
-  const { username, email, password } = req.body;
+  const {email, password } = req.body;
 
   try {
     // Query the database to find the user
     const result = await pool.query(
-      'SELECT * FROM users WHERE username = $1 OR email = $2',
-      [username, email]
+      'SELECT * FROM users WHERE email = $1 OR password = $2',
+      [email, password]
     );
 
     if (result.rows.length === 0) {
@@ -29,8 +31,10 @@ loginRoute.post('/login', async (req: Request, res: Response) => {
 
     const user = result.rows[0];
 
-    // Check if the password is correct
-    if (user.password !== password) {
+    // Check if the password is valid
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
