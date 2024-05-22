@@ -10,6 +10,7 @@
   "author": "Ah Ho <shumkwanho@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
     "@types/express-session": "^1.18.0",
@@ -30,6 +31,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "fs": "^0.0.1-security",
     "openai": "^4.47.1",
