@@ -17,7 +17,7 @@ const loadCharacters = async () => {
 }
 
 const loadStorybooks = async() => {
-    const res = await fetch("./storybook")
+    const res = await fetch("./storybooks")
     const data = (await res.json()).data
     const storybookArea = document.querySelector(".storybook-area")
     for (let storybook of data){
