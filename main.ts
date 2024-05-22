@@ -33,7 +33,17 @@ app.use('/user', userRoute);
 app.use('/api', registerRoute);
 app.use("/",router);
 app.use("/login", express.static("public/login"))
+<<<<<<< HEAD
 app.use(express.static("public"));
+=======
+app.use("/test", express.static("public/testingPage"))
+
+app.use('/api', loginRoute);
+app.use('/api', userRoute);
+app.use("/",router)
+
+app.use(express.static("public/mainpage"));
+>>>>>>> 06897e451bd5b15b8148512135d356d8507467c3
 app.use((req: Request, res: Response) => {
     res.status(404).json({ "Message": "404 NOT FOUND" })
 })
