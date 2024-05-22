@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express';
 import { Pool } from 'pg';
 import bcrypt from 'bcrypt';
 import path from 'path';
-import { checkPassword, hashPassword } from "../utils/hash";
 
 const loginRoute = express.Router();
 
@@ -12,7 +11,7 @@ const pool = new Pool({
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  port: 5432,
+  port: 5432
 });
 
 loginRoute.get('/', (req: Request, res: Response) => {
