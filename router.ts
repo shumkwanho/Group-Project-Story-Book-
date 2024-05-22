@@ -1,19 +1,17 @@
 import { Router } from "express"
 import { knex } from "./utils/knex"
-import { CharacterService } from "./service/characterService";
-import { CharacterController } from "./controller/characterController";
 import { payment,webhook } from "./utils/payment";
 import  express from "express";
-
+import { CharacterService } from "./service/characterService";
+import { CharacterController } from "./controller/characterController";
 import { CommentService } from "./service/commentService";
 import { CommentController } from "./controller/commentController";
-
+import { PageService } from "./service/pageService";
+import { PageController } from "./controller/pageController";
 
 export const router = Router()
 
-
 router.post('/webhook', express.raw({type: 'application/json'}), webhook);
-
 
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
@@ -36,7 +34,6 @@ router.put("/comment",commentController.updateComment);
 router.delete("/comment",commentController.deleteComment);
 
 
-
 router.post('/webhook', express.raw({type: 'application/json'}), webhook);
 
 router.use(express.urlencoded({ extended: true }));
@@ -45,3 +42,8 @@ router.post('/create-checkout-session', payment);
 router.post("/character", characterController.createCharacter)
 router.delete("/character", characterController.deleteCharacter)
 
+
+const pageService = new PageService(knex);
+const pageController = new PageController(pageService);
+router.get('/page', pageController.getPageByStorybookId);
+router.post('/page', pageController.createPage);
