@@ -8,6 +8,9 @@ import { CommentService } from "./service/commentService";
 import { CommentController } from "./controller/commentController";
 import { PageService } from "./service/pageService";
 import { PageController } from "./controller/pageController";
+import { StorybookService } from "./service/storybookService";
+import { StorybookController } from "./controller/storybookController";
+
 
 export const router = Router()
 
@@ -16,6 +19,17 @@ router.post('/webhook', express.raw({type: 'application/json'}), webhook);
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
+router.post('/create-checkout-session', payment); 
+
+
+
+
+
+
+router.post('/webhook', express.raw({type: 'application/json'}), webhook);
+
+router.use(express.urlencoded({ extended: true }));
+router.use(express.json());
 router.post('/create-checkout-session', payment); 
 
 
@@ -32,17 +46,10 @@ router.get("/comment",commentController.getAllComment);
 router.post("/comment",commentController.createComment);
 router.put("/comment",commentController.updateComment);
 router.delete("/comment",commentController.deleteComment);
+const storybookService = new StorybookService(knex)
+const storybookController = new StorybookController(storybookService)
 
-
-router.post('/webhook', express.raw({type: 'application/json'}), webhook);
-
-router.use(express.urlencoded({ extended: true }));
-router.use(express.json());
-router.post('/create-checkout-session', payment); 
-router.post("/character", characterController.createCharacter)
-router.delete("/character", characterController.deleteCharacter)
-
-
+router.get("/storybook",storybookController.getAllStoryBook)
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);

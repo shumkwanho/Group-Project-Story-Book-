@@ -20,16 +20,12 @@ export class CharacterController {
 
     createCharacter = async (req: Request, res: Response) => {
         try {
-
-
             let userId = "1"
             let { characterName, description } = req.body
             const imageName: string[] = await imageModel(description)
 
-            console.log(imageName);
-
-            await this.service.createCharacter(userId, characterName!, imageName[0])
-            res.status(200).json({ message: "create succcessfully" })
+            // await this.service.createCharacter(userId, characterName!, imageName[0])
+            // res.status(200).json({ message: "create succcessfully" })
 
 
             // form.parse(req, async (err, fields, files) => {

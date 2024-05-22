@@ -32,7 +32,16 @@ app.use('/api', loginRoute);
 app.use('/user', userRoute);
 app.use("/",router);
 
-app.use(express.static("public/mainPage"));
+<<<<<<< HEAD
+
+app.use("/login", express.static("public/login"))
+app.use("/test", express.static("public/testingPage"))
+
+app.use('/api', loginRoute);
+app.use('/api', userRoute);
+app.use("/",router)
+
+app.use(express.static("public/mainpage"));
 app.use((req: Request, res: Response) => {
     res.status(404).json({ "Message": "404 NOT FOUND" })
 })
