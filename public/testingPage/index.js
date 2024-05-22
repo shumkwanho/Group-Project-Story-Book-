@@ -16,12 +16,14 @@ const form = document.querySelector("form")
 
 form.addEventListener("submit",async (e) =>{
     e.preventDefault()
+
     const form = e.target
     let req = {
         characterName: form.characterName.value,
         description: form.description.value
     }
-    const res = await fetch('http://localhost:8080/character', {
+    console.log(req);
+    const res = await fetch('http://localhost:8080/character/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',

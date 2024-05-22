@@ -20,9 +20,7 @@ declare module "express-session" {
 }
 
 
-app.get('/test', function(req, res){
-    res.sendFile('index.html', { root: __dirname + "/public/" } );
-});
+app.use('/test', express.static("public/testingPage"));
 
 app.get('/', function(req, res){
     res.sendFile('login.html', { root: __dirname + "/public/html/" } );

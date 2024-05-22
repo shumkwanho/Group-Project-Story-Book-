@@ -6,20 +6,32 @@ import { imageModel } from "../engine/replicateGenerator"
 export class CharacterController {
     constructor(private service: CharacterService) { }
 
+
+    loadCharacter = async (req: Request, res: Response) => {
+        try {
+            const allCharacter = await this.service.loadCharacter()
+            res.status(200).json({ data: allCharacter })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+
+    }
+
     createCharacter = async (req: Request, res: Response) => {
         try {
-            console.log(req.body);
-            
-            let userId = "1" 
-            let {characterName,description} = req.body
-            const imageName:string[] = await imageModel(description)
+
+
+            let userId = "1"
+            let { characterName, description } = req.body
+            const imageName: string[] = await imageModel(description)
 
             console.log(imageName);
-            
+
             await this.service.createCharacter(userId, characterName!, imageName[0])
             res.status(200).json({ message: "create succcessfully" })
 
-            
+
             // form.parse(req, async (err, fields, files) => {
             //     // const userId = req.session.userId
             //     if (fields.userId) {
@@ -33,7 +45,7 @@ export class CharacterController {
             //     }
             //     const imageName = files.photo![0].newFilename
             // })
-            
+
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
