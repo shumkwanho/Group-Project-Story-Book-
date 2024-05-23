@@ -15,7 +15,6 @@ async function main() {
     const coverData = storybookData.cover[0]
     const pagesData = storybookData.pages
 
-
     printCover(coverData)
 
     nextPageBtn.addEventListener("click", () => {
