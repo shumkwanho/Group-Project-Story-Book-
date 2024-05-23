@@ -32,7 +32,6 @@ app.use('/api', loginRoute);
 app.use('/user', userRoute);
 app.use("/",router);
 
-<<<<<<< HEAD
 
 app.use("/login", express.static("public/login"))
 app.use("/test", express.static("public/testingPage"))
