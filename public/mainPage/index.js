@@ -1,7 +1,11 @@
 const searchBar = document.querySelector(".search-bar")
 window.addEventListener("load", async (e) => {
+    const userId = await checkLogin()
     await loadCharacters()
-    await loadStorybooks()
+    await loadStorybooks(userId)
+    if (userId) {
+        displayLike(userId)
+    }
 })
 
 searchBar.addEventListener("input", async (e) => {
@@ -12,7 +16,7 @@ searchBar.addEventListener("input", async (e) => {
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
         },
-        body: JSON.stringify({ value }), // Specify the Request Body
+        body: JSON.stringify({ value }),
     })
 })
 
@@ -29,14 +33,13 @@ const loadCharacters = async () => {
     }
 }
 
-const loadStorybooks = async() => {
+const loadStorybooks = async (userId = null) => {
     const res = await fetch("./storybooks")
     const data = (await res.json()).data
     const storybookArea = document.querySelector(".storybook-area")
     for (let storybook of data) {
         storybookArea.innerHTML +=
-            `<div class="book border" id="storybook_${storybook.id}">
-                <i class="fa-regular fa-heart like-btn"></i>
+            `<div class="book border" id="book_${storybook.id}">
                 <div class="book-img border">img</div>
                 <div class="book-title">${storybook.bookname}</div>
                 <div class="book-description">${storybook.description}</div>
@@ -44,18 +47,67 @@ const loadStorybooks = async() => {
             </div>`
     }
 
-    const likeBtns = document.querySelectorAll(".like-btn").forEach((likeBtn) => {
-        likeBtn.addEventListener("click", (e) => {
-            likeBtn.classList.toggle('fa-regular')
-            likeBtn.classList.toggle('fa-solid')
 
-            if (likeBtn.classList.contains('fa-solid')) {
-                console.log("good");
-                //update like table
-            } else {
-                console.log("bad")
-                //update like table
-            }
+
+    // const likeBtns = document.querySelectorAll(".like-btn").forEach((likeBtn) => {
+    //     likeBtn.addEventListener("click", (e) => {
+
+    //     })
+    // })
+}
+
+const checkLogin = async () => {
+    const res = await fetch("/checkLogin")
+    const data = await res.json()
+    if (data.data) {
+        return data.data
+    }
+    return null
+}
+
+const toggleLike = async (e, bookId) => {
+
+    e.target.classList.toggle('fa-regular')
+    e.target.classList.toggle('fa-solid')
+    const isLiked = e.target.classList.contains('fa-solid')
+    if (isLiked) {
+        const res = await fetch('./like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+            body: JSON.stringify({bookId }),
         })
+        console.log("liked");
+        return
+    }
+
+    const res = await fetch('./dislike', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({bookId }),
     })
+    console.log("disliked");
+    return
+}
+
+const displayLike = async (userId) => {
+    const res = await fetch("./like")
+    const data = (await res.json()).data
+    const bookIds = data.map(elem => elem.storybook_id)
+    const books = document.querySelectorAll(".book")
+    for (let book of books){
+        if (book.classList.contains("create-storybook")) {
+            continue
+        }
+        const bookId = book.id.slice(5,7)
+        const isLiked = bookIds.includes(bookId)
+        if(isLiked){
+            book.innerHTML+=`<i class="fa-solid fa-heart" onclick=toggleLike(event,${bookId})></i>`
+            continue
+        }
+        book.innerHTML+=`<i class="fa-regular fa-heart" onclick=toggleLike(event,${bookId})></i>`
+    }
 }

@@ -24,7 +24,7 @@ loginRoute.get('/', (req: Request, res: Response) => {
 // Login route
 loginRoute.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body;
-
+  
   try {
     // Query the database to find the user record based on the email
     const user = await db('users')
@@ -44,7 +44,7 @@ loginRoute.post('/login', async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Invalid credentials password not match' });
     }
     req.session.userId = (user.id).toString()
-    
+    req.session.save()
     // The password matches, return a 202 Accepted response
     return res.status(202).json({ message: 'Login successful', data:user.id});
   } catch (err) {
