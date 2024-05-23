@@ -7,11 +7,12 @@ export class CommentController{
     
     getAllComment = async (req: Request, res: Response) => {
         try {
-            const { content, user_id, storybook_id } = req.query;
+            const { content, comments_id, username } = req.query;
             const comments = await this.service.getAllComment(
                 content as string,
-                user_id as string,
-                storybook_id as string,
+                comments_id as string,
+                username as string,
+                
             );
             // res.status(200).json({ message: "Get All Comment Success"})
             res.status(200).json({ comments })
@@ -24,12 +25,14 @@ export class CommentController{
 
     createComment = async (req:Request, res: Response) => {
         try{
-            const { content, user_id, storybook_id } = req.body
+            let user_id = "1"
+            let storybook_id = "1"
+            const  content  = req.body.text
             const comment = await this.service.createComment(content, user_id, storybook_id);
 
             
-            res.status(200).json({ message: "create comment success"})
-            res.status(200).json({comment})
+            // res.status(200).json({ message: "create comment success"})
+            res.status(200).json({ comment })
 
             
         } catch (error){
