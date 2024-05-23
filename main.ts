@@ -26,6 +26,9 @@ declare module "express-session" {
     }
 }
 
+app.use("/login", express.static("public/login"))
+app.use("/kenny", express.static("public/kenny"))
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use('/api', loginRoute);

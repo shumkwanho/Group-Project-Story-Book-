@@ -5,16 +5,19 @@ export class CommentService {
 
         getAllComment = async (content: string, user_id: string, storybook_id: string) => {
             let result = await this.knex
-            .select("*")
+            .select("username","content", "comments.id")
             .from("comments")
+            .join("users","user_id","=","users.id")
         
             return result
         }
         
         createComment = async (content: string, user_id: string, storybook_id: string) => {
-            await this.knex
+            let result = await this.knex
             .insert ({content, user_id, storybook_id })
             .into("comments")
+
+            return result
         }
 
         updateComment = async (content: string,  comment_id: string) => {
