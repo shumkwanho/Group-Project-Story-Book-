@@ -11,6 +11,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  document.getElementById('login-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+  
+    try {
+      const response = await fetch('../api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await response.json()
+      console.log(data);
+      if (response.ok) {
+        alert('Login successful!');
+      } else {
+        const data = await response.json();
+        alert(`Login failed: ${data.message}`);
+      }
+    } catch (error) {
+      alert('An error occurred during login.');
+      console.error(error);
+    }
+  });
 
 const registrationBtn = document.querySelector('.registration-container .dropdown-btn');
 const registrationContent = document.querySelector('.registration-container .dropdown-content');

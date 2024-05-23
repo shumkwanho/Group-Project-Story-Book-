@@ -3,11 +3,22 @@ import { Knex } from "knex";
 export class PageService {
     constructor(private knex: Knex) {}
 
-    async getAllPageByStorybookId(storybookId) {
+    async getPageByStorybookId(storybookId?: string, pageNumber?: number) {
         return await this.knex
             .select('page_number', 'caption', 'image')
             .from('storybook_pages')
-            .orderBy('page_number', 'asc')
-            .where('storybook_id', '=', storybookId);
+            .where('storybook_id', storybookId)
+            .where('page_number', pageNumber);
+    }
+
+    async createPage(storybookId?: string, caption?: string, image?: string, pageNumber?: number) {
+        return await this.knex('storybook_pages')
+            .insert({
+                storybook_id: storybookId,
+                page_number: pageNumber,
+                caption: caption,
+                image: image,
+            })
+            .returning(['page_number', 'caption', 'image']);
     }
 }

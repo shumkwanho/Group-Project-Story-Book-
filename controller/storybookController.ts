@@ -15,4 +15,22 @@ export class StorybookController {
             res.status(500).json({ message: "Internal Server Error" })
         }
     }
+
+    getStroyBookById = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.query;
+
+            const storybookQueryResult = await this.service.getStroyBookInfoById(id as string)
+
+            console.log(storybookQueryResult)
+            //return a json file with
+            // 1) information of the book, and
+            // 2) all pages in asc order
+            
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+    }
 }
