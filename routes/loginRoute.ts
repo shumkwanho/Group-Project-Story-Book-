@@ -17,9 +17,7 @@ const db = knex({
   }
 });
 
-loginRoute.get('/', (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+
 
 // Login route
 loginRoute.post('/login', async (req: Request, res: Response) => {
@@ -53,9 +51,6 @@ loginRoute.post('/login', async (req: Request, res: Response) => {
   }
 });
 
-// Serve the text.html page
-loginRoute.get('/text', (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, 'text.html'));
-});
+
 
 export default loginRoute;

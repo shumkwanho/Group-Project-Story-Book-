@@ -15,10 +15,13 @@ import { PageController } from "./controller/pageController";
 import { StorybookService } from "./service/storybookService";
 import { StorybookController } from "./controller/storybookController";
 
+import { UserService } from "./service/userService";
 import { UserController } from "./controller/userController";
 
 import { LikeController } from "./controller/likeController";
 import { LikeService } from "./service/likeService";
+
+
 export const router = Router()
 
 const paymentController = new PaymentController()
@@ -53,8 +56,11 @@ const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);
 router.post('/page', pageController.createPage);
 
-const userController = new UserController()
+const userService = new UserService(knex)
+const userController = new UserController(userService)
 router.get("/checkLogin",userController.checkLogin)
+router.post("/login",userController.login)
+router.post("/register",userController.register)
 
 const likeService = new LikeService(knex)
 const likeController = new LikeController(likeService)

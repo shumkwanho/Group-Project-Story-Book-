@@ -2,9 +2,6 @@ import express from "express";
 import { Request, Response } from "express";
 import expressSession from "express-session";
 import { router } from "./router";
-import loginRoute from './routes/loginRoute';
-import userRoute from './routes/userRoute';
-import { registerRoute } from './routes/registerRoute';
 import path from 'path';
 
 const app = express();
@@ -29,9 +26,7 @@ declare module "express-session" {
 app.use("/login", express.static("public/login"))
 app.use("/kenny", express.static("public/kenny"))
 app.use("/test",express.static("public/testingPage"))
-app.use('/api', loginRoute);
-app.use('/', userRoute);
-app.use('/', registerRoute);
+
 app.use("/",router);
 
 app.use("/uploads", express.static("uploads"))

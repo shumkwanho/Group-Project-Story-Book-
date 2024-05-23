@@ -28,7 +28,6 @@ registerRoute.post('/register', async (req: Request, res: Response) => {
     if (!password || !confirmPassword) {
       return res.status(400).json({ message: 'Password and confirm password fields are required' });
     }
-    console.log(username, email, password, confirmPassword)
 
     if (password !== confirmPassword) {
       return res.status(400).json({ message: 'Passwords do not match' });
