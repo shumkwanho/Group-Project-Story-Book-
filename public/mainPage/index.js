@@ -2,9 +2,9 @@ const searchBar = document.querySelector(".search-bar")
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin()
     await loadCharacters()
-    await loadStorybooks(userId)
+    await loadStorybooks()
     if (userId) {
-        displayLike(userId)
+        displayLike()
     }
 })
 
@@ -33,7 +33,7 @@ const loadCharacters = async () => {
     }
 }
 
-const loadStorybooks = async (userId = null) => {
+const loadStorybooks = async () => {
     const res = await fetch("./storybooks")
     const data = (await res.json()).data
     const storybookArea = document.querySelector(".storybook-area")
@@ -46,14 +46,6 @@ const loadStorybooks = async (userId = null) => {
                 <div class="suitable-age">${storybook.target_age} years old</div>
             </div>`
     }
-
-
-
-    // const likeBtns = document.querySelectorAll(".like-btn").forEach((likeBtn) => {
-    //     likeBtn.addEventListener("click", (e) => {
-
-    //     })
-    // })
 }
 
 const checkLogin = async () => {
@@ -93,7 +85,7 @@ const toggleLike = async (e, bookId) => {
     return
 }
 
-const displayLike = async (userId) => {
+const displayLike = async () => {
     const res = await fetch("./like")
     const data = (await res.json()).data
     const bookIds = data.map(elem => elem.storybook_id)

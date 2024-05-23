@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { knex } from "./utils/knex"
-import { payment,webhook } from "./utils/payment";
+import { PaymentController } from "./controller/paymentController";
 import  express from "express";
 
 import { CharacterService } from "./service/characterService";
@@ -21,12 +21,13 @@ import { LikeController } from "./controller/likeController";
 import { LikeService } from "./service/likeService";
 export const router = Router()
 
-router.post('/webhook', express.raw({type: 'application/json'}), webhook);
+const paymentController = new PaymentController()
+router.post('/webhook', express.raw({type: 'application/json'}), paymentController.webhook);
 
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
-router.post('/create-checkout-session', payment); 
+router.post('/create-checkout-session', paymentController.payment); 
 
 const characterService = new CharacterService(knex)
 const characterController = new CharacterController (characterService)
