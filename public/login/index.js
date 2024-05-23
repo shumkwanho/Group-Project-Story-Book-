@@ -37,6 +37,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  document.getElementById('registration-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+  
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+  
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, email, password, confirmPassword })
+      });
+  
+      if (response.ok) {
+        alert('Registration successful!');
+      } else {
+        const data = await response.json();
+        alert(`Registration failed: ${data.message}`);
+      }
+    } catch (error) {
+      alert('An error occurred during registration.');
+      console.error(error);
+    }
+  });
+
 const registrationBtn = document.querySelector('.registration-container .dropdown-btn');
 const registrationContent = document.querySelector('.registration-container .dropdown-content');
 
