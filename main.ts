@@ -29,8 +29,8 @@ declare module "express-session" {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use('/api', loginRoute);
-app.use('/api', userRoute);
-app.use('/api', registerRoute);
+app.use('/', userRoute);
+app.use('/', registerRoute);
 app.use("/",router);
 
 
