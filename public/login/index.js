@@ -41,13 +41,13 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('registration-form').addEventListener('submit', async (event) => {
     event.preventDefault();
   
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const username = document.getElementById('new-username').value;
+    const email = document.getElementById('new-email').value;
+    const password = document.getElementById('new-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
   
     try {
-      const response = await fetch('/api/register', {
+      const response = await fetch('/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -55,11 +55,12 @@ document.addEventListener('DOMContentLoaded', function() {
         body: JSON.stringify({ username, email, password, confirmPassword })
       });
   
+      const data = await response.json();
+  
       if (response.ok) {
-        alert('Registration successful!');
+        alert(data.message);
       } else {
-        const data = await response.json();
-        alert(`Registration failed: ${data.message}`);
+        alert(data.message);
       }
     } catch (error) {
       alert('An error occurred during registration.');
@@ -75,7 +76,7 @@ registrationBtn.addEventListener('click', () => {
 });
 
 const form = document.querySelector(".class")
-console.log(form);
+// console.log(form);
 form.addEventListener("submit", async (e) => {
     e.preventDefault()
 

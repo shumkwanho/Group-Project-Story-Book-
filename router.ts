@@ -15,6 +15,10 @@ import { PageController } from "./controller/pageController";
 import { StorybookService } from "./service/storybookService";
 import { StorybookController } from "./controller/storybookController";
 
+import { UserController } from "./controller/userController";
+
+import { LikeController } from "./controller/likeController";
+import { LikeService } from "./service/likeService";
 export const router = Router()
 
 router.post('/webhook', express.raw({type: 'application/json'}), webhook);
@@ -47,3 +51,12 @@ const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);
 router.post('/page', pageController.createPage);
+
+const userController = new UserController()
+router.get("/checkLogin",userController.checkLogin)
+
+const likeService = new LikeService(knex)
+const likeController = new LikeController(likeService)
+router.get("/like",likeController.getLikes)
+router.post("/like",likeController.likeBooks)
+router.delete("/dislike",likeController.dislikeBooks)
