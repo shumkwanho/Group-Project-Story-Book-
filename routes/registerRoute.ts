@@ -1,14 +1,15 @@
 import express, { Request, Response } from 'express';
-import knex from 'knex';
-import { hashPassword } from '../utils/hash';
+import knex, { Knex } from 'knex';
+import bcrypt from 'bcrypt';
+import { log } from 'console';
 
-const db = knex({
+const db: Knex = knex({
   client: 'pg',
   connection: {
     host: 'localhost',
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    user: process.env.DB_USERNAME!,
+    password: process.env.DB_PASSWORD!,
+    database: process.env.DB_NAME!,
     port: 5432
   }
 });
@@ -23,16 +24,24 @@ registerRoute.post('/register', async (req: Request, res: Response) => {
   try {
     const { username, email, password, confirmPassword } = req.body;
 
+    // 1. Check if passwords match
+    if (!password || !confirmPassword) {
+      return res.status(400).json({ message: 'Password and confirm password fields are required' });
+    }
+    console.log(username, email, password, confirmPassword)
+
     if (password !== confirmPassword) {
       return res.status(400).json({ message: 'Passwords do not match' });
     }
 
-    const existingUser = await db('users').where({ email }).first();
+    // 2. Check if username, email, or password already exists in the database
+    const existingUser = await db('users').where({ username, email }).first();
     if (existingUser) {
-      return res.status(403).json({ message: 'User already exists' });
+      return res.status(400).json({ message: 'Username or email already exists' });
     }
 
-    const hashedPassword = await hashPassword(password);
+    // 3. If all input data does not exist in the database, insert the new user
+    const hashedPassword = await bcrypt.hash(password, 10);
     await db('users').insert({ username, email, password: hashedPassword });
 
     res.status(200).json({ message: 'Registration successful' });

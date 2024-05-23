@@ -30,8 +30,8 @@ app.use("/login", express.static("public/login"))
 app.use("/kenny", express.static("public/kenny"))
 app.use("/test",express.static("public/testingPage"))
 app.use('/api', loginRoute);
-app.use('/api', userRoute);
-app.use('/api', registerRoute);
+app.use('/', userRoute);
+app.use('/', registerRoute);
 app.use("/",router);
 
 app.use("/uploads", express.static("uploads"))
