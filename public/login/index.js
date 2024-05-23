@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         body: JSON.stringify({ email, password })
       });
-  
+      const data = await response.json()
+      console.log(data);
       if (response.ok) {
         alert('Login successful!');
       } else {

@@ -16,14 +16,10 @@ export function downloadImage(url: string) {
                     .once('close', () => resolve(filename));
      
             } else {
-                // Consume response data to free up memory
                 res.resume();
                 reject(new Error(`Request Failed With a Status Code: ${res.statusCode}`));
-
             }
         });
-
-
     });
 
 }

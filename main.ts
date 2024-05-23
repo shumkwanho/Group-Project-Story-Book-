@@ -32,6 +32,8 @@ app.use('/api', loginRoute);
 app.use('/api', userRoute);
 app.use('/api', registerRoute);
 app.use("/",router);
+
+
 app.use("/login", express.static("public/login"))
 app.use(express.static("public"));
 app.use((req: Request, res: Response) => {

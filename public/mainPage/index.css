@@ -54,6 +54,13 @@
     display: flex;
     padding: 10px;
     margin: 10px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.create-character{
+    display: flex;
+    justify-content: space-between;
 }
 
 .character-image{
@@ -66,6 +73,7 @@
     width: 75%;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .book{
@@ -74,6 +82,8 @@
     height: 200px;
     box-sizing: content-box;
     text-align: center;
+    position: relative;
+    margin-bottom: 20px;
 }
 
 .book-img{
@@ -83,4 +93,13 @@
 
 .book-description , .suitable-age{
     font-size: 12px;
+}
+
+.like-btn{
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background-color: white;
+    border: none;
+    cursor: pointer;
 }
