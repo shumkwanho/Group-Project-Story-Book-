@@ -30,7 +30,7 @@ loginRoute.post('/login', async (req: Request, res: Response) => {
     const user = await db('users')
       .where('email', email)
       .first();
-
+    
     if (!user) {
       // If no user record is found, return a 401 Unauthorized error
       return res.status(401).json({ message: 'Invalid credentials user not exist' });
@@ -44,6 +44,7 @@ loginRoute.post('/login', async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Invalid credentials password not match' });
     }
 
+   
     // The password matches, return a 202 Accepted response
     return res.status(202).json({ message: 'Login successful' });
   } catch (err) {
