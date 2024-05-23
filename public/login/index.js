@@ -46,11 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const password = document.getElementById('new-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
   
-    console.log('username:', username);
-    console.log('email:', email);
-    console.log('password:', password);
-    console.log('confirm password:', confirmPassword);
-
     try {
       const response = await fetch('/register', {
         method: 'POST',
@@ -81,7 +76,7 @@ registrationBtn.addEventListener('click', () => {
 });
 
 const form = document.querySelector(".class")
-console.log(form);
+// console.log(form);
 form.addEventListener("submit", async (e) => {
     e.preventDefault()
 
