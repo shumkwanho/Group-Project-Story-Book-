@@ -30,7 +30,7 @@ export class LikeController {
     dislikeBooks = async (req: Request, res: Response) => {
         try {
             const userId = req.session.userId
-            const {  bookId } = req.body
+            const { bookId } = req.body
             await this.service.dislikeBook(userId as string , bookId)
             res.status(200)
         } catch (error) {

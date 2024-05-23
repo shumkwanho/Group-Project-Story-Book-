@@ -21,13 +21,17 @@ export class CommentService {
         }
 
         updateComment = async (content: string,  comment_id: string) => {
+           
+           console.log(content, comment_id);
+           
             let result = await this.knex
             ("comments")
             .update({
-                content,
+                content: content,
                 updated_at: this.knex.fn.now()
             })
             .where("id", comment_id)
+            .orderBy("created_at", "asc")
 
             return result
         }

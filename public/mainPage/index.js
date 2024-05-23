@@ -4,9 +4,9 @@ const searchBar = document.querySelector(".search-bar")
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin()
     await loadCharacters()
-    await loadStorybooks(userId)
+    await loadStorybooks()
     if (userId) {
-        displayLike(userId)
+        displayLike()
     }
 })
 
@@ -91,7 +91,7 @@ const toggleLike = async (e, bookId) => {
     return
 }
 
-const displayLike = async (userId) => {
+const displayLike = async () => {
     const res = await fetch("./like")
     const data = (await res.json()).data
     const bookIds = data.map(elem => elem.storybook_id)

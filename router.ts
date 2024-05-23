@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { knex } from "./utils/knex"
-import { payment,webhook } from "./utils/payment";
+import { PaymentController } from "./controller/paymentController";
 import  express from "express";
 
 import { CharacterService } from "./service/characterService";
@@ -15,18 +15,22 @@ import { PageController } from "./controller/pageController";
 import { StorybookService } from "./service/storybookService";
 import { StorybookController } from "./controller/storybookController";
 
+import { UserService } from "./service/userService";
 import { UserController } from "./controller/userController";
 
 import { LikeController } from "./controller/likeController";
 import { LikeService } from "./service/likeService";
+
+
 export const router = Router()
 
-router.post('/webhook', express.raw({type: 'application/json'}), webhook);
+const paymentController = new PaymentController()
+router.post('/webhook', express.raw({type: 'application/json'}), paymentController.webhook);
 
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
-router.post('/create-checkout-session', payment); 
+router.post('/create-checkout-session', paymentController.payment); 
 
 const characterService = new CharacterService(knex)
 const characterController = new CharacterController (characterService)
@@ -52,8 +56,11 @@ const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);
 router.post('/page', pageController.createPage);
 
-const userController = new UserController()
+const userService = new UserService(knex)
+const userController = new UserController(userService)
 router.get("/checkLogin",userController.checkLogin)
+router.post("/login",userController.login)
+router.post("/register",userController.register)
 
 const likeService = new LikeService(knex)
 const likeController = new LikeController(likeService)
