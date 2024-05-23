@@ -21,6 +21,16 @@ router.use(express.json());
 router.post('/create-checkout-session', payment); 
 
 
+
+
+
+router.post('/webhook', express.raw({type: 'application/json'}), webhook);
+
+router.use(express.urlencoded({ extended: true }));
+router.use(express.json());
+router.post('/create-checkout-session', payment); 
+
+
 const characterService = new CharacterService(knex)
 const characterController = new CharacterController (characterService)
 router.get("/character",characterController.loadCharacter)
@@ -34,14 +44,3 @@ router.get("/comment",commentController.getAllComment);
 router.post("/comment",commentController.createComment);
 router.put("/comment",commentController.updateComment);
 router.delete("/comment",commentController.deleteComment);
-
-
-
-router.post('/webhook', express.raw({type: 'application/json'}), webhook);
-
-router.use(express.urlencoded({ extended: true }));
-router.use(express.json());
-router.post('/create-checkout-session', payment); 
-router.post("/character", characterController.createCharacter)
-router.delete("/character", characterController.deleteCharacter)
-

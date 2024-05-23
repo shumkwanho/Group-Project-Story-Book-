@@ -23,6 +23,7 @@ declare module "express-session" {
 }
 
 app.use("/login", express.static("public/login"))
+app.use("/kenny", express.static("public/kenny"))
 
 app.use('/api', loginRoute);
 app.use('/api', userRoute);
