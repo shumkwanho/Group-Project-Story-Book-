@@ -40,7 +40,8 @@ router.delete("/comment",commentController.deleteComment);
 
 const storybookService = new StorybookService(knex)
 const storybookController = new StorybookController(storybookService)
-router.get("/storybook",storybookController.getAllStoryBook)
+router.get("/storybooks", storybookController.getAllStoryBook)
+router.get("/storybook", storybookController.getStroyBookById)
 
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);

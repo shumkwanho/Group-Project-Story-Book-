@@ -12,7 +12,9 @@ export async function seed(knex: Knex): Promise<void> {
             bookname: "Abc book", 
             description:"first starting ABC",
             is_public: "true", 
-            target_age: "5"
+            target_age: "5",
+            category: "Learning",
+            total_page: "8"
         },
         {  
             user_id: "1", 
@@ -20,7 +22,9 @@ export async function seed(knex: Knex): Promise<void> {
             bookname: "Animal book", 
             description:"Animal book",
             is_public: "true", 
-            target_age: "5" 
+            target_age: "5",
+            category: "Adventure",
+            total_page: "8"
         },
         {  
             user_id: "1", 
@@ -28,6 +32,7 @@ export async function seed(knex: Knex): Promise<void> {
             bookname: "Insect book", 
             description:"first starting ABC",
             is_public: "true", 
-            target_age: "5" }
+            target_age: "5" 
+        }
     ]);
 };
