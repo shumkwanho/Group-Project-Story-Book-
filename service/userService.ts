@@ -15,4 +15,5 @@ export class UserService {
     register = async (username:string,email:string,password:string) =>{
         return await this.knex.insert({ username, email, password }).into("users").returning("id")
     }
+    
 }
