@@ -99,10 +99,12 @@
 
 .like-btn {
     position: absolute;
-    bottom: 5px;
-    left: 5px;
+    bottom: -10px;
+    left: -10px;
     background-color: white;
     border: none;
     cursor: pointer;
     z-index: 20;
+    padding:10px;
+
 }

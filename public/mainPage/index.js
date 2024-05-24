@@ -97,10 +97,10 @@ const displayLike = async () => {
         const bookId = book.id.slice(5,7)
         const isLiked = bookIds.includes(bookId)
         if(isLiked){
-            book.innerHTML+=`<i class="fa-solid fa-heart" onclick=toggleLike(event,${bookId})></i>`
+            book.innerHTML+=`<i class="fa-solid fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
             continue
         }
-        book.innerHTML+=`<i class="fa-regular fa-heart" onclick=toggleLike(event,${bookId})></i>`
+        book.innerHTML+=`<i class="fa-regular fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
     }
 }
 
