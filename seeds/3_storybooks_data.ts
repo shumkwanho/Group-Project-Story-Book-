@@ -33,6 +33,17 @@ export async function seed(knex: Knex): Promise<void> {
             description:"first starting ABC",
             is_public: "true", 
             target_age: "5" 
+        },
+        {  
+            user_id: "1", 
+            character_id: "4",
+            bookname: "Luna's Adventure", 
+            description:"Luna's Adventure",
+            is_public: "true", 
+            target_age: "6",
+            category: "adventure",
+            total_page: "4",
+            prompt: "any"
         }
     ]);
 };
