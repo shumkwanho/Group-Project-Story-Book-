@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { knex } from "./utils/knex"
 import { PaymentController } from "./controller/paymentController";
+import { PaymentService } from "./service/paymentService";
 import  express from "express";
 
 import { CharacterService } from "./service/characterService";
@@ -23,8 +24,8 @@ import { LikeService } from "./service/likeService";
 
 
 export const router = Router()
-
-const paymentController = new PaymentController()
+const paymentService = new PaymentService(knex)
+const paymentController = new PaymentController(paymentService)
 router.post('/webhook', express.raw({type: 'application/json'}), paymentController.webhook);
 
 router.use(express.urlencoded({ extended: true }));
@@ -45,11 +46,13 @@ router.get("/comment",commentController.getAllComment);
 router.post("/comment",commentController.createComment);
 router.put("/comment",commentController.updateComment);
 router.delete("/comment",commentController.deleteComment);
+router.get("/comment-user",commentController.getCommentByUserId)
+
 
 const storybookService = new StorybookService(knex)
 const storybookController = new StorybookController(storybookService)
 router.get("/storybooks", storybookController.getAllStoryBook)
-router.get("/storybook", storybookController.getStroyBookById)
+router.get("/storybook", storybookController.getStoryBookById)
 
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
@@ -61,6 +64,7 @@ const userController = new UserController(userService)
 router.get("/checkLogin",userController.checkLogin)
 router.post("/login",userController.login)
 router.post("/register",userController.register)
+router.get("/logout",userController.logout)
 
 const likeService = new LikeService(knex)
 const likeController = new LikeController(likeService)

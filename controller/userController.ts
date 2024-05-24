@@ -7,9 +7,9 @@ export class UserController {
 
     checkLogin = async (req: Request, res: Response) => {
         if (req.session.userId) {
-            return res.status(200).json({ data: req.session.userId })
+            return res.json({ data: req.session.userId })
         }
-        return res.status(400).json({ messgae: "Did not login" })
+        return res.json({ messgae: "Did not login" })
     }
 
     login = async (req: Request, res: Response) => {
@@ -74,4 +74,15 @@ export class UserController {
         }
     }
 
+    logout = (req: Request, res: Response) =>{
+        try {
+            req.session.destroy((e)=>{
+                res.json({"message":"logoutSuccess"})
+            })
+
+        } catch (error) {
+            console.error('Error in login route:', error);
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
 }

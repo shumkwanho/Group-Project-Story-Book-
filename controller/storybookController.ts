@@ -12,7 +12,7 @@ export class StorybookController {
         try {
             console.log("hi");
             
-            const allStoryBook = await this.service.loadStorybook()
+            const allStoryBook = await this.service.loadAllStorybook()
             res.status(200).json({ data: allStoryBook })
         } catch (error) {
             console.log(error);
@@ -20,11 +20,11 @@ export class StorybookController {
         }
     }
 
-    getStroyBookById = async (req: Request, res: Response) => {
+    getStoryBookById = async (req: Request, res: Response) => {
         try {
             const { id } = req.query;
 
-            const storybookQueryResult = await this.service.getStroyBookInfoById(id as string);
+            const storybookQueryResult = await this.service.getStoryBookInfoById(id as string);
 
             const totalPage = parseInt(storybookQueryResult[0].total_page);
             

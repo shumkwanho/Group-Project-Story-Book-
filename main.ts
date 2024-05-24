@@ -30,7 +30,6 @@ app.use("/test",express.static("public/testingPage"))
 app.use("/",router);
 
 app.use("/uploads", express.static("uploads"))
-app.use("/login", express.static("public/login"))
 
 app.use(express.static("public"));
 app.use((req: Request, res: Response) => {

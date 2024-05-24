@@ -20,7 +20,8 @@
     padding: 20px;
     align-items: center;
 }
-.search-bar{
+
+.search-bar {
     width: 300px;
     height: 30px;
     font-size: 20px;
@@ -31,7 +32,7 @@
     padding: 30px;
 }
 
-.search-area{
+.search-area {
     display: flex;
     justify-content: space-between;
     margin-bottom: 80px;
@@ -39,36 +40,36 @@
     padding: 30px;
 }
 
-.selection-area{
+.selection-area {
     display: flex;
-    width:100%;
+    width: 100%;
 }
 
-.character-area{
+.character-area {
     width: 30%;
     margin-right: 30px;
     max-width: 350px;
 }
 
-.character{
+.character {
     display: flex;
-    padding: 10px;
+    padding-left: 5px;
     margin: 10px;
     height: 30px;
     line-height: 30px;
 }
 
-.create-character{
+.create-character {
     display: flex;
     justify-content: space-between;
 }
 
-.character-image{
+.character-image {
     margin-right: 30px;
 }
 
 
-.storybook-area{
+.storybook-area {
     padding: 30px;
     width: 75%;
     display: flex;
@@ -76,7 +77,7 @@
     flex-wrap: wrap;
 }
 
-.book{
+.book {
     padding: 10px;
     width: 120px;
     height: 200px;
@@ -86,20 +87,22 @@
     margin-bottom: 20px;
 }
 
-.book-img{
+.book-img {
     height: 120px;
     line-height: 120px;
 }
 
-.book-description , .suitable-age{
+.book-description,
+.suitable-age {
     font-size: 12px;
 }
 
-.like-btn{
+.like-btn {
     position: absolute;
     bottom: 5px;
     left: 5px;
     background-color: white;
     border: none;
     cursor: pointer;
+    z-index: 20;
 }

@@ -3,16 +3,18 @@ import { Knex } from "knex";
 export class CommentService {
     constructor(private knex: Knex){ }
 
-        getAllComment = async (content: string, user_id: string, storybook_id: string) => {
+        getAllComment = async (storybook_id: string) => {
             let result = await this.knex
-            .select("username","content", "comments.id")
+            .select("comments.id","content", "comments.updated_at","username")
             .from("comments")
-            .join("users","user_id","=","users.id")
+            .leftJoin("users","users.id","user_id")
+            .where("storybook_id",storybook_id)
+            .orderBy("id")
         
             return result
         }
         
-        createComment = async (content: string, user_id: string, storybook_id: string) => {
+        createComment = async (content: string, storybook_id: string, user_id: string|null) => {
             let result = await this.knex
             .insert ({content, user_id, storybook_id })
             .into("comments")
@@ -37,12 +39,13 @@ export class CommentService {
         }
 
         deleteComment = async (comment_id: string) => {
-            let result = await this.knex
+            await this.knex
             ("comments")
             .where("id", comment_id)
             .del();
+        }
 
-            console.log(result)
-            
+        getCommentByUserId = async (user_id:string)=>{
+            return await this.knex.select("id").from("comments").where("user_id",user_id)
         }
     }
