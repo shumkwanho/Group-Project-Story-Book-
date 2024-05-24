@@ -1,75 +1,73 @@
-export function storybookPrompt(characterName: string, targetAge: number, category: string, totalPage: number) {
+export function genStorybookTextPrompt(characterName: string, targetAge: number, category: string, totalPage: number): string {
     let prompt = 
     `You are a storybook generator. Generate a children story book of ${totalPage} pages. The target age group of the storybook is ${targetAge} years old. The name of the main character is "${characterName}". The category the the story is under ${category}Each page must involve a main character in a scenario. The scenario should always:
 1. be in a setting; 
 2. have the main character doing an activity (use dynamic verbs, not passive things like "waiting" or "watching")
 3. have the main character showing a strong emotion.
+4. have a camera angle (e.g. wide-shot, full-shot, medium-shot, close-up)
 
 Respond with the following exact format in JSON (do not add any conclusions at the end):
 {
-Story_Name: ...
+story_name: ...
 
-Plot: [
+scenario: [
     {
-        Scenario: 1
-        Setting: ...
-        Activity: ...
-        Emotion: ...
-        Description: ...
+        page: 1
+        setting: ...
+        activity: ...
+        emotion: ...
+        camera_angle: ...
+        description: ...
     },
     {
-        Scenario: 2
-        Setting: ...
-        Activity: ...
-        Emotion: ...
-        Description: ...
+        page: 2
+        setting: ...
+        activity: ...
+        emotion: ...
+        camera_angle: ...
+        description: ...
     },
     ...
     {
-        Scenario: ${totalPage}
-        Setting: ...
-        Activity: ...
-        Emotion: ...
-        Description: ...
+        page: ${totalPage}
+        activity: ...
+        emotion: ...
+        camera_angle: ...
+        description: ...
     }
-]
 }
+]
     `;
 
     return prompt
 }
 
-export function characterPrompt() {
-    let prompt = {
-        "character_features": {
-            "species_type": "tiger", //(e.g., tiger, cat, human, robot)
-            "gender": "female", //(e.g., male, female, non-binary)
-            "name": "Luna", 
-            "age": "teenager", //(e.g., child, teenager, adult, elderly)
-            "body_shape": "chubby", //(e.g., slim, muscular, chubby, petite)
-            "height_size": "average", //(e.g., tall, short, average)
-            "distinctive_features": ["green eyes", "fluffy cheeks"], //(e.g., fluffy cheeks, tuft on head, big eyes)
-            "facial_expression": "cheerful", //(e.g., happy, sad, angry, surprised)
-            "clothing_outfit": "yellow monk tunic", //(e.g., monk tunic, superhero costume, casual wear)
-            "accessories": ["brown backpack"] //(e.g., hat, glasses, backpack, weapon)
-        },
-        "color_theme": {
-            "primary_colors": ["white", "orange"], //(e.g., yellow, blue, red)
-            "secondary_colors": ["black"], //(e.g., green, purple, orange)
-            "pattern_markings": ["stripes"], //(e.g., stripes, spots, solid color)
-            "gradient_shading": "gradient shading" //(e.g., gradient shading, flat colors)
-        },
-        "drawing_style": {
-            "art_style": "cartoon", //(e.g., cartoon, realistic, chibi, manga)
-            "linework": "clean", //(e.g., clean, sketchy, bold, fine)
-            "detail_level": "intermediate", //(e.g., highly detailed, minimalist, intermediate)
-            "color_palette": "vibrant", //(e.g., vibrant, pastel, monochrome)
-            "medium": "digital" //(e.g., digital, watercolor, pencil sketch)
-        },
-        "intended_use": {
-            "purpose": "2D game asset", //(e.g., 2D game asset, animation, illustration)
-            "emotion_tone": "playful and adventurous", //(e.g., playful, serious, whimsical)
-            "audience": "children" //(e.g., children, teenagers, adults)
-        }
-    }
+export function genCharacterTextPrompt(characterRequirementJSON: {}): string {
+
+    const characterPromptIntro = 
+    "You are a prompt engineer mastering in generate prompts to generate images of fictional characters. Use the following JSON as requirements to generate a prompt, be as details as possible:\n\n";
+
+    const characterPromptEnd =
+    "\n\nReturn only the prompt message. Skip any introduction and conclusion wordings"
+
+    let prompt = characterPromptIntro + JSON.stringify(characterRequirementJSON) + characterPromptEnd;
+
+    return prompt;
+}
+
+export function genPageImagePrompt(characterRequirementJSON: {}, pageDetails: {}): string {
+
+    let pageRequirementJSON: any = Object.assign({}, characterRequirementJSON);
+
+    const characterPromptIntro = 
+    "You are a prompt engineer mastering in generate prompts to generate images of fictional characters using AI model DALL-E-3. Use the following JSON as requirements to generate a prompt, be as details as possible:\n\n";
+
+    const characterPromptEnd =
+    "\n\nReturn only the prompt message. Skip any introduction and conclusion wordings. You may start your prompt message with 'Draw...', 'Generate an image of...' or 'Create an illustration of...'."
+    
+    pageRequirementJSON['scenario'] = pageDetails;
+
+    let prompt = characterPromptIntro + JSON.stringify(pageRequirementJSON) + characterPromptEnd;
+
+    return prompt;
 }
