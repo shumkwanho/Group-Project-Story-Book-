@@ -3,8 +3,8 @@ import { PageService } from "../service/pageService";
 import { CharacterService } from "../service/characterService";
 import { StorybookService } from "../service/storybookService"
 import { Request, Response } from "express";
-import { genPageImagePrompt, genStorybookTextPrompt } from "../engine/promptGenerator";
-import { imageGeneratorModel, textGeneratorModel } from "../engine/openaiGenerator";
+import { genPageImagePrompt, genStorybookTextPrompt } from "../utils/promptGenerator";
+import { imageGeneratorModel, textGeneratorModel } from "../aiEngine/openaiGenerator";
 import { downloadImage } from "../utils/downloadImg";
 
 const TEXT_MODEL = 'gpt-3.5-turbo';

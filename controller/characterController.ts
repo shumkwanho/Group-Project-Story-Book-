@@ -1,9 +1,9 @@
 import { CharacterService } from "../service/characterService";
 import { Request, Response } from "express";
-import { imageGeneratorModel, textGeneratorModel } from "../engine/openaiGenerator";
+import { imageGeneratorModel, textGeneratorModel } from "../aiEngine/openaiGenerator";
 import { downloadImage } from "../utils/downloadImg";
 import { genCharacterRequirementJSON } from "../utils/characterRequirement";
-import { genCharacterTextPrompt } from "../engine/promptGenerator";
+import { genCharacterTextPrompt } from "../utils/promptGenerator";
 
 const TEXT_MODEL = 'gpt-3.5-turbo';
 const IMAGE_MODEL = 'dall-e-3'

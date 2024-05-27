@@ -1,5 +1,5 @@
-import { textGeneratorModel } from "../engine/openaiGenerator";
-import { improveCharacterDetailPrompt } from "../engine/promptGenerator";
+import { textGeneratorModel } from "../aiEngine/openaiGenerator";
+import { improveCharacterDetailPrompt } from "../utils/promptGenerator";
 
 const TEXT_MODEL = 'gpt-3.5-turbo';
 
