@@ -29,6 +29,7 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
     if (response.ok) {
       alert('Login successful!');
       window.history.back()
+      window.location.reload()
     } else {
       const data = await response.json();
       alert(`Login failed: ${data.message}`);
