@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node main.ts",
-    "dev": "ts-node-dev main.ts"
+    "dev": "ts-node-dev main.ts",
+    "test": "jest"
   },
   "keywords": [],
   "author": "Ah Ho <shumkwanho@gmail.com>",

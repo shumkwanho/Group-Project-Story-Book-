@@ -11,7 +11,6 @@ export async function textGeneratorModel(prompt: string, model: string) {
 
   let result = chatCompletion.choices[0].message.content
 
-  console.log(result);
   return result;
 }
 

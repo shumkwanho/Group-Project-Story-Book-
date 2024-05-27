@@ -3,6 +3,11 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
+console.log({
+  database: process.env.DB_NAME,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+})
 const config: { [key: string]: Knex.Config } = {
   development: {
     client: "postgresql",
@@ -18,7 +23,7 @@ const config: { [key: string]: Knex.Config } = {
     migrations: {
       tableName: "knex_migrations",
     },
-    debug:true
+    // debug:true
   },
 
   staging: {

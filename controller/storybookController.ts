@@ -10,8 +10,6 @@ export class StorybookController {
 
     getAllStoryBook = async (req: Request, res: Response) => {
         try {
-            console.log("hi");
-
             const allStoryBook = await this.service.loadAllStorybook()
             res.status(200).json({ data: allStoryBook })
         } catch (error) {
@@ -52,47 +50,7 @@ export class StorybookController {
         }
     }
 
-    getStoryBookType = async (req: Request, res: Response) => {
-        try {
-            const data = await this.service.getStoryBookCategory()
-            res.status(200).json({ data })
-            return
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ message: "Internal Server Error" })
-        }
-    }
-
-    filterBook = async (req: Request, res: Response) => {
-
-        try {
-            const { obj } = req.body
-            let result: any[] = []
-            for (let condition of obj.condition) {
-                const data = await this.service.filterBook(obj.key, condition)
-                result = result.concat(data)
-            }
-            res.json({ data: result })
-            return
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ message: "Internal Server Error" })
-        }
-    }
-
-    bookSorting = async (req: Request, res: Response) =>{
-        const {category} = req.body
+    createStoryBook = async (req: Request, res: Response) => {
         
-        try {
-            if(category == "likes"){
-                const data = await this.service.aggregateSorting()
-                return res.json({data})
-            }
-            const data = await this.service.storybookSorting(category)
-            return res.json({data})
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ message: "Internal Server Error" })
-        }
     }
 }

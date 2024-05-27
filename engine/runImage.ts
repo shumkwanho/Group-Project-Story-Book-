@@ -1,32 +1,16 @@
-import { genCharacterRequirementJSON } from "./characterRequirement";
+import { downloadImage } from "../utils/downloadImg";
+import { genCharacterRequirementJSON } from "../utils/characterRequirement";
 import { imageGeneratorModel, textGeneratorModel } from "./openaiGenerator";
 import { genCharacterTextPrompt, genPageImagePrompt, genStorybookTextPrompt } from "./promptGenerator";
 
 const TEXT_MODEL = 'gpt-3.5-turbo';
-const IMAGE_MODEL = 'dall-e-3'
+const IMAGE_MODEL = 'dall-e-2'
 
-
-
-
-// testing only : gen character prompt
-
-async function genCharacterImage() {
-    let characterRequirementJSON = genCharacterRequirementJSON();
-    let characterTextPrompt = genCharacterTextPrompt(characterRequirementJSON);
-    let characterTextPromptGPT = await textGeneratorModel(characterTextPrompt, TEXT_MODEL);
-
-    await imageGeneratorModel(characterTextPromptGPT as string, IMAGE_MODEL)
-}
-
-// genCharacterImage()
-
-
-// testing only : get storybook text
+// get storybook text
 // hard code parameters for testing
 
 async function genStoryContent() {
 
-    let characterRequirementJSON = genCharacterRequirementJSON();
     let characterTextPrompt = genCharacterTextPrompt(characterRequirementJSON);
     // let characterTextPromptGPT = await textGeneratorModel(characterTextPrompt, TEXT_MODEL);
 
@@ -142,4 +126,4 @@ async function genStoryContent() {
 
 }
 
-genStoryContent();
+// genStoryContent();

@@ -21,7 +21,7 @@ export async function imageModel(object: string): Promise<any> {
         }
     );
     const url = output[0]
-    const newFileName = await downloadImage(url)
-    console.log("hahahaha" + newFileName);
+    const newFileName = await downloadImage(url, 'character')
+    console.log(newFileName);
     
 }
