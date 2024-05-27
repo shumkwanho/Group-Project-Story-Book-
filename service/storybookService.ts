@@ -25,14 +25,41 @@ export class StorybookService {
     }
 
     getStoryBookById = async (id: string) => {
-        return await this.knex.select("bookname", "description", "create_at", "target_age", "style", "catafory", "total_page").from("storybooks")
+        return await this.knex
+            .select("bookname", "description", "create_at", "target_age", "style", "catafory", "total_page")
+            .from("storybooks")
             .where("id", id)
     }
 
     getCharacterByStorybookId = async (id: string) => {
-        return await this.knex.select("characters.name as character_name")
+        return await this.knex
+            .select("characters.name as character_name")
             .from("storybooks")
             .innerJoin('characters', 'storybooks.character_id', 'characters.id')
             .where('storybooks.id', id);
+    }
+
+    createStorybook = async (
+        user_id: number, 
+        bookname: string, 
+        description: string, 
+        character_id: number, 
+        target_age: number, 
+        category: string, 
+        total_page: number,
+        plot: string
+    ) => {
+        return await this.knex('storybooks')
+            .insert({
+                user_id,
+                bookname,
+                description,
+                character_id,
+                target_age,
+                category,
+                total_page,
+                plot
+            })
+            .returning('id');
     }
 }

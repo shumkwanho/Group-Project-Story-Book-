@@ -14,19 +14,16 @@ export async function textGeneratorModel(prompt: string, model: string) {
   return result;
 }
 
-export async function imageGeneratorModel(prompt: string, model: string) {
+export async function imageGeneratorModel(prompt: string, model: string){
   const response = await adamOpenAI.images.generate({
     model: model,
     prompt: 
     `I NEED to test how the tool works with extremely simple prompts. DO NOT add any detail, just use it AS-IS:
     '${prompt}'`,
     n: 1,
-    size: "1024x1024",
+    size: "1792x1024"
   });
   let image_url = response.data[0].url;
-
-  console.log(response)
-  console.log(response.data)
 
   console.log(image_url);
   return image_url

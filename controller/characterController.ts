@@ -6,7 +6,7 @@ import { genCharacterRequirementJSON } from "../utils/characterRequirement";
 import { genCharacterTextPrompt } from "../engine/promptGenerator";
 
 const TEXT_MODEL = 'gpt-3.5-turbo';
-const IMAGE_MODEL = 'dall-e-2'
+const IMAGE_MODEL = 'dall-e-3'
 
 export class CharacterController {
     constructor(private service: CharacterService) { }
@@ -25,8 +25,8 @@ export class CharacterController {
 
     createCharacter = async (req: Request, res: Response) => {
         try {
-            let userId = req.session.userId;
-            let { name, speciesType, gender, age, bodyShape, heightSize } = req.body;
+            const userId = req.session.userId;
+            const { name, speciesType, gender, age, bodyShape, heightSize } = req.body;
             
             let characterRequirementJSON = await genCharacterRequirementJSON(name, speciesType, gender, age, bodyShape, heightSize);
             let characterTextPrompt = genCharacterTextPrompt(characterRequirementJSON);
@@ -35,14 +35,15 @@ export class CharacterController {
             let imageURL = await imageGeneratorModel(characterTextPromptGPT as string, IMAGE_MODEL);
             let filename = await downloadImage(imageURL as string, 'character');
 
-            await this.service.createCharacter(userId as string, name, filename as string, characterTextPromptGPT as string);
+            await this.service.createCharacter(userId as string, name, filename as string, characterTextPromptGPT as string, JSON.stringify(characterRequirementJSON));
 
             res.status(200).json(
                 {
                     message: 'character creation successful',
                     data: {
                         name: name,
-                        image: filename
+                        image: filename,
+                        requirement: characterRequirementJSON
                     }
                 }
             )

@@ -1,6 +1,6 @@
 export function genStorybookTextPrompt(characterName: string, targetAge: number, category: string, totalPage: number): string {
     let prompt = 
-    `You are a storybook generator. Generate a children story book of ${totalPage} pages. The target age group of the storybook is ${targetAge} years old. The name of the main character is "${characterName}". The category the the story is under ${category}Each page must involve a main character in a scenario. The scenario should always:
+    `You are a storybook generator. Generate a children story book of ${totalPage} pages. The target age group of the storybook is ${targetAge} years old. The name of the main character is "${characterName}". The category the the story is under ${category}. Each page must involve a main character in a scenario. The scenario should always:
 1. be in a setting; 
 2. have the main character doing an activity (use dynamic verbs, not passive things like "waiting" or "watching")
 3. have the main character showing a strong emotion.
@@ -8,12 +8,14 @@ export function genStorybookTextPrompt(characterName: string, targetAge: number,
 
 Respond with the following exact format in JSON (do not add any conclusions at the end):
 {
-story_name: ...
+story_name: ... ,
+
+description_summary: ... ,
 
 scenario: [
     {
         page: 1
-        setting: ...
+        setting: ... 
         activity: ...
         emotion: ...
         camera_angle: ...
@@ -66,6 +68,7 @@ export function genPageImagePrompt(characterRequirementJSON: {}, pageDetails: {}
     "\n\nReturn only the prompt message. Skip any introduction and conclusion wordings. You may start your prompt message with 'Draw...', 'Generate an image of...' or 'Create an illustration of...'."
     
     pageRequirementJSON['scenario'] = pageDetails;
+    delete pageRequirementJSON['scenario'].page;
 
     let prompt = intro + JSON.stringify(pageRequirementJSON) + end;
 
