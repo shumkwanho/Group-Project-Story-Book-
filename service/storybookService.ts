@@ -51,7 +51,7 @@ export class StorybookService {
         return data
     }
 
-    filterBook = async(column:string, condition:any[])=>{
+    filterBook = async(column:string, condition:string[])=>{
         return await this.knex.select("id", "bookname", "description", "target_age").from("storybooks").where(`${column}`,condition)
     }
 

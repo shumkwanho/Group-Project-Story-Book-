@@ -132,10 +132,14 @@ function login() {
 async function logout() {
     const res = await fetch("/logout")
     const data = await res.json()
-    console.log(data);
     window.location.reload()
 }
-document.querySelector("#sort").addEventListener("change",sort)
+
+async function storybookType() {
+    const res = await fetch("/booktype")
+    const data = (await res.json()).data
+    return data
+}
 
 function loadFilter(list) {
     for (let type in list) {
@@ -171,7 +175,7 @@ async function submitFilterForm(e) {
     e.preventDefault()
     if (e.target.all.checked) {
         const data = await getAllStorybook()
-        await loadStorybooks(data)
+        loadStorybooks(data)
         return
     }
     const submitTarget = e.target.classList[1].slice(7)
@@ -193,12 +197,9 @@ async function submitFilterForm(e) {
 }
 
 
-async function storybookType() {
-    const res = await fetch("/booktype")
-    const data = (await res.json()).data
-    return data
-}
 
+
+document.querySelector("#sort").addEventListener("change",sort)
 
 async function sort(e) {
     const category = e.target.value

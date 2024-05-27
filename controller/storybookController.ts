@@ -53,4 +53,45 @@ export class StorybookController {
     createStoryBook = async (req: Request, res: Response) => {
         
     }
+
+    getStoryBookType = async (req: Request, res: Response) => {
+        try {
+            const data = await this.service.getStoryBookCategory()
+            return res.json({data})
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+    }
+
+    filterBook = async (req: Request, res: Response) => {
+        try {
+            const { obj } = req.body
+            let result:any[] = []
+            for (let condition of obj.condition){
+                const data = await this.service.filterBook(obj.key,condition)
+                result = result.concat(data)
+            }
+            return res.json({data:result})
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+        
+    }
+
+    bookSorting = async (req: Request, res: Response) => {
+        try {
+            const {category} = req.body
+            if(category == "likes"){
+                const data = await this.service.aggregateSorting()
+                return res.json({data})
+            }
+            const data = await this.service.storybookSorting(category)
+            return res.json({data})
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+    }
 }
