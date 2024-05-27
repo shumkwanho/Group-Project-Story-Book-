@@ -53,7 +53,9 @@ const storybookService = new StorybookService(knex)
 const storybookController = new StorybookController(storybookService)
 router.get("/storybooks", storybookController.getAllStoryBook)
 router.get("/storybook", storybookController.getStoryBookById)
-router.post("/storybook", storybookController.createStoryBook)
+router.get("/booktype",storybookController.getStoryBookType)
+router.post("/filter",storybookController.filterBook)
+router.post("/sort",storybookController.bookSorting)
 
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);

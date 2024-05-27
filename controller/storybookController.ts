@@ -33,8 +33,8 @@ export class StorybookController {
             const storybookQueryResult = await this.service.getStoryBookInfoById(id as string);
 
             const totalPage = parseInt(storybookQueryResult[0].total_page);
-            
-            const pagesQueryResult: {[key: string]: any}[] = [];
+
+            const pagesQueryResult: { [key: string]: any }[] = [];
 
             for (let pageNumber = 1; pageNumber <= totalPage; pageNumber++) {
                 let pageQueryResult = await pageService.getPageByStorybookId(id as string, pageNumber)
@@ -51,7 +51,7 @@ export class StorybookController {
                     pages: pagesQueryResult,
                 }
             })
-            
+
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
