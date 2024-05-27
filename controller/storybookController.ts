@@ -10,8 +10,6 @@ export class StorybookController {
 
     getAllStoryBook = async (req: Request, res: Response) => {
         try {
-            console.log("hi");
-            
             const allStoryBook = await this.service.loadAllStorybook()
             res.status(200).json({ data: allStoryBook })
         } catch (error) {
