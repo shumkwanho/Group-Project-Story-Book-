@@ -165,11 +165,15 @@ function loadFilter(list) {
         }
         filterForm.innerHTML += `<input type="submit">`
     }
-
+    const selectAllBtns = document.querySelectorAll(".all").forEach((btn)=>{
+        btn.addEventListener("change",selectAll)
+    })
     const filterForms = document.querySelectorAll(".filter").forEach((form) => {
         form.addEventListener("submit", submitFilterForm)
     })
 }
+
+function selectAll(e){}
 
 async function submitFilterForm(e) {
     e.preventDefault()

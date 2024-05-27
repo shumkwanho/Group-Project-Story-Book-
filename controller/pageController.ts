@@ -20,40 +20,4 @@ export class PageController {
             res.status(500).json({ message: "internal sever error" });
         }
     }
-
-    //storybook (even empty) must already exist before calling this API
-    createPage = async (req: Request, res: Response) => {
-        try {
-
-            const { storybookId } = req.query;
-
-            //hard code for now
-            const caption = generateCaption();
-            const image = generateImage();
-            const pageNumber = getPageNumber();
-
-            const createPageQueryResult = await this.pageService.createPage(storybookId as string, caption, image, pageNumber);
-
-            res.json({
-                message: "create new page successful",
-                data: createPageQueryResult
-            });
-            
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ message: "internal sever error" });
-        }
-    }
-}
-
-function generateCaption() {
-    return "hard code generated caption"
-}
-
-function generateImage() {
-    return 'hard_code_generated_filename2.jpg'
-}
-
-function getPageNumber() {
-    return 1;
 }

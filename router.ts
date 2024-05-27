@@ -60,7 +60,6 @@ router.post("/sort",storybookController.bookSorting)
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);
-router.post('/page', pageController.createPage);
 
 const userService = new UserService(knex)
 const userController = new UserController(userService)
