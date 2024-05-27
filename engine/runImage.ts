@@ -6,36 +6,6 @@ import { genCharacterTextPrompt, genPageImagePrompt, genStorybookTextPrompt } fr
 const TEXT_MODEL = 'gpt-3.5-turbo';
 const IMAGE_MODEL = 'dall-e-2'
 
-//hard code requirements for testing:
-let name = 'Nana';
-let speciesType = 'elephant';
-let gender = 'female';
-let age = 'child';
-let bodyShape = 'chubby';
-let heightSize = 'short';
-
-let characterRequirementJSON = genCharacterRequirementJSON(
-  name, speciesType, gender, age, bodyShape, heightSize,
-);
-
-// gen character prompt
-
-
-
-async function genCharacterImage() {
-
-  let characterTextPrompt = genCharacterTextPrompt(characterRequirementJSON);
-  let characterTextPromptGPT = await textGeneratorModel(characterTextPrompt, TEXT_MODEL);
-
-  let imageURL = await imageGeneratorModel(characterTextPromptGPT as string, IMAGE_MODEL);
-
-  downloadImage(imageURL as string, 'character');
-}
-
-genCharacterImage()
-
-
-
 // get storybook text
 // hard code parameters for testing
 

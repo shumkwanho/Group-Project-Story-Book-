@@ -49,4 +49,8 @@ export class StorybookController {
             res.status(500).json({ message: "Internal Server Error" })
         }
     }
+
+    createStoryBook = async (req: Request, res: Response) => {
+        
+    }
 }
