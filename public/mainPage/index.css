@@ -108,3 +108,9 @@
     padding:10px;
 
 }
+
+.filter-area{
+    display: flex;
+    width: 450px;
+    justify-content: space-between;
+}

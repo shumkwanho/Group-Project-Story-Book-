@@ -8,7 +8,10 @@ const searchBar = document.querySelector(".search-bar")
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin()
     await loadCharacters()
-    await loadStorybooks()
+    const data = await getAllStorybook()
+    loadStorybooks(data)
+    const bookTypeData = await storybookType()
+    loadFilter(bookTypeData)
     if (userId) {
         await displayLike()
     }
@@ -41,10 +44,12 @@ const loadCharacters = async () => {
 
 window["bookReader"] = bookReader;
 
-const loadStorybooks = async (userId = null) => {
-    const res = await fetch("/storybooks")
-    const data = (await res.json()).data
+const loadStorybooks = (data) => {
     const storybookArea = document.querySelector(".storybook-area")
+    storybookArea.innerHTML = `   
+    <div class="book create-storybook border">
+        <div>Create Story Book</div>
+    </div>`
     for (let storybook of data) {
         storybookArea.innerHTML +=
             `<div class="book border" id="book_${storybook.id}" onclick="bookReader(${storybook.id})">
@@ -55,9 +60,13 @@ const loadStorybooks = async (userId = null) => {
             </div>`
     }
 }
+async function getAllStorybook(){
+    const res = await fetch("/storybooks")
+    const data = (await res.json()).data
+    return data
+}
 
-
-async function toggleLike (e, bookId) {
+async function toggleLike(e, bookId) {
 
     e.target.classList.toggle('fa-regular')
     e.target.classList.toggle('fa-solid')
@@ -68,7 +77,7 @@ async function toggleLike (e, bookId) {
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
             },
-            body: JSON.stringify({bookId }),
+            body: JSON.stringify({ bookId }),
         })
         console.log("liked");
         return
@@ -79,7 +88,7 @@ async function toggleLike (e, bookId) {
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
         },
-        body: JSON.stringify({bookId }),
+        body: JSON.stringify({ bookId }),
     })
     console.log("disliked");
     return
@@ -90,17 +99,17 @@ const displayLike = async () => {
     const data = (await res.json()).data
     const bookIds = data.map(elem => elem.storybook_id)
     const books = document.querySelectorAll(".book")
-    for (let book of books){
+    for (let book of books) {
         if (book.classList.contains("create-storybook")) {
             continue
         }
-        const bookId = book.id.slice(5,7)
+        const bookId = book.id.slice(5, 7)
         const isLiked = bookIds.includes(bookId)
-        if(isLiked){
-            book.innerHTML+=`<i class="fa-solid fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
+        if (isLiked) {
+            book.innerHTML += `<i class="fa-solid fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
             continue
         }
-        book.innerHTML+=`<i class="fa-regular fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
+        book.innerHTML += `<i class="fa-regular fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
     }
 }
 
@@ -116,14 +125,94 @@ const checkLogin = async () => {
     return null
 }
 
-function login () {
+function login() {
     window.location.href = "../login"
 }
 
-async function logout (){
+async function logout() {
     const res = await fetch("/logout")
     const data = await res.json()
     console.log(data);
     window.location.reload()
 }
+document.querySelector("#sort").addEventListener("change",sort)
 
+function loadFilter(list) {
+    for (let type in list) {
+        if (type == "all") {
+            continue
+        }
+        const filterForm = document.querySelector(`.filter-${type}`)
+        filterForm.innerHTML += `
+        <div class="option">
+            <label class="type">All</label>
+            <input type="checkbox" name="all" value="filter-all">
+            <span class="count">${list.all}</span>
+        </div>
+        `
+        for (let i = 0; i < list[type].length; i++) {
+            filterForm.innerHTML += `
+            <div class="option">
+                <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age "+list[type][i][type] : list[type][i][type]}</label>
+                <input type="checkbox" name="${type}" value="${list[type][i][type]}">
+                <span class="count">${list[type][i].count}</span>
+            </div>
+            `
+        }
+        filterForm.innerHTML += `<input type="submit">`
+    }
+
+    const filterForms = document.querySelectorAll(".filter").forEach((form) => {
+        form.addEventListener("submit", submitFilterForm)
+    })
+}
+
+async function submitFilterForm(e) {
+    e.preventDefault()
+    if (e.target.all.checked) {
+        const data = await getAllStorybook()
+        await loadStorybooks(data)
+        return
+    }
+    const submitTarget = e.target.classList[1].slice(7)
+    const checkboxes = Array.from(document.getElementsByName(submitTarget))
+    const condition = checkboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value)
+    let obj = {key:submitTarget, condition}
+    if (!obj.condition[0]) {
+      return
+    }
+    const res = await fetch('/filter', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ obj }),
+    })
+    const data = (await res.json()).data
+    await loadStorybooks(data)
+}
+
+
+async function storybookType() {
+    const res = await fetch("/booktype")
+    const data = (await res.json()).data
+    return data
+}
+
+
+async function sort(e) {
+    const category = e.target.value
+    if(category == ""){
+        return 
+    }
+    const res = await fetch('/sort', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ category }),
+    })
+
+    const data = (await res.json()).data
+    loadStorybooks(data)
+}
