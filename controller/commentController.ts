@@ -13,7 +13,6 @@ export class CommentController {
             );
 
             res.status(200).json({ data: comments })
-            // console.log(comments)
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
@@ -42,7 +41,6 @@ export class CommentController {
 
     updateComment = async (req: Request, res: Response) => {
         try {
-            console.log(req.body);
             
             const { content, commentId } = req.body;
             await this.service.updateComment(content, commentId);

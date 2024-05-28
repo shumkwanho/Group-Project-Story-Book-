@@ -25,11 +25,9 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
       body: JSON.stringify({ email, password })
     });
     const data = await response.json()
-    console.log(data);
     if (response.ok) {
       alert('Login successful!');
       window.history.back()
-      window.location.reload()
     } else {
       const data = await response.json();
       alert(`Login failed: ${data.message}`);
@@ -77,19 +75,19 @@ registrationBtn.addEventListener('click', () => {
   registrationContent.style.display = registrationContent.style.display === 'none' ? 'block' : 'none';
 });
 
-const form = document.querySelector(".class")
-form.addEventListener("submit", async (e) => {
-  e.preventDefault()
+// const form = document.querySelector(".class")
+// form.addEventListener("submit", async (e) => {
+//   e.preventDefault()
 
-  const form = e.target
-  const formData = new FormData(form)
-  formData.append("userId", "1",)
-  formData.append("characterName", "pikachu",)
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-  }
-  const res = await fetch('http://localhost:8080/login', {
-    method: 'POST',
-    body: formData,
-  })
-})
+//   const form = e.target
+//   const formData = new FormData(form)
+//   formData.append("userId", "1",)
+//   formData.append("characterName", "pikachu",)
+//   for (var pair of formData.entries()) {
+//     console.log(pair[0] + ', ' + pair[1]);
+//   }
+//   const res = await fetch('http://localhost:8080/login', {
+//     method: 'POST',
+//     body: formData,
+//   })
+// })
