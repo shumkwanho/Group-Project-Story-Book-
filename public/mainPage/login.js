@@ -19,7 +19,30 @@ export function login(userId) {
             navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary">Logout</button>`;
             return data.data;
         }
-        navbar.innerHTML += `<button id="login" onclick="window['login']();" type="button" class="btn btn-primary">Login</button>`;
+        const loginButton = document.createElement('button');
+        loginButton.id = 'login';
+        loginButton.type = 'button';
+        loginButton.className = 'btn btn-primary';
+        loginButton.textContent = 'Login';
+        loginButton.addEventListener('click', showLoginWindow);
+        navbar.appendChild(loginButton);
         return null;
     };
 }
+
+const showLoginButton = document.getElementById('show-login');
+const loginWindow = document.getElementById('login-window');
+const closeButton = document.getElementById('close-login');
+
+function showLoginWindow() {
+  loginWindow.style.display = 'block';
+}
+
+function hideLoginWindow() {
+  loginWindow.style.display = 'none';
+}
+
+showLoginButton.addEventListener('click', showLoginWindow);
+
+closeButton.addEventListener('click', hideLoginWindow);
+

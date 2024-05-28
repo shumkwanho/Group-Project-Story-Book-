@@ -1,10 +1,11 @@
 import { bookReader } from './bookReader.js';
 import { login } from './login.js';
+import { register } from './register.js';
 window["logout"] = logout;
 window["toggleLike"] = toggleLike;
 
 login();
-
+register();
 const searchBar = document.querySelector(".search-bar")
 
 searchBar.addEventListener("input", async (e) => {
