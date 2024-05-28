@@ -1,15 +1,19 @@
 export function login(userId) {
-    window.addEventListener("load", async (e) => {
-        const userId = await checkLogin();
-        await loadCharacters();
-        const data = await getAllStorybook();
-        loadStorybooks(data);
-        const bookTypeData = await storybookType();
-        loadFilter(bookTypeData);
-        if (userId) {
-            await displayLike();
-        }
-    });
+    
+    console.log("hahah")
+
+    //1) show a popup window
+
+    //2) get event listener from the form
+
+    //3) fetch login API with body (username, email, password)
+
+    //4) check res.ok
+
+    //4.1) if ok => tell user login successful
+    //4.2) if not ok => login not successful => tell user about the error
+        // check (if result.message === 'Invalid credentials password not match')
+
 
     const checkLogin = async () => {
         const res = await fetch("/checkLogin");

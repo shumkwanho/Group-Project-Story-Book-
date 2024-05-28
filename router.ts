@@ -35,7 +35,8 @@ router.post('/create-checkout-session', paymentController.payment);
 
 const characterService = new CharacterService(knex)
 const characterController = new CharacterController (characterService)
-router.get("/character", characterController.loadCharacter)
+router.get("/characters", characterController.loadCharacter)
+router.get("/character", characterController.loadCharacterById)
 router.post("/character", characterController.createCharacter)
 router.delete("/character", characterController.deleteCharacter)
 

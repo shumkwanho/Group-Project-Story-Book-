@@ -1,39 +1,41 @@
 import { bookReader } from './bookReader.js';
+import { showCharacterCard } from './showCharacterCard.js';
+
 import { login } from './login.js';
 import { register } from './register.js';
+
 window["logout"] = logout;
+window["login"] = login;
+window["register"] = register;
 window["toggleLike"] = toggleLike;
 
-login();
-register();
-const searchBar = document.querySelector(".search-bar")
+window["showCharacterCard"] = showCharacterCard;
+window["bookReader"] = bookReader;
 
-searchBar.addEventListener("input", async (e) => {
-    const value = e.target.value
-
-    const res = await fetch('/searchBook', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify({ value }),
-    })
-})
+window.addEventListener("load", async (e) => {
+    const userId = await checkLogin();
+    await loadCharacters();
+    const data = await getAllStorybook();
+    loadStorybooks(data);
+    const bookTypeData = await storybookType();
+    loadFilter(bookTypeData);
+    if (userId) {
+        await displayLike();
+    }
+});
 
 const loadCharacters = async () => {
-    const res = await fetch("/character")
+    const res = await fetch("/characters")
     const data = (await res.json()).data
     const characterArea = document.querySelector(".character-area")
     for (let character of data) {
         characterArea.innerHTML +=
-            `<div class="character border" id="character_${character.id}">
+            `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
                 <div class="character-image">image</div>
                 <div class="character-name">${character.name}</div>
             </div>`
     }
 }
-
-window["bookReader"] = bookReader;
 
 const loadStorybooks = (data) => {
     const storybookArea = document.querySelector(".storybook-area")
@@ -102,6 +104,53 @@ const displayLike = async () => {
     }
 }
 
+const checkLogin = async () => {
+    const res = await fetch("/checkLogin")
+    const data = await res.json()
+    const navbar = document.querySelector(".navbar")
+    if (data.data) {
+        navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
+        return data.data
+    }
+    navbar.innerHTML += `
+        <button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>
+        <button id="register" onclick="register()" type="button" class="btn btn-primary">Register</button>
+        `
+    document.querySelector(".test").addEventListener("input", search)
+    return null
+}
+async function search(e) {
+    const searchResult = document.querySelector(".search-result-container")
+    searchResult.innerHTML = ""
+    const search = e.target.value
+    if (search.length == 0) {
+        searchResult.classList.add("hide")
+        return
+    }
+    searchResult.classList.remove("hide")
+    const res = await fetch('/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ search }),
+    })
+    const data = (await res.json()).data
+    for (let book of data) {
+        let bookname = book.bookname.replace(search, `<b>${search}</b>`)
+        let description = book.description.replace(search, `<b>${search}</b>`)
+        searchResult.innerHTML += `
+        <div class="search-result border">
+            <div class="book-detail" onclick=>
+                <div class="search-bookname">${bookname}</div>
+                <div class="search-book-description">${description}</div>
+            </div>
+            <img src="" alt="" class="search-image">
+        </div>
+        `
+    }
+}
+
 async function logout() {
     const res = await fetch("/logout")
     const data = await res.json()
@@ -124,7 +173,6 @@ function loadFilter(list) {
         <div class="option">
             <label class="type">All</label>
             <input type="checkbox" name="all" value="filter-all">
-            <!--<span class="count">${list.all}</span>-->
         </div>
         `
         for (let i = 0; i < list[type].length; i++) {
@@ -132,7 +180,6 @@ function loadFilter(list) {
             <div class="option">
                 <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age " + list[type][i][type] : list[type][i][type]}</label>
                 <input type="checkbox" name="${type}" value="${list[type][i][type]}">
-                <!--<span class="count">${list[type][i].count}</span>-->
             </div>
             `
         }
@@ -160,9 +207,10 @@ function selectAll(e) {
 
 }
 
-document.querySelectorAll(".filter").forEach((btn) => {
+document.querySelectorAll(".toggle-filter").forEach((btn) => {
     btn.addEventListener("click", (e) => {
-        btn.querySelector("div").classList.toggle("hide")
+        btn.parentElement.querySelector("div").classList.toggle("hide")
+        e.stopPropagation()
     })
 })
 
@@ -230,7 +278,7 @@ document.querySelector('#new-character-form')
         document.querySelector("#new-character-submit-btn").setAttribute("disabled", "");
         document.querySelector("#new-character-content-footer")
             .insertAdjacentHTML(
-                "afterbegin", 
+                "afterbegin",
                 `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
             )
 
@@ -245,13 +293,11 @@ document.querySelector('#new-character-form')
         let result = await res.json()
 
         if (res.ok) {
+            //create character successful
+            //TODO: better user experience
             window.location.reload();
         } else {
             console.log(result);
         }
     })
 
-    const sourceStr = 'I learned to play the Ukulele in Lebanon.';
-    const searchStr = 'le';
-    const indexes = [...sourceStr.matchAll(new RegExp(searchStr, 'gi'))].map(a => a.index);
-    console.log(indexes);
