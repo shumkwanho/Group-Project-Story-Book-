@@ -60,7 +60,7 @@ const loadStorybooks = (data) => {
             </div>`
     }
 }
-async function getAllStorybook(){
+async function getAllStorybook() {
     const res = await fetch("/storybooks")
     const data = (await res.json()).data
     return data
@@ -157,7 +157,7 @@ function loadFilter(list) {
         for (let i = 0; i < list[type].length; i++) {
             filterForm.innerHTML += `
             <div class="option">
-                <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age "+list[type][i][type] : list[type][i][type]}</label>
+                <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age " + list[type][i][type] : list[type][i][type]}</label>
                 <input type="checkbox" name="${type}" value="${list[type][i][type]}">
                 <span class="count">${list[type][i].count}</span>
             </div>
@@ -165,18 +165,34 @@ function loadFilter(list) {
         }
         filterForm.innerHTML += `<input type="submit">`
     }
-    const selectAllBtns = document.querySelectorAll(".all").forEach((btn)=>{
-        btn.addEventListener("change",selectAll)
+    const selectAllBtns = document.querySelectorAll("input[name=all]").forEach((btn) => {
+        btn.addEventListener("click", selectAll)
     })
     const filterForms = document.querySelectorAll(".filter").forEach((form) => {
         form.addEventListener("submit", submitFilterForm)
     })
 }
 
-function selectAll(e){}
+function selectAll(e) {
+    const targetForm = e.target.parentElement.parentElement
+    const category = targetForm.classList[1].slice(7)
+    const checkboxes = Array.from(document.getElementsByName(category))
+
+
+    for (let checkbox of checkboxes) {
+        if (e.target.checked) {
+            checkbox.checked = true
+            continue
+        }
+        checkbox.checked = false
+    }
+
+
+}
 
 async function submitFilterForm(e) {
     e.preventDefault()
+
     if (e.target.all.checked) {
         const data = await getAllStorybook()
         loadStorybooks(data)
@@ -185,9 +201,9 @@ async function submitFilterForm(e) {
     const submitTarget = e.target.classList[1].slice(7)
     const checkboxes = Array.from(document.getElementsByName(submitTarget))
     const condition = checkboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value)
-    let obj = {key:submitTarget, condition}
+    let obj = { key: submitTarget, condition }
     if (!obj.condition[0]) {
-      return
+        return
     }
     const res = await fetch('/filter', {
         method: 'POST',
@@ -203,12 +219,12 @@ async function submitFilterForm(e) {
 
 
 
-document.querySelector("#sort").addEventListener("change",sort)
+document.querySelector("#sort").addEventListener("change", sort)
 
 async function sort(e) {
     const category = e.target.value
-    if(category == ""){
-        return 
+    if (category == "") {
+        return
     }
     const res = await fetch('/sort', {
         method: 'POST',

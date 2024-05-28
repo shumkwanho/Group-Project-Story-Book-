@@ -90,7 +90,9 @@ async function deleteComment(commentId) {
         body: JSON.stringify({ commentId }),
     })
     const data = await res.json()
-    console.log(data);
+    if (res.ok) {
+        window.location.reload()
+    }
 }
 
 function editComment(commentId) {
