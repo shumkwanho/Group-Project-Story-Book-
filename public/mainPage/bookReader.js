@@ -1,6 +1,7 @@
+const readerModal = new bootstrap.Modal(document.getElementById('readerModal'), {});
+
 const storybookContentBody = document.querySelector("#storybook-content-body");
 const storybookContentHeader = document.querySelector(".storybook-content-header");
-const readerModal = new bootstrap.Modal(document.getElementById('readerModal'), {});
 const nextPageBtn = document.querySelector(".next-page-btn");
 const prevPageBtn = document.querySelector(".prev-page-btn");
 
@@ -53,8 +54,8 @@ export async function bookReader(storybookId) {
     }
 }
 
-async function getStorybookData(storybookId) {
-    let res = await fetch(`/storybook?id=${storybookId}`, {
+async function getStorybookData(id) {
+    let res = await fetch(`/storybook?id=${id}`, {
         method: 'GET',
     })
 

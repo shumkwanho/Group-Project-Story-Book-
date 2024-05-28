@@ -1,35 +1,42 @@
 import { bookReader } from './bookReader.js';
+import { showCharacterCard } from './showCharacterCard.js';
+
+import { login } from './login.js';
+import { register } from './register.js';
 window["logout"] = logout;
-window["login"] = login;
 window["toggleLike"] = toggleLike;
 
-window.addEventListener("load", async (e) => {
-    const userId = await checkLogin()
-    await loadCharacters()
-    const data = await getAllStorybook()
-    loadStorybooks(data)
-    const bookTypeData = await storybookType()
-    loadFilter(bookTypeData)
-    if (userId) {
-        await displayLike()
-    }
+window["showCharacterCard"] = showCharacterCard;
+window["bookReader"] = bookReader;
+
+login();
+register();
+const searchBar = document.querySelector(".search-bar")
+
+searchBar.addEventListener("input", async (e) => {
+    const value = e.target.value
+
+    const res = await fetch('/searchBook', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ value }),
+    })
 })
 
-
 const loadCharacters = async () => {
-    const res = await fetch("/character")
+    const res = await fetch("/characters")
     const data = (await res.json()).data
     const characterArea = document.querySelector(".character-area")
     for (let character of data) {
         characterArea.innerHTML +=
-            `<div class="character border" id="character_${character.id}">
+            `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
                 <div class="character-image">image</div>
                 <div class="character-name">${character.name}</div>
             </div>`
     }
 }
-
-window["bookReader"] = bookReader;
 
 const loadStorybooks = (data) => {
     const storybookArea = document.querySelector(".storybook-area")
@@ -287,6 +294,8 @@ document.querySelector('#new-character-form')
         let result = await res.json()
 
         if (res.ok) {
+            //create character successful
+            //TODO: better user experience
             window.location.reload();
         } else {
             console.log(result);
