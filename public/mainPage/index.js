@@ -110,7 +110,37 @@ const checkLogin = async () => {
     document.querySelector(".test").addEventListener("input", search)
     return null
 }
-
+async function search(e) {
+    const searchResult = document.querySelector(".search-result-container")
+    searchResult.innerHTML = ""
+    const search = e.target.value
+    if (search.length == 0) {
+        searchResult.classList.add("hide")
+        return 
+    }
+    searchResult.classList.remove("hide")
+    const res = await fetch('/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ search }),
+    })
+    const data = (await res.json()).data
+    for (let book of data){
+        let bookname = book.bookname
+        let description = book.description
+        searchResult.innerHTML+= `
+        <div class="search-result border">
+            <div class="book-detail" onclick=>
+                <div class="search-bookname">${bookname}</div>
+                <div class="search-book-description">${description}</div>
+            </div>
+            <img src="" alt="" class="search-image">
+        </div>
+        `
+    }
+}
 function login() {
     window.location.href = "../login"
 }
@@ -263,3 +293,8 @@ document.querySelector('#new-character-form')
             console.log(result);
         }
     })
+
+    const sourceStr = 'I learned to play the Ukulele in Lebanon.';
+    const searchStr = 'le';
+    const indexes = [...sourceStr.matchAll(new RegExp(searchStr, 'gi'))].map(a => a.index);
+    console.log(indexes);
