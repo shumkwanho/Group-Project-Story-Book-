@@ -85,7 +85,6 @@ const login = () => {
 const logout = async () => {
     const res = await fetch("/logout")
     const data = await res.json()
-    console.log(data);
     window.location.reload()
 }
 
@@ -124,7 +123,9 @@ async function deleteComment(commentId) {
         body: JSON.stringify({ commentId }),
     })
     const data = await res.json()
-    console.log(data);
+    if (res.ok) {
+        window.location.reload()
+    }
 }
 
 function editComment(commentId) {

@@ -25,11 +25,19 @@ export class StorybookService {
             .where('storybooks.id', id);
     }
 
-    getStoryBookById = async (id: string) => {
+    searchStoryBook = async (str:string)=>{
+        return await this.knex
+        .select("bookname","target_age",  "category", "description")
+        .from("storybooks")
+        .whereILike("bookname",`%${str}%`)
+        .orWhereILike("description",`%${str}%`)
+    }
+
+    getStoryBookByCategory = async (category:string) => {
         return await this.knex
             .select("bookname", "description", "target_age", "style", "total_page", "category", "created_at")
             .from("storybooks")
-            .where("id", id)
+            .where(`${category}`, category)
     }
 
     getCharacterByStorybookId = async (id: string) => {

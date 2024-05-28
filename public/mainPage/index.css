@@ -3,7 +3,7 @@
     border-radius: 10px;
 }
 
-.container {
+.main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,11 +11,11 @@
     margin: 0;
 }
 
-#navbar {
+.navbar {
     display: flex;
     justify-content: space-between;
     margin: 0;
-    margin-bottom: 30px;
+    margin-bottom: 70px;
     width: 98%;
     padding: 20px;
     align-items: center;
@@ -73,7 +73,6 @@
     padding: 30px;
     width: 75%;
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
 }
 
@@ -84,7 +83,8 @@
     box-sizing: content-box;
     text-align: center;
     position: relative;
-    margin-bottom: 20px;
+    margin: 10px;
+
 }
 
 .book-img {
@@ -121,3 +121,84 @@
     left: 50%;
 }
 
+.register-floating-window,
+.floating-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.register-floating-window.floating-window .window-content {
+    max-width: 400px;
+}
+
+.register-floating-window button
+.floating-window button {
+    display: block;
+    margin-top: 10px;
+    margin-left: auto;
+}
+
+.filter-area {
+    display: flex;
+    width: 500px;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.hide {
+    display: none !important;
+}
+
+.filter-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+    font-size: 12px;
+    width: 120px;
+    position: absolute;
+    top: 30px;
+    left: -10px;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.option{
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter{
+    position: relative;
+}
+
+.sort-form{
+    display: flex;
+    flex-direction: column;
+}
+.search-container{
+    position: relative;
+}
+
+.search-result{
+    padding: 0;
+    height: 50px;
+    display: flex;
+}
+
+.search-image{
+    width: 50px 
+}
+
+.search-result-container{
+    position:absolute;
+    top: 30px;
+}

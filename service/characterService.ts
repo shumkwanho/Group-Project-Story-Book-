@@ -12,7 +12,7 @@ export class CharacterService {
 
     loadCharacterById = async (character_id: string) => {
         const data = await this.knex
-            .select("name", "prompt", "requirement")
+            .select("name", "prompt", "requirement", "image")
             .from("characters")
             .where("id", character_id)
         return data;
