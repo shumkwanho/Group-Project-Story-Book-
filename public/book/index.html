@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -18,7 +21,7 @@
     <br>
     <div class="container border">
         <session class="upper-part border">
-            <img src="" alt="" class="book-cover border">
+            <!-- <img src="" alt="" class="book-cover border">
             <div class="book-detail border ">
                 <div class="book-name border">Book Name</div>
                 <div class="author border">Author</div>
@@ -26,7 +29,7 @@
             </div>
             <div class="function border">
                 <button id="read" type="button" class="btn btn-primary">Read Now</button>
-            </div>
+            </div> -->
         </session>
         <session class="bottom-part border">
             <h2>Comment</h2>
@@ -39,7 +42,34 @@
         </div>
     </div>
 
-    <script src="index.js"></script>
+
+    <!-- storybook reader -->
+    <div class="modal fade modal-lg" id="readerModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true"
+        aria-labelledby="readerModalLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="storybook-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 storybook-content-header" id="readerModalLabel">
+                        <!-- contents to be printed in js -->
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="storybook-content-body">
+                    <!-- contents to be printed in js -->
+                </div>
+                <div class="modal-footer" id="storybook-content-footer">
+                    <button class="btn btn-primary prev-page-btn">Previous</button>
+                    <button class="btn btn-primary next-page-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script type="module" src="index.js"></script>
+
 </body>
 
 </html>

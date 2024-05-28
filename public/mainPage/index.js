@@ -1,10 +1,14 @@
 import { bookReader } from './bookReader.js';
 import { showCharacterCard } from './showCharacterCard.js';
 
-// import { login } from './login.js';
+import { login } from './login.js';
 import { register } from './register.js';
+
 window["logout"] = logout;
+window["login"] = login;
+window["register"] = register;
 window["toggleLike"] = toggleLike;
+
 window["showCharacterCard"] = showCharacterCard;
 window["bookReader"] = bookReader;
 
@@ -19,7 +23,6 @@ window.addEventListener("load", async (e) => {
         await displayLike();
     }
 });
-
 
 const loadCharacters = async () => {
     const res = await fetch("/characters")
@@ -42,7 +45,7 @@ const loadStorybooks = (data) => {
     </div>`
     for (let storybook of data) {
         storybookArea.innerHTML +=
-            `<div class="book border" id="book_${storybook.id}" onclick="bookReader(${storybook.id})">
+            `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
                 <div class="book-img border">img</div>
                 <div class="book-title">${storybook.bookname}</div>
                 <div class="book-description">${storybook.description}</div>
@@ -109,11 +112,13 @@ const checkLogin = async () => {
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         return data.data
     }
-    navbar.innerHTML += `<button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>`
+    navbar.innerHTML += `
+        <button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>
+        <button id="register" onclick="register()" type="button" class="btn btn-primary">Register</button>
+        `
     document.querySelector(".test").addEventListener("input", search)
     return null
 }
-
 async function search(e) {
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
@@ -145,7 +150,6 @@ async function search(e) {
         `
     }
 }
-
 
 async function logout() {
     const res = await fetch("/logout")
