@@ -1,21 +1,11 @@
 import { bookReader } from './bookReader.js';
+import { login } from './login.js';
 window["logout"] = logout;
-window["login"] = login;
 window["toggleLike"] = toggleLike;
 
-const searchBar = document.querySelector(".search-bar")
+login();
 
-window.addEventListener("load", async (e) => {
-    const userId = await checkLogin()
-    await loadCharacters()
-    const data = await getAllStorybook()
-    loadStorybooks(data)
-    const bookTypeData = await storybookType()
-    loadFilter(bookTypeData)
-    if (userId) {
-        await displayLike()
-    }
-})
+const searchBar = document.querySelector(".search-bar")
 
 searchBar.addEventListener("input", async (e) => {
     const value = e.target.value
@@ -111,22 +101,6 @@ const displayLike = async () => {
         }
         book.innerHTML += `<i class="fa-regular fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
     }
-}
-
-const checkLogin = async () => {
-    const res = await fetch("/checkLogin")
-    const data = await res.json()
-    const navbar = document.querySelector("#navbar")
-    if (data.data) {
-        navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
-        return data.data
-    }
-    navbar.innerHTML += `<button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>`
-    return null
-}
-
-function login() {
-    window.location.href = "../login"
 }
 
 async function logout() {
