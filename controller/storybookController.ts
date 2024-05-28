@@ -63,7 +63,7 @@ export class StorybookController {
             // console.log("hello",req.query)
             const { id } = req.query;
             // console.log("gg",id)
-            const storybookQueryResult = await this.service.getStoryBookById(id as string);
+            const storybookQueryResult = await this.service.getStoryBookByCategory(id as string);
             res.status(200).json({data: storybookQueryResult})
         } 
         catch (error) {
