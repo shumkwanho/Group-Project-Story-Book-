@@ -105,12 +105,19 @@
     border: none;
     cursor: pointer;
     z-index: 20;
-    padding:10px;
-
 }
 
-.filter-area{
-    display: flex;
-    width: 450px;
-    justify-content: space-between;
+.book:hover {
+    background-color: rgb(158, 158, 158);
 }
+
+.quickView {
+    display: block;
+    justify-content: center;
+    text-align: center;
+    border-radius: 90%;
+    background-color: brown;
+    position: absolute;
+    left: 50%;
+}
+
