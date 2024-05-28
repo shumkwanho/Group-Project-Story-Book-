@@ -62,7 +62,7 @@ export function genPageImagePrompt(characterRequirementJSON: {}, pageDetails: {}
     let pageRequirementJSON: any = Object.assign({}, characterRequirementJSON);
 
     const intro = 
-    "You are a prompt engineer mastering in generate prompts to generate images of fictional characters using AI model DALL-E-3. Use the following JSON as requirements to generate a prompt, be as details as possible:\n\n";
+    "You are a prompt engineer mastering in generate prompts for DALL-E-3. Use the following JSON as requirements to generate a prompt of a character doing activity in a scenario, be as details as possible:\n\n";
 
     const end =
     "\n\nReturn only the prompt message. Skip any introduction and conclusion wordings. You may start your prompt message with 'Draw...', 'Generate an image of...' or 'Create an illustration of...'."

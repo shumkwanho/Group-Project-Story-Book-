@@ -44,9 +44,9 @@ export function genCharacterRequirementJSON(
             //for our app, fixed with gradient shading
         },
         "drawing_style": {
-            "art_style": "cartoon",
+            "art_style": "pixar",
             //choice: cartoon, chibi, manga, pixar, studio ghibli
-            //for our app, fixed with "cartoon"
+            //for our app, fixed with "pixar"
             "linework": "clean",
             //choice: clean, sketchy, bold, fine
             //for our app, fixed with "clean"

@@ -35,27 +35,28 @@ router.post('/create-checkout-session', paymentController.payment);
 
 const characterService = new CharacterService(knex)
 const characterController = new CharacterController (characterService)
-router.get("/character",characterController.loadCharacter)
+router.get("/character", characterController.loadCharacter)
 router.post("/character", characterController.createCharacter)
 router.delete("/character", characterController.deleteCharacter)
 
 
 const commentService = new CommentService (knex)
 const commentController = new CommentController (commentService)
-router.get("/comment",commentController.getAllComment);
-router.post("/comment",commentController.createComment);
-router.put("/comment",commentController.updateComment);
-router.delete("/comment",commentController.deleteComment);
-router.get("/comment-user",commentController.getCommentByUserId)
+router.get("/comment", commentController.getAllComment);
+router.post("/comment", commentController.createComment);
+router.put("/comment", commentController.updateComment);
+router.delete("/comment", commentController.deleteComment);
+router.get("/comment-user", commentController.getCommentByUserId)
 
 
 const storybookService = new StorybookService(knex)
 const storybookController = new StorybookController(storybookService)
 router.get("/storybooks", storybookController.getAllStoryBook)
 router.get("/storybook", storybookController.getStoryBookById)
-router.get("/booktype",storybookController.getStoryBookType)
-router.post("/filter",storybookController.filterBook)
-router.post("/sort",storybookController.bookSorting)
+router.post("/storybook", storybookController.createStoryBook)
+router.get("/booktype", storybookController.getStoryBookType)
+router.post("/filter", storybookController.filterBook)
+router.post("/sort", storybookController.bookSorting)
 
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
@@ -63,13 +64,13 @@ router.get('/page', pageController.getPageByStorybookId);
 
 const userService = new UserService(knex)
 const userController = new UserController(userService)
-router.get("/checkLogin",userController.checkLogin)
-router.post("/login",userController.login)
-router.post("/register",userController.register)
-router.get("/logout",userController.logout)
+router.get("/checkLogin", userController.checkLogin)
+router.post("/login", userController.login)
+router.post("/register", userController.register)
+router.get("/logout", userController.logout)
 
 const likeService = new LikeService(knex)
 const likeController = new LikeController(likeService)
-router.get("/like",likeController.getLikes)
-router.post("/like",likeController.likeBooks)
-router.delete("/dislike",likeController.dislikeBooks)
+router.get("/like", likeController.getLikes)
+router.post("/like", likeController.likeBooks)
+router.delete("/dislike", likeController.dislikeBooks)
