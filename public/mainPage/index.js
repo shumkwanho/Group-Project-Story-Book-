@@ -52,7 +52,7 @@ const loadStorybooks = (data) => {
     </div>`
     for (let storybook of data) {
         storybookArea.innerHTML +=
-            `<div class="book border" id="book_${storybook.id}" onclick="bookReader(${storybook.id})">
+            `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
                 <div class="book-img border">img</div>
                 <div class="book-title">${storybook.bookname}</div>
                 <div class="book-description">${storybook.description}</div>
@@ -60,6 +60,8 @@ const loadStorybooks = (data) => {
             </div>`
     }
 }
+
+
 async function getAllStorybook(){
     const res = await fetch("/storybooks")
     const data = (await res.json()).data

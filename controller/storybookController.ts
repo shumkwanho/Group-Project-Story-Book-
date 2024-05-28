@@ -29,7 +29,7 @@ export class StorybookController {
     getStoryBookById = async (req: Request, res: Response) => {
         try {
             const { id } = req.query;
-
+            
             const storybookQueryResult = await this.service.getStoryBookInfoById(id as string);
 
             const totalPage = parseInt(storybookQueryResult[0].total_page);
@@ -57,6 +57,20 @@ export class StorybookController {
             res.status(500).json({ message: "Internal Server Error" })
         }
     }
+
+    onclickStoryBookById = async (req:Request, res: Response) => {
+        try{
+            // console.log("hello",req.query)
+            const { id } = req.query;
+            // console.log("gg",id)
+            const storybookQueryResult = await this.service.getStoryBookById(id as string);
+            res.status(200).json({data: storybookQueryResult})
+        } 
+        catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+    };
 
     createStoryBook = async (req: Request, res: Response) => {
         try {
