@@ -12,12 +12,14 @@ export function register(userId) {
     });
 
     const checkRegister = async () => {
+
+        
         const res = await fetch("/register");
         const data = await res.json();
         const navbar = document.querySelector("#navbar");
         if (data.data) {
             navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary">Logout</button>`;
-            return data.data;
+            return;
         }
         const registerButton = document.createElement('button');
         registerButton.id = 'register';

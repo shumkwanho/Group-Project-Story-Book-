@@ -121,7 +121,7 @@
     left: 50%;
 }
 
-<<<<<<< HEAD
+
 .register-floating-window,
 .floating-window {
     position: fixed;
@@ -144,7 +144,8 @@
     display: block;
     margin-top: 10px;
     margin-left: auto;
-=======
+}
+
 .filter-area {
     display: flex;
     width: 500px;
@@ -201,5 +202,4 @@
 .search-result-container{
     position:absolute;
     top: 30px;
->>>>>>> 53e6838e933c74efc44133e27d3e543344a563f9
 }

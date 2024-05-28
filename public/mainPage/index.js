@@ -1,29 +1,25 @@
 import { bookReader } from './bookReader.js';
 import { showCharacterCard } from './showCharacterCard.js';
 
-import { login } from './login.js';
+// import { login } from './login.js';
 import { register } from './register.js';
 window["logout"] = logout;
 window["toggleLike"] = toggleLike;
-
 window["showCharacterCard"] = showCharacterCard;
 window["bookReader"] = bookReader;
 
-login();
-register();
-const searchBar = document.querySelector(".search-bar")
+window.addEventListener("load", async (e) => {
+    const userId = await checkLogin();
+    await loadCharacters();
+    const data = await getAllStorybook();
+    loadStorybooks(data);
+    const bookTypeData = await storybookType();
+    loadFilter(bookTypeData);
+    if (userId) {
+        await displayLike();
+    }
+});
 
-searchBar.addEventListener("input", async (e) => {
-    const value = e.target.value
-
-    const res = await fetch('/searchBook', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify({ value }),
-    })
-})
 
 const loadCharacters = async () => {
     const res = await fetch("/characters")
@@ -117,6 +113,7 @@ const checkLogin = async () => {
     document.querySelector(".test").addEventListener("input", search)
     return null
 }
+
 async function search(e) {
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
@@ -148,9 +145,7 @@ async function search(e) {
         `
     }
 }
-function login() {
-    window.location.href = "../login"
-}
+
 
 async function logout() {
     const res = await fetch("/logout")
