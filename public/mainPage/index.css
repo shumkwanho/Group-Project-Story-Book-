@@ -15,7 +15,7 @@
     display: flex;
     justify-content: space-between;
     margin: 0;
-    margin-bottom: 30px;
+    margin-bottom: 70px;
     width: 98%;
     padding: 20px;
     align-items: center;
@@ -143,6 +143,8 @@
     position: absolute;
     top: 30px;
     left: -10px;
+    height: 100px;
+    overflow-y: scroll;
 }
 
 .option{
@@ -175,4 +177,6 @@
 .search-result-container{
     position:absolute;
     top: 30px;
+    height: 120px;
+    overflow-y: scroll;
 }

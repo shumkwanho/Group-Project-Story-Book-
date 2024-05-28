@@ -116,7 +116,7 @@ async function search(e) {
     const search = e.target.value
     if (search.length == 0) {
         searchResult.classList.add("hide")
-        return 
+        return
     }
     searchResult.classList.remove("hide")
     const res = await fetch('/search', {
@@ -127,10 +127,10 @@ async function search(e) {
         body: JSON.stringify({ search }),
     })
     const data = (await res.json()).data
-    for (let book of data){
-        let bookname = book.bookname
-        let description = book.description
-        searchResult.innerHTML+= `
+    for (let book of data) {
+        let bookname = book.bookname.replace(search, `<b>${search}</b>`)
+        let description = book.description.replace(search, `<b>${search}</b>`)
+        searchResult.innerHTML += `
         <div class="search-result border">
             <div class="book-detail" onclick=>
                 <div class="search-bookname">${bookname}</div>
@@ -167,7 +167,6 @@ function loadFilter(list) {
         <div class="option">
             <label class="type">All</label>
             <input type="checkbox" name="all" value="filter-all">
-            <!--<span class="count">${list.all}</span>-->
         </div>
         `
         for (let i = 0; i < list[type].length; i++) {
@@ -175,7 +174,6 @@ function loadFilter(list) {
             <div class="option">
                 <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age " + list[type][i][type] : list[type][i][type]}</label>
                 <input type="checkbox" name="${type}" value="${list[type][i][type]}">
-                <!--<span class="count">${list[type][i].count}</span>-->
             </div>
             `
         }
@@ -203,9 +201,10 @@ function selectAll(e) {
 
 }
 
-document.querySelectorAll(".filter").forEach((btn) => {
+document.querySelectorAll(".toggle-filter").forEach((btn) => {
     btn.addEventListener("click", (e) => {
-        btn.querySelector("div").classList.toggle("hide")
+        btn.parentElement.querySelector("div").classList.toggle("hide")
+        e.stopPropagation()
     })
 })
 
@@ -273,7 +272,7 @@ document.querySelector('#new-character-form')
         document.querySelector("#new-character-submit-btn").setAttribute("disabled", "");
         document.querySelector("#new-character-content-footer")
             .insertAdjacentHTML(
-                "afterbegin", 
+                "afterbegin",
                 `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
             )
 
@@ -294,7 +293,3 @@ document.querySelector('#new-character-form')
         }
     })
 
-    const sourceStr = 'I learned to play the Ukulele in Lebanon.';
-    const searchStr = 'le';
-    const indexes = [...sourceStr.matchAll(new RegExp(searchStr, 'gi'))].map(a => a.index);
-    console.log(indexes);
