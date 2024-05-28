@@ -3,8 +3,8 @@ import { PageService } from "../service/pageService";
 import { CharacterService } from "../service/characterService";
 import { StorybookService } from "../service/storybookService"
 import { Request, Response } from "express";
-import { genPageImagePrompt, genStorybookTextPrompt } from "../engine/promptGenerator";
-import { imageGeneratorModel, textGeneratorModel } from "../engine/openaiGenerator";
+import { genPageImagePrompt, genStorybookTextPrompt } from "../utils/promptGenerator";
+import { imageGeneratorModel, textGeneratorModel } from "../aiEngine/openaiGenerator";
 import { downloadImage } from "../utils/downloadImg";
 
 const TEXT_MODEL = 'gpt-3.5-turbo';
@@ -63,21 +63,14 @@ export class StorybookController {
             const userId = req.session.userId;
             const { characterId, targetAge, category, totalPage } = req.body;
 
-            //get character info from characterId
             let characterInfo = await characterService.loadCharacterById(characterId);
 
             let characterRequirementJSON = JSON.parse(characterInfo[0].requirement);
             let characterName = `${characterInfo[0].name} the ${characterRequirementJSON.character_features.species_type}`;
 
             let storybookTextPrompt = genStorybookTextPrompt(characterName, targetAge, category, totalPage);
-
             let storybookContent = await textGeneratorModel(storybookTextPrompt, TEXT_MODEL);
-
-            console.log(storybookContent)
-
             let storybookContentJSON = JSON.parse(storybookContent as string);
-
-            console.log(storybookContentJSON)
 
             let bookName = storybookContentJSON.story_name;
             let description = storybookContentJSON.description_summary;
@@ -95,6 +88,8 @@ export class StorybookController {
 
             let storybookId = createStorybookQuery[0].id;
 
+            console.log(storybookContentJSON)
+
             for (let i = 0; i < totalPage; i++) {
                 let pageDetails = storybookContentJSON.scenario[i];
                 let pageTextPrompt = genPageImagePrompt(characterRequirementJSON, pageDetails);
@@ -103,7 +98,11 @@ export class StorybookController {
                 let pageImageURL = await imageGeneratorModel(pageTextPromptGPT as string, IMAGE_MODEL);
                 let pageImageFileName = await downloadImage(pageImageURL as string, 'page');
 
-                let createPageQuery = await pageService.createPage(
+                console.log(`page${i+1}`);
+                console.log(pageTextPrompt);
+                console.log(pageTextPromptGPT);
+
+                await pageService.createPage(
                     storybookId, 
                     pageDetails.description, 
                     pageImageFileName as string, 
