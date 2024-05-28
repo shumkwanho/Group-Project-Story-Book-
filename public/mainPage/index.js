@@ -3,27 +3,26 @@ import { showCharacterCard } from './showCharacterCard.js';
 
 import { login } from './login.js';
 import { register } from './register.js';
+
 window["logout"] = logout;
+window["login"] = login;
+window["register"] = register;
 window["toggleLike"] = toggleLike;
 
 window["showCharacterCard"] = showCharacterCard;
 window["bookReader"] = bookReader;
 
-login();
-register();
-const searchBar = document.querySelector(".search-bar")
-
-searchBar.addEventListener("input", async (e) => {
-    const value = e.target.value
-
-    const res = await fetch('/searchBook', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify({ value }),
-    })
-})
+window.addEventListener("load", async (e) => {
+    const userId = await checkLogin();
+    await loadCharacters();
+    const data = await getAllStorybook();
+    loadStorybooks(data);
+    const bookTypeData = await storybookType();
+    loadFilter(bookTypeData);
+    if (userId) {
+        await displayLike();
+    }
+});
 
 const loadCharacters = async () => {
     const res = await fetch("/characters")
@@ -113,7 +112,10 @@ const checkLogin = async () => {
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         return data.data
     }
-    navbar.innerHTML += `<button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>`
+    navbar.innerHTML += `
+        <button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>
+        <button id="register" onclick="register()" type="button" class="btn btn-primary">Register</button>
+        `
     document.querySelector(".test").addEventListener("input", search)
     return null
 }
@@ -147,9 +149,6 @@ async function search(e) {
         </div>
         `
     }
-}
-function login() {
-    window.location.href = "../login"
 }
 
 async function logout() {

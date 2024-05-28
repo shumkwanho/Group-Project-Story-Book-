@@ -1,4 +1,18 @@
-export function register(userId) {
+export function register() {
+
+    console.log("hehehe")
+
+    //1) show a popup window
+
+    //2) get event listener from the form
+
+    //3) fetch login API with body (username, email, password)
+
+    //4) check res.ok
+
+    //4.1) if ok => tell user register successful
+    //4.2) if not ok => tell user
+
     window.addEventListener("load", async (e) => {
         const userId = await checkRegister();
         await loadCharacters();
