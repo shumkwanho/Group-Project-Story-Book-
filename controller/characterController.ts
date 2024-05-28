@@ -23,6 +23,10 @@ export class CharacterController {
 
     }
 
+    /** createCharacter
+     * @param req : userId, name, speciesType, gender, age, bodyShape, heightSize
+     * @param res : character-name, image, character-requirement-JSON  
+    */
     createCharacter = async (req: Request, res: Response) => {
         try {
             const userId = req.session.userId;

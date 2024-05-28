@@ -1,6 +1,6 @@
 const storybookContentBody = document.querySelector("#storybook-content-body");
 const storybookContentHeader = document.querySelector(".storybook-content-header");
-const readerModal = new bootstrap.Modal(document.getElementById('readerModalToggle'), {});
+const readerModal = new bootstrap.Modal(document.getElementById('readerModal'), {});
 const nextPageBtn = document.querySelector(".next-page-btn");
 const prevPageBtn = document.querySelector(".prev-page-btn");
 

@@ -221,3 +221,38 @@ async function sort(e) {
     const data = (await res.json()).data
     loadStorybooks(data)
 }
+
+document.querySelector('#new-character-form')
+    .addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        const name = document.querySelector("#new-character-name").value;
+        const speciesType = document.querySelector("#new-character-species-type").value;
+        const gender = document.querySelector("#character-preference-gender").value;
+        const age = document.querySelector("#character-preference-age").value;
+        const bodyShape = document.querySelector("#character-preference-body-shape").value;
+        const heightSize = document.querySelector("#character-preference-height-size").value;
+
+        document.querySelector("#new-character-submit-btn").setAttribute("disabled", "");
+        document.querySelector("#new-character-content-footer")
+            .insertAdjacentHTML(
+                "afterbegin", 
+                `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
+            )
+
+        let res = await fetch('/character', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, speciesType, gender, age, bodyShape, heightSize })
+        })
+
+        let result = await res.json()
+
+        if (res.ok) {
+            window.location.reload();
+        } else {
+            console.log(result);
+        }
+    })
