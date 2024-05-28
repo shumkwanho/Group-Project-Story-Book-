@@ -229,34 +229,37 @@ async function sort(e) {
     loadStorybooks(data)
 }
 
+document.querySelector('#new-character-form')
+    .addEventListener('submit', async (e) => {
+        e.preventDefault()
 
+        const name = document.querySelector("#new-character-name").value;
+        const speciesType = document.querySelector("#new-character-species-type").value;
+        const gender = document.querySelector("#character-preference-gender").value;
+        const age = document.querySelector("#character-preference-age").value;
+        const bodyShape = document.querySelector("#character-preference-body-shape").value;
+        const heightSize = document.querySelector("#character-preference-height-size").value;
 
-async function search(e) {
-    const searchResult = document.querySelector(".search-result-container")
-    searchResult.innerHTML = ""
-    const search = e.target.value
-    if (search.length == 0) {
-        searchResult.classList.add("hide")
-        return 
-    }
-    searchResult.classList.remove("hide")
-    const res = await fetch('/search', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify({ search }),
+        document.querySelector("#new-character-submit-btn").setAttribute("disabled", "");
+        document.querySelector("#new-character-content-footer")
+            .insertAdjacentHTML(
+                "afterbegin", 
+                `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
+            )
+
+        let res = await fetch('/character', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, speciesType, gender, age, bodyShape, heightSize })
+        })
+
+        let result = await res.json()
+
+        if (res.ok) {
+            window.location.reload();
+        } else {
+            console.log(result);
+        }
     })
-    const data = (await res.json()).data
-    for (let book of data){
-        searchResult.innerHTML+= `
-        <div class="search-result border">
-            <div class="book-detail" onclick=>
-                <div class="search-bookname">${book.bookname}</div>
-                <div class="search-book-description">${book.description}</div>
-            </div>
-            <img src="" alt="" class="search-image">
-        </div>
-        `
-    }
-}

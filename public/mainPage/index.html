@@ -59,7 +59,7 @@
 
             <div class="selection-area">
                 <section class="character-area border">
-                    <div class="character create-character border">
+                    <div class="character create-character border" data-bs-toggle="modal" data-bs-target="#newCharacterModal">
                         <div>Create Character</div>
                         <div><i class="fa-solid fa-plus" id="create-character"></i></div>
                     </div>
@@ -78,13 +78,13 @@
 
 
 
-    <!-- storybook reader -->
-    <div class="modal fade modal-lg" id="readerModalToggle" data-bs-backdrop="static" data-bs-keyboard="false"
-        aria-hidden="true" aria-labelledby="readerModalToggleLabel" tabindex="-1">
+    <!-- storybook reader modal -->
+    <div class="modal fade modal-lg" id="readerModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-hidden="true" aria-labelledby="readerModalLabel" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" id="storybook-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 storybook-content-header" id="readerModalToggleLabel">
+                    <h1 class="modal-title fs-5 storybook-content-header" id="readerModalLabel">
                         <!-- contents to be printed in js -->
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -93,6 +93,7 @@
                     <!-- contents to be printed in js -->
                 </div>
                 <div class="modal-footer" id="storybook-content-footer">
+                    <button class="btn btn-primary prev-page-btn">Previous</button>
                     <button class="btn btn-primary next-page-btn">Next</button>
                 </div>
             </div>
@@ -100,6 +101,97 @@
     </div>
 
 
+    <!-- create new character modal -->
+    <div class="modal fade modal-lg" id="newCharacterModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-hidden="true" aria-labelledby="newCharacterModalLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="new-character-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 new-character-content-header" id="newCharacterModalLabel">
+                        Input Character Preference
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="new-character-form">
+                    <div class="modal-body" id="new-character-content-body">
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="new-character-name">Character Name</label>
+                            <input type="text" class="form-control" id="new-character-name" placeholder="Input Character Name">
+                        </div>
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="new-character-species-type">Species / Type</label>
+                            <select class="form-select" id="new-character-species-type">
+                                <option selected value="Tiger">Tiger</option>
+                                <option value="Cat">Cat</option>
+                                <option value="Human">Human</option>
+                                <option value="Robot">Robot</option>
+                                <option value="Wolf">Wolf</option>
+                                <option value="Elephant">Elephant</option>
+                                <option value="Fox">Fox</option>
+                                <option value="Alien">Alien</option>
+                                <option value="Dragon">Dragon</option>
+                                <option value="Bear">Bear</option>
+                                <option value="Unicorn">Unicorn</option>
+                                <option value="Fairy">Fairy</option>
+                                <option value="Gnome">Gnome</option>
+                                <option value="Mermaid">Mermaid</option>
+                            </select>
+                        </div>
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="character-preference-gender">Gender</label>
+                            <select class="form-select" id="character-preference-gender">
+                                <option selected value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="character-preference-age">Age Group</label>
+                            <select class="form-select" id="character-preference-age">
+                                <option selected value="Child">Child</option>
+                                <option value="Teenager">Teenager</option>
+                                <option value="Adult">Adult</option>
+                                <option value="Elderly">Elderly</option>
+                            </select>
+                        </div>
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="character-preference-body-shape">Body Shape</label>
+                            <select class="form-select" id="character-preference-body-shape">
+                                <option selected value="Slim">Slim</option>
+                                <option value="Muscular">Muscular</option>
+                                <option value="Chubby">Chubby</option>
+                                <option value="Petite">Petite</option>
+                            </select>
+                        </div>
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="character-preference-height-size">Height / Size</label>
+                            <select class="form-select" id="character-preference-height-size">
+                                <option selected value="Tall">Tall</option>
+                                <option value="Short">Short</option>
+                                <option value="Average">Average</option>
+                            </select>
+                        </div>
+    
+                    </div>
+                    <div class="modal-footer" id="new-character-content-footer">
+                        <button class="btn btn-primary" type="submit" for="new-character-form" id="new-character-submit-btn">Create Character</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <select name="foo" id="my-select">
+        <option value="">Select</option>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+    </select>
 
     <footer>
 
