@@ -58,7 +58,7 @@ router.post("/storybook", storybookController.createStoryBook)
 router.get("/booktype", storybookController.getStoryBookType)
 router.post("/filter", storybookController.filterBook)
 router.post("/sort", storybookController.bookSorting)
-
+router.post("/search",storybookController.searchStoryBook)
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);

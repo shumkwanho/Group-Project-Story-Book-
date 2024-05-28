@@ -1,26 +1,17 @@
 import { bookReader } from './bookReader.js';
 import { showCharacterCard } from './showCharacterCard.js';
 
+import { login } from './login.js';
+import { register } from './register.js';
 window["logout"] = logout;
-window["login"] = login;
 window["toggleLike"] = toggleLike;
 
 window["showCharacterCard"] = showCharacterCard;
 window["bookReader"] = bookReader;
 
+login();
+register();
 const searchBar = document.querySelector(".search-bar")
-
-window.addEventListener("load", async (e) => {
-    const userId = await checkLogin()
-    await loadCharacters()
-    const data = await getAllStorybook()
-    loadStorybooks(data)
-    const bookTypeData = await storybookType()
-    loadFilter(bookTypeData)
-    if (userId) {
-        await displayLike()
-    }
-})
 
 searchBar.addEventListener("input", async (e) => {
     const value = e.target.value
@@ -63,7 +54,7 @@ const loadStorybooks = (data) => {
             </div>`
     }
 }
-async function getAllStorybook(){
+async function getAllStorybook() {
     const res = await fetch("/storybooks")
     const data = (await res.json()).data
     return data
@@ -82,7 +73,6 @@ async function toggleLike(e, bookId) {
             },
             body: JSON.stringify({ bookId }),
         })
-        console.log("liked");
         return
     }
 
@@ -93,7 +83,6 @@ async function toggleLike(e, bookId) {
         },
         body: JSON.stringify({ bookId }),
     })
-    console.log("disliked");
     return
 }
 
@@ -114,22 +103,6 @@ const displayLike = async () => {
         }
         book.innerHTML += `<i class="fa-regular fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
     }
-}
-
-const checkLogin = async () => {
-    const res = await fetch("/checkLogin")
-    const data = await res.json()
-    const navbar = document.querySelector("#navbar")
-    if (data.data) {
-        navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
-        return data.data
-    }
-    navbar.innerHTML += `<button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>`
-    return null
-}
-
-function login() {
-    window.location.href = "../login"
 }
 
 async function logout() {
@@ -154,43 +127,64 @@ function loadFilter(list) {
         <div class="option">
             <label class="type">All</label>
             <input type="checkbox" name="all" value="filter-all">
-            <span class="count">${list.all}</span>
+            <!--<span class="count">${list.all}</span>-->
         </div>
         `
         for (let i = 0; i < list[type].length; i++) {
             filterForm.innerHTML += `
             <div class="option">
-                <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age "+list[type][i][type] : list[type][i][type]}</label>
+                <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age " + list[type][i][type] : list[type][i][type]}</label>
                 <input type="checkbox" name="${type}" value="${list[type][i][type]}">
-                <span class="count">${list[type][i].count}</span>
+                <!--<span class="count">${list[type][i].count}</span>-->
             </div>
             `
         }
         filterForm.innerHTML += `<input type="submit">`
     }
-    const selectAllBtns = document.querySelectorAll(".all").forEach((btn)=>{
-        btn.addEventListener("change",selectAll)
+    const selectAllBtns = document.querySelectorAll("input[name=all]").forEach((btn) => {
+        btn.addEventListener("click", selectAll)
     })
     const filterForms = document.querySelectorAll(".filter").forEach((form) => {
         form.addEventListener("submit", submitFilterForm)
     })
 }
 
-function selectAll(e){}
+function selectAll(e) {
+    const targetForm = e.target.parentElement.parentElement
+    const category = targetForm.classList[0].slice(7)
+    const checkboxes = Array.from(document.getElementsByName(category))
+    for (let checkbox of checkboxes) {
+        if (e.target.checked) {
+            checkbox.checked = true
+            continue
+        }
+        checkbox.checked = false
+    }
+
+}
+
+document.querySelectorAll(".filter").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        btn.querySelector("div").classList.toggle("hide")
+    })
+})
+
+
 
 async function submitFilterForm(e) {
     e.preventDefault()
+
     if (e.target.all.checked) {
         const data = await getAllStorybook()
         loadStorybooks(data)
         return
     }
-    const submitTarget = e.target.classList[1].slice(7)
+    const submitTarget = e.target.querySelector("label").id
     const checkboxes = Array.from(document.getElementsByName(submitTarget))
     const condition = checkboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value)
-    let obj = {key:submitTarget, condition}
+    let obj = { key: submitTarget, condition }
     if (!obj.condition[0]) {
-      return
+        return
     }
     const res = await fetch('/filter', {
         method: 'POST',
@@ -206,12 +200,12 @@ async function submitFilterForm(e) {
 
 
 
-document.querySelector("#sort").addEventListener("change",sort)
+document.querySelector("#sort").addEventListener("change", sort)
 
 async function sort(e) {
     const category = e.target.value
-    if(category == ""){
-        return 
+    if (category == "") {
+        return
     }
     const res = await fetch('/sort', {
         method: 'POST',
@@ -261,3 +255,8 @@ document.querySelector('#new-character-form')
             console.log(result);
         }
     })
+
+    const sourceStr = 'I learned to play the Ukulele in Lebanon.';
+    const searchStr = 'le';
+    const indexes = [...sourceStr.matchAll(new RegExp(searchStr, 'gi'))].map(a => a.index);
+    console.log(indexes);
