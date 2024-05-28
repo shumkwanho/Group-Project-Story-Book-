@@ -35,9 +35,9 @@ export class StorybookService {
 
     getStoryBookByCategory = async (category:string) => {
         return await this.knex
-            .select("bookname", "description", "create_at", "target_age",  "catagory", "total_page")
+            .select("bookname", "description", "target_age", "total_page", "category", "created_at")
             .from("storybooks")
-            .where(`${category}`, category)
+            .where(`id`, category)
     }
 
     getCharacterByStorybookId = async (id: string) => {

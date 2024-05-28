@@ -1,7 +1,41 @@
+import { bookReader } from "../mainPage/bookReader.js";
 
 
 const createComment = document.querySelector("#create-comment")
 const commentArea = document.querySelector(".comment-area")
+
+var searchParams = new URLSearchParams(window.location.search);
+const id = searchParams.get("id");
+
+// console.log(id)
+
+window["bookReader"] = bookReader;
+window["editComment"]= editComment;
+window["deleteComment"]= deleteComment;
+window["confirmEdit"]= confirmEdit;
+
+async function getStoryBook (id) {
+    let res = await fetch(`/storybookByid?id=${id}`)
+    let response = await res.json()
+    if(res.ok){
+        console.log(response)
+        let target = document.querySelector(".upper-part");
+            target.innerHTML += `
+            <img src="" alt="" class="book-cover border">
+            <div class="book-detail border ">
+                <div class="book-name border">${response.data[0].bookname}</div>
+                <div class="author border">Author</div>
+                <div class="description border">${response.data[0].description}</div>
+            </div>
+            <div class="function border">
+                <button id="read" type="button" class="btn btn-primary" onclick="bookReader(${id})">Read Now</button>
+            </div>
+            `
+        }
+        console.log()
+    }
+getStoryBook(id)
+
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin()
@@ -16,7 +50,7 @@ const loadBookInfo = async () => {
 }
 
 const loadComment = async () => {
-    const res = await fetch("/comment")
+    const res = await fetch(`/comment?id=${id}`)
     const data = (await res.json()).data
     for (let comment of data) {
         const date = comment.updated_at.slice(0, 10)
