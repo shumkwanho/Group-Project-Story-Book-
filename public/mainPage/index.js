@@ -1,7 +1,12 @@
 import { bookReader } from './bookReader.js';
+import { showCharacterCard } from './showCharacterCard.js';
+
 window["logout"] = logout;
 window["login"] = login;
 window["toggleLike"] = toggleLike;
+
+window["showCharacterCard"] = showCharacterCard;
+window["bookReader"] = bookReader;
 
 const searchBar = document.querySelector(".search-bar")
 
@@ -30,19 +35,17 @@ searchBar.addEventListener("input", async (e) => {
 })
 
 const loadCharacters = async () => {
-    const res = await fetch("/character")
+    const res = await fetch("/characters")
     const data = (await res.json()).data
     const characterArea = document.querySelector(".character-area")
     for (let character of data) {
         characterArea.innerHTML +=
-            `<div class="character border" id="character_${character.id}">
+            `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
                 <div class="character-image">image</div>
                 <div class="character-name">${character.name}</div>
             </div>`
     }
 }
-
-window["bookReader"] = bookReader;
 
 const loadStorybooks = (data) => {
     const storybookArea = document.querySelector(".storybook-area")
@@ -251,6 +254,8 @@ document.querySelector('#new-character-form')
         let result = await res.json()
 
         if (res.ok) {
+            //create character successful
+            //TODO: better user experience
             window.location.reload();
         } else {
             console.log(result);

@@ -11,7 +11,6 @@ const IMAGE_MODEL = 'dall-e-3'
 export class CharacterController {
     constructor(private service: CharacterService) { }
 
-
     loadCharacter = async (req: Request, res: Response) => {
         try {
             const allCharacter = await this.service.loadCharacter()
@@ -20,7 +19,18 @@ export class CharacterController {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
         }
+    }
 
+    loadCharacterById = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.query
+            const characterData = await this.service.loadCharacterById(id as string)
+            res.status(200).json({ data: characterData })
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
     }
 
     /** createCharacter
@@ -60,8 +70,8 @@ export class CharacterController {
 
     deleteCharacter = async (req: Request, res: Response) => {
         try {
-            const { characterId } = req.body
-            await this.service.deleteCharacter(characterId)
+            const { id } = req.query
+            await this.service.deleteCharacter(id as string)
             res.status(200).json({ message: "delete successfully" })
         } catch (error) {
             console.log(error);
