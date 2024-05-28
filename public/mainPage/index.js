@@ -4,7 +4,6 @@ import { register } from './register.js';
 window["logout"] = logout;
 window["toggleLike"] = toggleLike;
 
-<<<<<<< HEAD
 login();
 register();
 const searchBar = document.querySelector(".search-bar")
@@ -20,20 +19,6 @@ searchBar.addEventListener("input", async (e) => {
         body: JSON.stringify({ value }),
     })
 })
-=======
-window.addEventListener("load", async (e) => {
-    const userId = await checkLogin()
-    await loadCharacters()
-    const data = await getAllStorybook()
-    loadStorybooks(data)
-    const bookTypeData = await storybookType()
-    loadFilter(bookTypeData)
-    if (userId) {
-        await displayLike()
-    }
-})
-
->>>>>>> 53e6838e933c74efc44133e27d3e543344a563f9
 
 const loadCharacters = async () => {
     const res = await fetch("/character")
@@ -117,56 +102,6 @@ const displayLike = async () => {
     }
 }
 
-<<<<<<< HEAD
-=======
-const checkLogin = async () => {
-    const res = await fetch("/checkLogin")
-    const data = await res.json()
-    const navbar = document.querySelector(".navbar")
-    if (data.data) {
-        navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
-        return data.data
-    }
-    navbar.innerHTML += `<button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>`
-    document.querySelector(".test").addEventListener("input", search)
-    return null
-}
-async function search(e) {
-    const searchResult = document.querySelector(".search-result-container")
-    searchResult.innerHTML = ""
-    const search = e.target.value
-    if (search.length == 0) {
-        searchResult.classList.add("hide")
-        return 
-    }
-    searchResult.classList.remove("hide")
-    const res = await fetch('/search', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify({ search }),
-    })
-    const data = (await res.json()).data
-    for (let book of data){
-        let bookname = book.bookname
-        let description = book.description
-        searchResult.innerHTML+= `
-        <div class="search-result border">
-            <div class="book-detail" onclick=>
-                <div class="search-bookname">${bookname}</div>
-                <div class="search-book-description">${description}</div>
-            </div>
-            <img src="" alt="" class="search-image">
-        </div>
-        `
-    }
-}
-function login() {
-    window.location.href = "../login"
-}
-
->>>>>>> 53e6838e933c74efc44133e27d3e543344a563f9
 async function logout() {
     const res = await fetch("/logout")
     const data = await res.json()
