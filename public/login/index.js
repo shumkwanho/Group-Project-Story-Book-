@@ -25,7 +25,6 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
       body: JSON.stringify({ email, password })
     });
     const data = await response.json()
-    console.log(data);
     if (response.ok) {
       alert('Login successful!');
       window.history.back()

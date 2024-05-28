@@ -164,4 +164,15 @@ export class StorybookController {
             res.status(500).json({ message: "Internal Server Error" })
         }
     }
+
+    searchStoryBook = async (req: Request, res: Response) => {
+        try {
+            const {search} = req.body 
+            const data = await this.service.searchStoryBook(search)
+            return res.json({data})
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })  
+        }
+    } 
 }

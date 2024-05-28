@@ -3,8 +3,6 @@ window["logout"] = logout;
 window["login"] = login;
 window["toggleLike"] = toggleLike;
 
-const searchBar = document.querySelector(".search-bar")
-
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin()
     await loadCharacters()
@@ -17,17 +15,6 @@ window.addEventListener("load", async (e) => {
     }
 })
 
-searchBar.addEventListener("input", async (e) => {
-    const value = e.target.value
-
-    const res = await fetch('/searchBook', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify({ value }),
-    })
-})
 
 const loadCharacters = async () => {
     const res = await fetch("/character")
@@ -79,7 +66,6 @@ async function toggleLike(e, bookId) {
             },
             body: JSON.stringify({ bookId }),
         })
-        console.log("liked");
         return
     }
 
@@ -90,7 +76,6 @@ async function toggleLike(e, bookId) {
         },
         body: JSON.stringify({ bookId }),
     })
-    console.log("disliked");
     return
 }
 
@@ -116,12 +101,13 @@ const displayLike = async () => {
 const checkLogin = async () => {
     const res = await fetch("/checkLogin")
     const data = await res.json()
-    const navbar = document.querySelector("#navbar")
+    const navbar = document.querySelector(".navbar")
     if (data.data) {
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         return data.data
     }
     navbar.innerHTML += `<button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>`
+    document.querySelector(".test").addEventListener("input", search)
     return null
 }
 
@@ -151,7 +137,7 @@ function loadFilter(list) {
         <div class="option">
             <label class="type">All</label>
             <input type="checkbox" name="all" value="filter-all">
-            <span class="count">${list.all}</span>
+            <!--<span class="count">${list.all}</span>-->
         </div>
         `
         for (let i = 0; i < list[type].length; i++) {
@@ -159,7 +145,7 @@ function loadFilter(list) {
             <div class="option">
                 <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age " + list[type][i][type] : list[type][i][type]}</label>
                 <input type="checkbox" name="${type}" value="${list[type][i][type]}">
-                <span class="count">${list[type][i].count}</span>
+                <!--<span class="count">${list[type][i].count}</span>-->
             </div>
             `
         }
@@ -175,10 +161,8 @@ function loadFilter(list) {
 
 function selectAll(e) {
     const targetForm = e.target.parentElement.parentElement
-    const category = targetForm.classList[1].slice(7)
+    const category = targetForm.classList[0].slice(7)
     const checkboxes = Array.from(document.getElementsByName(category))
-
-
     for (let checkbox of checkboxes) {
         if (e.target.checked) {
             checkbox.checked = true
@@ -187,8 +171,15 @@ function selectAll(e) {
         checkbox.checked = false
     }
 
-
 }
+
+document.querySelectorAll(".filter").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        btn.querySelector("div").classList.toggle("hide")
+    })
+})
+
+
 
 async function submitFilterForm(e) {
     e.preventDefault()
@@ -198,7 +189,7 @@ async function submitFilterForm(e) {
         loadStorybooks(data)
         return
     }
-    const submitTarget = e.target.classList[1].slice(7)
+    const submitTarget = e.target.querySelector("label").id
     const checkboxes = Array.from(document.getElementsByName(submitTarget))
     const condition = checkboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value)
     let obj = { key: submitTarget, condition }
@@ -236,4 +227,36 @@ async function sort(e) {
 
     const data = (await res.json()).data
     loadStorybooks(data)
+}
+
+
+
+async function search(e) {
+    const searchResult = document.querySelector(".search-result-container")
+    searchResult.innerHTML = ""
+    const search = e.target.value
+    if (search.length == 0) {
+        searchResult.classList.add("hide")
+        return 
+    }
+    searchResult.classList.remove("hide")
+    const res = await fetch('/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ search }),
+    })
+    const data = (await res.json()).data
+    for (let book of data){
+        searchResult.innerHTML+= `
+        <div class="search-result border">
+            <div class="book-detail" onclick=>
+                <div class="search-bookname">${book.bookname}</div>
+                <div class="search-book-description">${book.description}</div>
+            </div>
+            <img src="" alt="" class="search-image">
+        </div>
+        `
+    }
 }

@@ -51,7 +51,6 @@ const login = () => {
 const logout = async () => {
     const res = await fetch("/logout")
     const data = await res.json()
-    console.log(data);
     window.location.reload()
 }
 
