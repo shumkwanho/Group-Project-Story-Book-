@@ -135,10 +135,6 @@ async function logout() {
     window.location.reload()
 }
 
-<<<<<<< HEAD
-//book hoven area
-
-=======
 async function storybookType() {
     const res = await fetch("/booktype")
     const data = (await res.json()).data
@@ -225,4 +221,3 @@ async function sort(e) {
     const data = (await res.json()).data
     loadStorybooks(data)
 }
->>>>>>> b13af65cd97b8bbf2838a00dfcdbb4ce94ad6a89
