@@ -43,26 +43,28 @@
     </div>
 
 
-       <!-- storybook reader -->
-       <div class="modal fade modal-lg" id="readerModalToggle" data-bs-backdrop="static" data-bs-keyboard="false"
-       aria-hidden="true" aria-labelledby="readerModalToggleLabel" tabindex="-1">
-       <div class="modal-dialog modal-dialog-centered">
-           <div class="modal-content" id="storybook-content">
-               <div class="modal-header">
-                   <h1 class="modal-title fs-5 storybook-content-header" id="readerModalToggleLabel">
-                       <!-- contents to be printed in js -->
-                   </h1>
-                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body" id="storybook-content-body">
-                   <!-- contents to be printed in js -->
-               </div>
-               <div class="modal-footer" id="storybook-content-footer">
-                   <button class="btn btn-primary next-page-btn">Next</button>
-               </div>
-           </div>
-       </div>
-   </div>
+    <!-- storybook reader -->
+    <div class="modal fade modal-lg" id="readerModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true"
+        aria-labelledby="readerModalLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="storybook-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 storybook-content-header" id="readerModalLabel">
+                        <!-- contents to be printed in js -->
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="storybook-content-body">
+                    <!-- contents to be printed in js -->
+                </div>
+                <div class="modal-footer" id="storybook-content-footer">
+                    <button class="btn btn-primary prev-page-btn">Previous</button>
+                    <button class="btn btn-primary next-page-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
