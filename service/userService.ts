@@ -24,4 +24,9 @@ export class UserService {
         return this.knex.select("id","character_id","bookname","description","target_age","created_at","category","total_page")
                 .from("storybooks").where("user_id",userId)
     }       
+
+
+    editUsername = async (userId:string, username:string)=>{
+
+    }
 }

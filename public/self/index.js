@@ -15,6 +15,11 @@ async function getUserInfo() {
 
 function loadUserInfo(user) {
     document.querySelector(".user-name").innerHTML = user.username
+    document.querySelector(".email").innerHTML = user.email
+    document.getElementsByName("username")[0].value = user.username
+    document.getElementsByName("email")[0].value = user.email
+    document.querySelector(".edit-user-info").addEventListener("submit",editUserInfo)
+    document.querySelector(".edit-password").addEventListener("submit",changePassword)
 }
 
 
@@ -109,3 +114,11 @@ document.querySelectorAll(".collection div").forEach((selection) => {
         }
     })
 })
+
+function  editUserInfo(e){
+     
+}
+
+function changePassword(e){
+
+}

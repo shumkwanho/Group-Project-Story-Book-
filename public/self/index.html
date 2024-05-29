@@ -19,15 +19,18 @@
             <div class="search-result-container">
             </div>
         </div>
-        <button onclick=logout()>Logout</button>
+        <button  type="submit" class="btn btn-primary submit" onclick="logout()">Logout</button>
     </div>
 
     <div class="container border">
         <a href="../mainPage">Home Page</a>
         <div class="personal-info border">
             <div class="image border"><img src="" alt=""></div>
-            <div class="edit"><i class="fa-solid fa-pen-to-square"></i></div>
+            <button type="button" class="btn btn-primary edit" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
             <div class="user-name"></div>
+            <div class="email"></div>
         </div>
         <div class="collection border">
             <div class="storybooks">My Bookshelf</div>
@@ -36,10 +39,51 @@
             <div class="selected"></div>
         </div>
         <div class="display-area">
-         
-         
         </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Personal Info</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="edit-user-info">
+                    <label for="">Username</label>
+                    <br>
+                    <input type="text" name="username">
+                    <br>
+                    <label for="">Email</label>
+                    <br>
+                    <input type="email" name="email" disabled>
+                    <br>
+                    <button  type="submit" class="btn btn-primary submit">Save changes</button>
+                </form>
+                <hr>
+                <form class="edit-password">
+                    <label for="">Current Password</label>
+                    <br>
+                    <input type="password" name="original-password">
+                    <br>
+                    <label for="">Enter New Password</label>
+                    <br>
+                    <input type="password" name="new-password">
+                    <br>
+                    <label for="">Confirm New Password</label>
+                    <br>
+                    <input type="password" name="confirm-password">
+                    <br>
+                    <button  type="submit" class="btn btn-primary submit">Save changes</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
 

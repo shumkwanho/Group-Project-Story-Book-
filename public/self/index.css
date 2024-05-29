@@ -35,16 +35,19 @@ a {
     font-size: 50px;
 }
 
+.email{
+    position: relative;
+    bottom: -25px;
+    left: -105px;
+}
+
 .edit {
     position: absolute;
-    bottom: 30px;
+    bottom: 20px;
     left: 150px;
-    font-size: 25px;
-    width: 25px;
-    height: 25px;
     padding: 5px;
-    border-radius: 100%;
-
+    width: 35px;
+    height: 35px;
 }
 
 .collection {
@@ -111,3 +114,6 @@ a {
     left: 43px;
 }
 
+.submit{
+    margin-top: 30px;
+}
