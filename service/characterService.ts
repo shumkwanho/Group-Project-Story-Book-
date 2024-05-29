@@ -8,8 +8,8 @@ export class CharacterService {
             .select("id", "name", "image")
             .from("characters")
             .where("is_hidden", false)
-            .where("user_id", user_id)
-        return data
+            .andWhere("user_id", user_id);
+        return data;
     }
 
     loadCharacterById = async (character_id: string) => {

@@ -106,8 +106,6 @@ export class StorybookController {
 
             let storybookId = createStorybookQuery[0].id;
 
-            // console.log(storybookContentJSON)
-
             for (let i = 0; i < totalPage; i++) {
                 let pageDetails = storybookContentJSON.scenario[i];
                 let pageTextPrompt = genPageImagePrompt(characterRequirementJSON, pageDetails);
@@ -115,10 +113,6 @@ export class StorybookController {
 
                 let pageImageURL = await imageGeneratorModel(pageTextPromptGPT as string, IMAGE_MODEL);
                 let pageImageFileName = await downloadImage(pageImageURL as string, 'page');
-
-                // console.log(`page${i+1}`);
-                // console.log(pageTextPrompt);
-                // console.log(pageTextPromptGPT);
 
                 await pageService.createPage(
                     storybookId, 

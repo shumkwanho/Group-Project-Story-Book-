@@ -54,7 +54,7 @@ export async function bookReader(storybookId) {
 }
 
 async function getStorybookData(id) {
-    let res = await fetch(`/storybook?id=${storybookId}`, {
+    let res = await fetch(`/storybook?id=${id}`, {
         method: 'GET',
     })
 

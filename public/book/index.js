@@ -7,7 +7,7 @@ const commentArea = document.querySelector(".comment-area")
 var searchParams = new URLSearchParams(window.location.search);
 const id = searchParams.get("id");
 
-// console.log(id)
+console.log(id)
 
 window["bookReader"] = bookReader;
 window["editComment"]= editComment;
