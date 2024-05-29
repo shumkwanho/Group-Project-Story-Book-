@@ -27,6 +27,15 @@ export class UserService {
 
 
     editUsername = async (userId:string, username:string)=>{
+        await this.knex("users").update({username}).where("id",userId)
+        return 
+    }
 
+    checkPassword = async (userId:string) =>{
+        return (this.knex.select("password").from("users").where("id", userId))
+    }
+
+    editPassword = async (userId:string ,hashPassword:string)=>{
+        await this.knex("users").update({password : hashPassword}).where("id",userId)
     }
 }

@@ -15,7 +15,7 @@ export class UserController {
     login = async (req: Request, res: Response) => {
         try {
             const { email, password } = req.body;
-            
+
             const user = (await this.service.login(email))[0]
 
             if (!user) {
@@ -60,7 +60,7 @@ export class UserController {
 
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            const userId = await this.service.register(username,email,password)
+            const userId = await this.service.register(username, email, password)
 
             req.session.userId = userId.toString()
             req.session.save()
@@ -72,10 +72,10 @@ export class UserController {
         }
     }
 
-    logout = (req: Request, res: Response) =>{
+    logout = (req: Request, res: Response) => {
         try {
-            req.session.destroy((e)=>{
-                res.json({"message":"logoutSuccess"})
+            req.session.destroy((e) => {
+                res.json({ "message": "logoutSuccess" })
             })
 
         } catch (error) {
@@ -84,35 +84,64 @@ export class UserController {
         }
     }
 
-    getUserInfo = async (req: Request, res: Response) =>{
+    getUserInfo = async (req: Request, res: Response) => {
         try {
             const userId = req.session.userId
             const data = (await this.service.getUserInfo(userId as string))[0]
-            return res.json({data})
+            return res.json({ data })
         } catch (error) {
             console.error('Error in login route:', error);
             return res.status(500).json({ message: 'Internal server error' })
         }
     }
 
-    getStorybookbyUserId = async (req: Request, res: Response) =>{
+    getStorybookbyUserId = async (req: Request, res: Response) => {
         try {
             const userId = req.session.userId
             const data = await this.service.getStorybookbyUserId(userId as string)
-            return res.json({data})
+            return res.json({ data })
         } catch (error) {
             console.error('Error in login route:', error);
             return res.status(500).json({ message: 'Internal server error' })
         }
     }
 
-    editUsername = async (req: Request, res: Response) =>{
+    editUsername = async (req: Request, res: Response) => {
         try {
-            const {username} = req.body
+            const { username } = req.body
             const userId = req.session.userId
-            const data = await this.service.editUsername(userId as string,username)
+            await this.service.editUsername(userId as string, username)
+            res.json({ message: "ok" })
         } catch (error) {
+            console.error('Error in login route:', error);
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
+
+    changePassword = async (req: Request, res: Response) => {
+        try {
+            const { orginalPassword, newPassword, confirmPassword } = req.body
+            const userId = req.session.userId
+            const data:any = await this.service.checkPassword(userId as string)
+
             
+            const isPasswordValid = await bcrypt.compare(orginalPassword, data[0].password);
+            if (!isPasswordValid) {
+                return res.status(401).json({ message: 'Invalid credentials password not match' });
+            }
+            if (newPassword !== confirmPassword) {
+                return res.status(400).json({ message: 'Passwords do not match' });
+            }
+
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+            await this.service.editPassword(userId as string,hashedPassword)
+            
+            res.json({message:"Update Password Sucessfully"})
+
+        } catch (error) {
+            console.error('Error in login route:', error);
+            return res.status(500).json({ message: 'Internal server error' })
         }
     }
 }

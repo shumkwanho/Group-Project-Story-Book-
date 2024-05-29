@@ -115,10 +115,40 @@ document.querySelectorAll(".collection div").forEach((selection) => {
     })
 })
 
-function  editUserInfo(e){
-     
+async function editUserInfo(e){
+    e.preventDefault()
+    let username = e.target.username.value
+    const res = await fetch('/username', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ username }),
+    })
+    const data = await res.json()
+    console.log(data);
 }
 
-function changePassword(e){
+async function changePassword(e){
+    e.preventDefault()
+    const orginalPassword = e.target.originalPassword.value
+    const newPassword = e.target.newPassword.value
+    const confirmPassword = e.target.confirmPassword.value
 
+    const res = await fetch('/password', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ orginalPassword, newPassword, confirmPassword }),
+    })
+    const data = await res.json()
+    const passwordMessage = document.querySelector(".password-message")
+    if (res.ok) {
+        passwordMessage.style.color = "green"
+        passwordMessage.innerHTML = data.message
+        return
+    }
+    passwordMessage.style.color = "red"
+    passwordMessage.innerHTML = data.message
 }
