@@ -90,13 +90,13 @@ async function toggleLike(e, bookId) {
 const displayLike = async () => {
     const res = await fetch("/like")
     const data = (await res.json()).data
-    const bookIds = data.map(elem => elem.storybook_id)
+    const bookIds = data.map(elem => elem.id)
     const books = document.querySelectorAll(".book")
     for (let book of books) {
         if (book.classList.contains("create-storybook")) {
             continue
         }
-        const bookId = book.id.slice(5, 7)
+        const bookId = parseInt(book.id.slice(5, 7))
         const isLiked = bookIds.includes(bookId)
         if (isLiked) {
             book.innerHTML += `<i class="fa-solid fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
