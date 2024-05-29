@@ -1,3 +1,7 @@
+import { showCharacterCard } from "../helpers/showCharacterCard.js"
+
+window["showCharacterCard"] = showCharacterCard
+
 const displayArea = document.querySelector(".display-area")
 
 window.addEventListener("load", async (e) => {
@@ -22,8 +26,6 @@ function loadUserInfo(user) {
     document.querySelector(".edit-password").addEventListener("submit",changePassword)
 }
 
-
-
 async function getcharacter() {
     const res = await fetch("../characters")
     const data = (await res.json()).data
@@ -31,11 +33,12 @@ async function getcharacter() {
 }
 
 function loadCharacter(charactersData) {
+
     displayArea.innerHTML = `<div class="create-character card">Create Character</div>`
     for (let character of charactersData) {
         displayArea.innerHTML +=
             `
-        <div class="card border character">
+        <div class="card border character" onclick="showCharacterCard(${character.id})">
             <div class="character-img">
                 <img src="../uploads/characterImg/${character.image}" alt="">
             </div>
