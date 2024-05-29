@@ -1,6 +1,5 @@
-import { bookReader } from './bookReader.js';
-import { showCharacterCard } from './showCharacterCard.js';
-import { createStorybook } from './createStorybook.js';
+import { showCharacterCard } from '../helpers/showCharacterCard.js';
+import { createStorybook } from '../helpers/createStorybook.js';
 
 import { login } from './login.js';
 import { register } from './register.js';
@@ -11,7 +10,6 @@ window["register"] = register;
 window["toggleLike"] = toggleLike;
 
 window["showCharacterCard"] = showCharacterCard;
-window["bookReader"] = bookReader;
 window["createStorybook"] = createStorybook;
 
 window.addEventListener("load", async (e) => {
