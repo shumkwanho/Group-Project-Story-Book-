@@ -95,5 +95,14 @@ export class UserController {
         }
     }
 
-
+    getStorybookbyUserId= async (req: Request, res: Response) =>{
+        try {
+            const userId = req.session.userId
+            const data = await this.service.getStorybookbyUserId(userId as string)
+            return res.json({data})
+        } catch (error) {
+            console.error('Error in login route:', error);
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
 }
