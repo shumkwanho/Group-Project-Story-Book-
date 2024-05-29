@@ -47,7 +47,9 @@ export const webhook = (req: Request, res: Response) => {
     switch (event.type) {
         case 'payment_intent.succeeded':
             const paymentIntentSucceeded = event.data.object;
+            console.log("stripe id",paymentIntentSucceeded.id)
             console.log("metadata",paymentIntentSucceeded.metadata);
+
             break;
         // ... handle other event types
         default:

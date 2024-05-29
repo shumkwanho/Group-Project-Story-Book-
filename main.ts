@@ -2,11 +2,12 @@ import express from "express";
 import { Request, Response } from "express";
 import expressSession from "express-session";
 import { router } from "./router";
-import loginRoute from './loginRoute';
-import userRoute from './userRoute';
+import path from 'path';
 
 const app = express();
 const PORT = 8080;
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(
     expressSession({
@@ -23,15 +24,18 @@ declare module "express-session" {
 }
 
 app.use("/login", express.static("public/login"))
+app.use("/kenny", express.static("public/kenny"))
+app.use("/test",express.static("public/testingPage"))
 
-app.use('/api', loginRoute);
-app.use('/api', userRoute);
-app.use("/",router)
+app.use("/",router);
 
-app.use(express.static("public/mainPage"));
+app.use("/uploads", express.static("uploads"))
+
+app.use(express.static("public"));
 app.use((req: Request, res: Response) => {
     res.status(404).json({ "Message": "404 NOT FOUND" })
 })
+
 app.listen(PORT, () => {
     console.log(`Listening at http://localhost:${PORT}/`);
 });

@@ -1,0 +1,121 @@
+@import url('../helpers/characterCard.css');
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    margin-bottom: 70px;
+    width: 98%;
+    padding: 20px;
+    align-items: center;
+}
+
+a {
+    padding-left: 20px;
+}
+
+.personal-info {
+    display: flex;
+    align-items: center;
+    padding: 30px 20px;
+    position: relative;
+}
+
+.border {
+    border: solid 1px black;
+}
+
+.image {
+    width: 150px;
+    height: 150px;
+}
+
+.user-name {
+    position: relative;
+    bottom: 30px;
+    left: 20px;
+    font-size: 50px;
+}
+
+.email{
+    position: relative;
+    bottom: -25px;
+    left: -105px;
+}
+
+.edit {
+    position: absolute;
+    bottom: 20px;
+    left: 150px;
+    padding: 5px;
+    width: 35px;
+    height: 35px;
+}
+
+.collection {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.characters,
+.storybooks,
+.likes {
+    margin: 10px 0 10px 50px;
+    font-size: 20px;
+}
+
+.display-area {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 150px;
+    text-align: center;
+    margin: 10px;
+    height: 180px;
+}
+
+.character-img img {
+    height: 120px;
+    width: 120px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    object-fit: cover;
+    margin-bottom: 30px;
+}
+
+.hide {
+    display: none;
+}
+
+.book-img {
+    height: 100px;
+}
+
+.book-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.suitable-age {
+    font-size: 12px;
+}
+
+.selected {
+    height: 10px;
+    width: 130px;
+
+    background-color: aquamarine;
+    position: absolute;
+    bottom: 0px;
+    left: 43px;
+}
+
+.submit{
+    margin-top: 30px;
+}
