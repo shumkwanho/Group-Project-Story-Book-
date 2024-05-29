@@ -25,9 +25,8 @@ export async function imageGeneratorModel(prompt: string, model: string){
     n: 1,
     size: SIZE_FOR_DALL_E
   });
+  
   let image_url = response.data[0].url;
 
-  console.log(image_url);
-  
   return image_url
 }

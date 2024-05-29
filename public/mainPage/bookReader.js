@@ -6,6 +6,7 @@ const nextPageBtn = document.querySelector(".next-page-btn");
 const prevPageBtn = document.querySelector(".prev-page-btn");
 
 export async function bookReader(storybookId) {
+
     const storybookData = await getStorybookData(storybookId)
     const coverData = storybookData.cover[0]
     const pagesData = storybookData.pages
@@ -54,7 +55,7 @@ export async function bookReader(storybookId) {
 }
 
 async function getStorybookData(id) {
-    let res = await fetch(`/storybook?id=${storybookId}`, {
+    let res = await fetch(`/storybook?id=${id}`, {
         method: 'GET',
     })
 

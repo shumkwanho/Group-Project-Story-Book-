@@ -41,10 +41,14 @@ window.addEventListener("load", async (e) => {
 
 const loadStorybooks = (data) => {
     const storybookArea = document.querySelector(".storybook-area")
+
+    //TODO: only show when logged in
     storybookArea.innerHTML = `   
     <div class="book create-storybook border" onclick="createStorybook()">
         <div>Create Story Book</div>
     </div>`
+
+    //TODO: show public books when logged out
     for (let storybook of data) {
         storybookArea.innerHTML +=
             `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
@@ -121,6 +125,7 @@ const checkLogin = async () => {
     document.querySelector(".test").addEventListener("input", search)
     return null
 }
+
 async function search(e) {
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
@@ -206,7 +211,6 @@ function selectAll(e) {
         }
         checkbox.checked = false
     }
-
 }
 
 document.querySelectorAll(".toggle-filter").forEach((btn) => {
@@ -215,8 +219,6 @@ document.querySelectorAll(".toggle-filter").forEach((btn) => {
         e.stopPropagation()
     })
 })
-
-
 
 async function submitFilterForm(e) {
     e.preventDefault()
@@ -244,9 +246,6 @@ async function submitFilterForm(e) {
     await loadStorybooks(data)
 }
 
-
-
-
 document.querySelector("#sort").addEventListener("change", sort)
 
 async function sort(e) {
@@ -266,40 +265,43 @@ async function sort(e) {
     loadStorybooks(data)
 }
 
-document.querySelector('#new-character-form')
-    .addEventListener('submit', async (e) => {
-        e.preventDefault()
 
-        const name = document.querySelector("#new-character-name").value;
-        const speciesType = document.querySelector("#new-character-species-type").value;
-        const gender = document.querySelector("#character-preference-gender").value;
-        const age = document.querySelector("#character-preference-age").value;
-        const bodyShape = document.querySelector("#character-preference-body-shape").value;
-        const heightSize = document.querySelector("#character-preference-height-size").value;
+// need to moveeeeeee'
 
-        document.querySelector("#new-character-submit-btn").setAttribute("disabled", "");
-        document.querySelector("#new-character-content-footer")
-            .insertAdjacentHTML(
-                "afterbegin",
-                `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
-            )
+// document.querySelector('#new-character-form')
+//     .addEventListener('submit', async (e) => {
+//         e.preventDefault()
 
-        let res = await fetch('/character', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name, speciesType, gender, age, bodyShape, heightSize })
-        })
+//         const name = document.querySelector("#new-character-name").value;
+//         const speciesType = document.querySelector("#new-character-species-type").value;
+//         const gender = document.querySelector("#character-preference-gender").value;
+//         const age = document.querySelector("#character-preference-age").value;
+//         const bodyShape = document.querySelector("#character-preference-body-shape").value;
+//         const heightSize = document.querySelector("#character-preference-height-size").value;
 
-        let result = await res.json()
+//         document.querySelector("#new-character-submit-btn").setAttribute("disabled", "");
+//         document.querySelector("#new-character-content-footer")
+//             .insertAdjacentHTML(
+//                 "afterbegin",
+//                 `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
+//             )
 
-        if (res.ok) {
-            //create character successful
-            //TODO: better user experience
-            window.location.reload();
-        } else {
-            console.log(result);
-        }
-    })
+//         let res = await fetch('/character', {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify({ name, speciesType, gender, age, bodyShape, heightSize })
+//         })
+
+//         let result = await res.json()
+
+//         if (res.ok) {
+//             //create character successful
+//             //TODO: better user experience
+//             window.location.reload();
+//         } else {
+//             console.log(result);
+//         }
+//     })
 
