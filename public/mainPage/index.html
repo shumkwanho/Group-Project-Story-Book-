@@ -10,7 +10,6 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="index.css">
 
-
     <title>Document</title>
 </head>
 
@@ -178,30 +177,6 @@
         </div>
     </div>
 
-   
-    <!-- storybook reader -->
-    <div class="modal fade modal-lg" id="readerModal" data-bs-backdrop="static" data-bs-keyboard="false"
-        aria-hidden="true" aria-labelledby="readerModalLabel" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" id="storybook-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5 storybook-content-header" id="readerModalLabel">
-                        <!-- contents to be printed in js -->
-                    </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="storybook-content-body">
-                    <!-- contents to be printed in js -->
-                </div>
-                <div class="modal-footer" id="storybook-content-footer">
-                    <button class="btn btn-primary prev-page-btn">Previous</button>
-                    <button class="btn btn-primary next-page-btn">Next</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <!-- create new character modal -->
     <div class="modal fade modal-lg" id="newCharacterModal" data-bs-backdrop="static" data-bs-keyboard="false"
         aria-hidden="true" aria-labelledby="newCharacterModalLabel" tabindex="-1">
@@ -288,94 +263,72 @@
             </div>
         </div>
     </div>
-
-    <!-- character card modal -->
-    <div class="modal fade modal-lg" id="characterCardModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true"
-        aria-labelledby="characterCardModalLabel" tabindex="-1">
+    
+    <!-- create new story modal -->
+    <div class="modal fade modal-lg" id="createNewStoryModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-hidden="true" aria-labelledby="createNewStoryModalLabel" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" id="character-content">
+            <div class="modal-content" id="create-storybook">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 character-content-header" id="characterCardModalLabel">
-                        <!-- contents to be printed in js -->
+                    <h1 class="modal-title fs-5 create-storybook-header" id="createNewStoryModalLabel">
+                        Create New Story Book
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="character-content-body">
-                    <!-- contents to be printed in js -->
-                </div>
-                <div class="modal-footer" id="character-content-footer">
-                    <button class="btn btn-danger delete-btn">Delete Character</button>
-                    <button class="btn btn-primary create-story-with-character-btn">Create Story with Character</button>
-                </div>
+                <form id="new-storybook-form">
+                    <div class="modal-body" id="create-storybook-body">
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="new-storybook-character">Main Character</label>
+                            <select class="form-select" id="new-storybook-character">
+                                <!-- contents to be printed in js -->
+                            </select>
+                        </div>
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="new-storybook-category">Category</label>
+                            <select class="form-select" id="new-storybook-category">
+                                <option selected value="Adventure">Adventure</option>
+                                <option value="Friendship">Friendship</option>
+                                <option value="Imagination">Imagination</option>
+                                <option value="Nature">Nature</option>
+                                <option value="Emotions">Emotions</option>
+                                <option value="Diversity">Diversity</option>
+                                <option value="Problem-solving">Problem-solving</option>
+                                <option value="Kindness">Kindness</option>
+                            </select>
+                        </div>
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="new-storybook-target-age">Target Age</label>
+                            <select class="form-select" id="new-storybook-target-age">
+                                <option value="3">3 or below</option>
+                                <option selected value="6">4 - 6</option>
+                                <option value="8">6 - 8</option>
+                                <option value="10">8 - 10</option>
+                                <option value="12">10 or above</option>
+                            </select>
+                        </div>
+    
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="new-storybook-total-page">Total Pages</label>
+                            <select class="form-select" id="new-storybook-total-page">
+                                <option value="6">6</option>
+                                <option selected value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+    
+                    </div>
+                    <div class="modal-footer" id="create-storybook-footer">
+                        <button class="btn btn-primary" type="submit" for="new-storybook-form"
+                            id="new-storybook-submit-btn">Create Story Book</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
-        <!-- create new story modal -->
-        <div class="modal fade modal-lg" id="createNewStoryModal" data-bs-backdrop="static" data-bs-keyboard="false"
-            aria-hidden="true" aria-labelledby="createNewStoryModalLabel" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content" id="create-storybook">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5 create-storybook-header" id="createNewStoryModalLabel">
-                            Create New Story Book
-                        </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form id="new-storybook-form">
-                        <div class="modal-body" id="create-storybook-body">
-
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="new-storybook-character">Main Character</label>
-                                <select class="form-select" id="new-storybook-character">
-                                    <!-- contents to be printed in js -->
-                                </select>
-                            </div>
-        
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="new-storybook-category">Category</label>
-                                <select class="form-select" id="new-storybook-category">
-                                    <option selected value="Adventure">Adventure</option>
-                                    <option value="Friendship">Friendship</option>
-                                    <option value="Imagination">Imagination</option>
-                                    <option value="Nature">Nature</option>
-                                    <option value="Emotions">Emotions</option>
-                                    <option value="Diversity">Diversity</option>
-                                    <option value="Problem-solving">Problem-solving</option>
-                                    <option value="Kindness">Kindness</option>
-                                </select>
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="new-storybook-target-age">Target Age</label>
-                                <select class="form-select" id="new-storybook-target-age">
-                                    <option selected value="3">3 or below</option>
-                                    <option value="6">4 - 6</option>
-                                    <option value="8">6 - 8</option>
-                                    <option value="10">8 - 10</option>
-                                    <option value="12">10 or above</option>
-                                </select>
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="new-storybook-total-page">Total Pages</label>
-                                <select class="form-select" id="new-storybook-total-page">
-                                    <option selected value="6">6</option>
-                                    <option value="8">8</option>
-                                    <option value="10">10</option>
-                                    <option value="12">12</option>
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer" id="create-storybook-footer">
-                            <button class="btn btn-primary" type="submit" for="new-storybook-form"
-                                id="new-storybook-submit-btn">Create Story Book</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
 
     
     <footer class="footer bg-dark text-white mt-5">

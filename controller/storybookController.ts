@@ -84,7 +84,8 @@ export class StorybookController {
             let characterInfo = await characterService.loadCharacterById(characterId);
 
             let characterRequirementJSON = JSON.parse(characterInfo[0].requirement);
-            let characterName = `${characterInfo[0].name} the ${characterRequirementJSON.character_features.species_type}`;
+            // let characterName = `${characterInfo[0].name} the ${characterRequirementJSON.character_features.species_type}`;
+            let characterName = characterInfo[0].name;
 
             let storybookTextPrompt = genStorybookTextPrompt(characterName, targetAge, category, totalPage);
             let storybookContent = await textGeneratorModel(storybookTextPrompt, TEXT_MODEL);
@@ -106,8 +107,6 @@ export class StorybookController {
 
             let storybookId = createStorybookQuery[0].id;
 
-            // console.log(storybookContentJSON)
-
             for (let i = 0; i < totalPage; i++) {
                 let pageDetails = storybookContentJSON.scenario[i];
                 let pageTextPrompt = genPageImagePrompt(characterRequirementJSON, pageDetails);
@@ -115,10 +114,6 @@ export class StorybookController {
 
                 let pageImageURL = await imageGeneratorModel(pageTextPromptGPT as string, IMAGE_MODEL);
                 let pageImageFileName = await downloadImage(pageImageURL as string, 'page');
-
-                // console.log(`page${i+1}`);
-                // console.log(pageTextPrompt);
-                // console.log(pageTextPromptGPT);
 
                 await pageService.createPage(
                     storybookId, 

@@ -1,4 +1,4 @@
-import { bookReader } from "../mainPage/bookReader.js";
+import { bookReader } from "../helpers/bookReader.js";
 
 
 const createComment = document.querySelector("#create-comment")
@@ -6,8 +6,6 @@ const commentArea = document.querySelector(".comment-area")
 
 var searchParams = new URLSearchParams(window.location.search);
 const id = searchParams.get("id");
-
-// console.log(id)
 
 window["bookReader"] = bookReader;
 window["editComment"]= editComment;

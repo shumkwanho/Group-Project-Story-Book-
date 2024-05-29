@@ -1,6 +1,5 @@
-import { bookReader } from './bookReader.js';
-import { showCharacterCard } from './showCharacterCard.js';
-import { createStorybook } from './createStorybook.js';
+import { showCharacterCard } from '../helpers/showCharacterCard.js';
+import { createStorybook } from '../helpers/createStorybook.js';
 
 import { login } from './login.js';
 import { register } from './register.js';
@@ -11,7 +10,6 @@ window["register"] = register;
 window["toggleLike"] = toggleLike;
 
 window["showCharacterCard"] = showCharacterCard;
-window["bookReader"] = bookReader;
 window["createStorybook"] = createStorybook;
 
 window.addEventListener("load", async (e) => {
@@ -41,12 +39,16 @@ window.addEventListener("load", async (e) => {
 
 const loadStorybooks = (data) => {
     const storybookArea = document.querySelector(".storybook-area")
+
+    //TODO: only show when logged in
     storybookArea.innerHTML = `   
     <div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
         <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
         
         <p class="textAbsolute">Create Story Book</p>
     </div>`
+
+    //TODO: show public books when logged out
     for (let storybook of data) {
         storybookArea.innerHTML +=
             `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
@@ -93,13 +95,13 @@ async function toggleLike(e, bookId) {
 const displayLike = async () => {
     const res = await fetch("/like")
     const data = (await res.json()).data
-    const bookIds = data.map(elem => elem.storybook_id)
+    const bookIds = data.map(elem => elem.id)
     const books = document.querySelectorAll(".book")
     for (let book of books) {
         if (book.classList.contains("create-storybook")) {
             continue
         }
-        const bookId = book.id.slice(5, 7)
+        const bookId = parseInt(book.id.slice(5, 7))
         const isLiked = bookIds.includes(bookId)
         if (isLiked) {
             book.innerHTML += `<i class="fa-solid fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
@@ -124,6 +126,7 @@ const checkLogin = async () => {
     document.querySelector(".test").addEventListener("input", search)
     return null
 }
+
 async function search(e) {
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
@@ -209,7 +212,6 @@ function selectAll(e) {
         }
         checkbox.checked = false
     }
-
 }
 
 document.querySelectorAll(".toggle-filter").forEach((btn) => {
@@ -218,8 +220,6 @@ document.querySelectorAll(".toggle-filter").forEach((btn) => {
         e.stopPropagation()
     })
 })
-
-
 
 async function submitFilterForm(e) {
     e.preventDefault()
@@ -247,9 +247,6 @@ async function submitFilterForm(e) {
     await loadStorybooks(data)
 }
 
-
-
-
 document.querySelector("#sort").addEventListener("change", sort)
 
 async function sort(e) {
@@ -268,41 +265,3 @@ async function sort(e) {
     const data = (await res.json()).data
     loadStorybooks(data)
 }
-
-document.querySelector('#new-character-form')
-    .addEventListener('submit', async (e) => {
-        e.preventDefault()
-
-        const name = document.querySelector("#new-character-name").value;
-        const speciesType = document.querySelector("#new-character-species-type").value;
-        const gender = document.querySelector("#character-preference-gender").value;
-        const age = document.querySelector("#character-preference-age").value;
-        const bodyShape = document.querySelector("#character-preference-body-shape").value;
-        const heightSize = document.querySelector("#character-preference-height-size").value;
-
-        document.querySelector("#new-character-submit-btn").setAttribute("disabled", "");
-        document.querySelector("#new-character-content-footer")
-            .insertAdjacentHTML(
-                "afterbegin",
-                `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
-            )
-
-        let res = await fetch('/character', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name, speciesType, gender, age, bodyShape, heightSize })
-        })
-
-        let result = await res.json()
-
-        if (res.ok) {
-            //create character successful
-            //TODO: better user experience
-            window.location.reload();
-        } else {
-            console.log(result);
-        }
-    })
-

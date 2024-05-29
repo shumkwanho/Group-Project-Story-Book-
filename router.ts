@@ -74,7 +74,9 @@ router.post("/login", userController.login)
 router.post("/register", userController.register)
 router.get("/logout", userController.logout)
 router.get("/user",userController.getUserInfo)
-
+router.get("/user-storybooks",userController.getStorybookbyUserId)
+router.put("username",userController.editUsername)
+// router.put("/password",userController.changePassword)
 
 const likeService = new LikeService(knex)
 const likeController = new LikeController(likeService)

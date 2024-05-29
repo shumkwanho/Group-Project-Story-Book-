@@ -19,29 +19,186 @@
             <div class="search-result-container">
             </div>
         </div>
-        <button onclick=logout()>Logout</button>
+        <button type="submit" class="btn btn-primary submit" onclick="logout()">Logout</button>
     </div>
 
     <div class="container border">
         <a href="../mainPage">Home Page</a>
         <div class="personal-info border">
             <div class="image border"><img src="" alt=""></div>
-            <div class="edit"><i class="fa-solid fa-pen-to-square"></i></div>
-            <div class="user-name">Username</div>
+            <button type="button" class="btn btn-primary edit" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <div class="user-name"></div>
+            <div class="email"></div>
         </div>
         <div class="collection border">
-            <div class="bookshelf">My Bookshelf</div>
-            <div class="character">My Character</div>
+            <div class="storybooks">My Bookshelf</div>
+            <div class="characters">My Character</div>
             <div class="likes">Likes</div>
+            <div class="selected"></div>
+        </div>
+        <div class="display-area">
         </div>
     </div>
 
- 
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Personal Info</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="edit-user-info">
+                        <label for="">Username</label>
+                        <br>
+                        <input type="text" name="username">
+                        <br>
+                        <label for="">Email</label>
+                        <br>
+                        <input type="email" name="email" disabled>
+                        <br>
+                        <button type="submit" class="btn btn-primary submit">Save changes</button>
+                    </form>
+                    <hr>
+                    <form class="edit-password">
+                        <label for="">Current Password</label>
+                        <br>
+                        <input type="password" name="original-password">
+                        <br>
+                        <label for="">Enter New Password</label>
+                        <br>
+                        <input type="password" name="new-password">
+                        <br>
+                        <label for="">Confirm New Password</label>
+                        <br>
+                        <input type="password" name="confirm-password">
+                        <br>
+                        <button type="submit" class="btn btn-primary submit">Save changes</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- character card modal -->
+    <div class="modal fade modal-lg" id="characterCardModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-hidden="true" aria-labelledby="characterCardModalLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="character-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 character-content-header" id="characterCardModalLabel">
+                        <!-- contents to be printed in js -->
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="character-content-body">
+                    <!-- contents to be printed in js -->
+                </div>
+                <div class="modal-footer" id="character-content-footer">
+                    <button class="btn btn-danger delete-btn">Delete Character</button>
+                    <button class="btn btn-primary create-story-with-character-btn">Create Story with Character</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- create new character modal -->
+    <div class="modal fade modal-lg" id="newCharacterModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-hidden="true" aria-labelledby="newCharacterModalLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="new-character-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 new-character-content-header" id="newCharacterModalLabel">
+                        Input Character Preference
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="new-character-form">
+                    <div class="modal-body" id="new-character-content-body">
+
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="new-character-name">Character Name</label>
+                            <input type="text" class="form-control" id="new-character-name"
+                                placeholder="Input Character Name" required>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="new-character-species-type">Species / Type</label>
+                            <select class="form-select" id="new-character-species-type">
+                                <option selected value="Tiger">Tiger</option>
+                                <option value="Cat">Cat</option>
+                                <option value="Human">Human</option>
+                                <option value="Robot">Robot</option>
+                                <option value="Wolf">Wolf</option>
+                                <option value="Elephant">Elephant</option>
+                                <option value="Fox">Fox</option>
+                                <option value="Alien">Alien</option>
+                                <option value="Dragon">Dragon</option>
+                                <option value="Bear">Bear</option>
+                                <option value="Unicorn">Unicorn</option>
+                                <option value="Fairy">Fairy</option>
+                                <option value="Gnome">Gnome</option>
+                                <option value="Mermaid">Mermaid</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="character-preference-gender">Gender</label>
+                            <select class="form-select" id="character-preference-gender">
+                                <option selected value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="character-preference-age">Age Group</label>
+                            <select class="form-select" id="character-preference-age">
+                                <option selected value="Child">Child</option>
+                                <option value="Teenager">Teenager</option>
+                                <option value="Adult">Adult</option>
+                                <option value="Elderly">Elderly</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="character-preference-body-shape">Body Shape</label>
+                            <select class="form-select" id="character-preference-body-shape">
+                                <option selected value="Slim">Slim</option>
+                                <option value="Muscular">Muscular</option>
+                                <option value="Chubby">Chubby</option>
+                                <option value="Petite">Petite</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="character-preference-height-size">Height / Size</label>
+                            <select class="form-select" id="character-preference-height-size">
+                                <option selected value="Tall">Tall</option>
+                                <option value="Short">Short</option>
+                                <option value="Average">Average</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer" id="new-character-content-footer">
+                        <button class="btn btn-primary" type="submit" for="new-character-form"
+                            id="new-character-submit-btn">Create Character</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 
 </html>
