@@ -60,6 +60,8 @@ router.get("/booktype", storybookController.getStoryBookType)
 router.post("/filter", storybookController.filterBook)
 router.post("/sort", storybookController.bookSorting)
 router.post("/search",storybookController.searchStoryBook)
+
+
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);
@@ -70,6 +72,8 @@ router.get("/checkLogin", userController.checkLogin)
 router.post("/login", userController.login)
 router.post("/register", userController.register)
 router.get("/logout", userController.logout)
+router.get("/user",userController.getUserInfo)
+
 
 const likeService = new LikeService(knex)
 const likeController = new LikeController(likeService)

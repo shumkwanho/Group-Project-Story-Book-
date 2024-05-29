@@ -18,7 +18,6 @@ async function getStoryBook (id) {
     let res = await fetch(`/storybookByid?id=${id}`)
     let response = await res.json()
     if(res.ok){
-        console.log(response)
         let target = document.querySelector(".upper-part");
             target.innerHTML += `
             <img src="" alt="" class="book-cover border">
