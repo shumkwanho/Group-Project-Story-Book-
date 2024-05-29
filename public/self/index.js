@@ -1,6 +1,8 @@
 import { showCharacterCard } from "../helpers/characterCard.js"
+import { createCharacter } from "../helpers/createCharacter.js"
 
 window["showCharacterCard"] = showCharacterCard
+window["createCharacter"] = createCharacter
 
 const displayArea = document.querySelector(".display-area")
 
@@ -34,7 +36,8 @@ async function getcharacter() {
 
 function loadCharacter(charactersData) {
 
-    displayArea.innerHTML = `<div class="create-character card">Create Character</div>`
+    displayArea.innerHTML = `<div class="create-character card" onclick="createCharacter()">Create Character</div>`
+
     for (let character of charactersData) {
         displayArea.innerHTML +=
             `
