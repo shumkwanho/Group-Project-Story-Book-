@@ -1,4 +1,4 @@
-import { showCharacterCard } from "../helpers/showCharacterCard.js"
+import { showCharacterCard } from "../helpers/characterCard.js"
 
 window["showCharacterCard"] = showCharacterCard
 

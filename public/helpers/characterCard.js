@@ -12,7 +12,7 @@ export async function showCharacterCard(characterId) {
     const characterImage = characterData[0].image
 
     characterContentHeader.innerHTML = `Character Name: ${characterName}`
-    characterContentBody.innerHTML = `<img src="../uploads/characterImg/${characterImage}" alt="${characterName}">`
+    characterContentBody.innerHTML = `<img src="../uploads/characterImg/${characterImage}" alt="${characterName}" class="character-card-image">`
 
     characterCardModal.show()
 
