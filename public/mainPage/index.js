@@ -42,8 +42,10 @@ const loadStorybooks = (data) => {
 
     //TODO: only show when logged in
     storybookArea.innerHTML = `   
-    <div class="book create-storybook border" onclick="createStorybook()">
-        <div>Create Story Book</div>
+    <div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
+        <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
+        
+        <p class="textAbsolute">Create Story Book</p>
     </div>`
 
     //TODO: show public books when logged out
@@ -51,9 +53,10 @@ const loadStorybooks = (data) => {
         storybookArea.innerHTML +=
             `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
                 <div class="book-img border">img</div>
-                <div class="book-title">${storybook.bookname}</div>
-                <div class="book-description">${storybook.description}</div>
-                <div class="suitable-age">${storybook.target_age} years old</div>
+                <div class="book-title"><p class="p2">${storybook.bookname}</p></div>
+                <div class="book-description"><p class="p2">${storybook.description}</p></div>
+                <div class="suitable-age"><p class="p2">${storybook.target_age} years old</p></div>
+                <img src="./img/tiger.png" class="image1 style="width: 3px ;height: 3px;">
             </div>`
     }
 }
@@ -262,44 +265,3 @@ async function sort(e) {
     const data = (await res.json()).data
     loadStorybooks(data)
 }
-
-
-// need to moveeeeeee'
-
-// document.querySelector('#new-character-form')
-//     .addEventListener('submit', async (e) => {
-//         e.preventDefault()
-
-//         const name = document.querySelector("#new-character-name").value;
-//         const speciesType = document.querySelector("#new-character-species-type").value;
-//         const gender = document.querySelector("#character-preference-gender").value;
-//         const age = document.querySelector("#character-preference-age").value;
-//         const bodyShape = document.querySelector("#character-preference-body-shape").value;
-//         const heightSize = document.querySelector("#character-preference-height-size").value;
-
-//         document.querySelector("#new-character-submit-btn").setAttribute("disabled", "");
-//         document.querySelector("#new-character-content-footer")
-//             .insertAdjacentHTML(
-//                 "afterbegin",
-//                 `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
-//             )
-
-//         let res = await fetch('/character', {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify({ name, speciesType, gender, age, bodyShape, heightSize })
-//         })
-
-//         let result = await res.json()
-
-//         if (res.ok) {
-//             //create character successful
-//             //TODO: better user experience
-//             window.location.reload();
-//         } else {
-//             console.log(result);
-//         }
-//     })
-
