@@ -4,6 +4,8 @@ const characterSelection = document.querySelector("#new-storybook-character")
 
 export async function createStorybook(characterId = -1) {
 
+    //TODO: if no character is created under this user, prompt user to create a character
+
     const characterData = await loadCharacters()
 
     for (let data of characterData) {
