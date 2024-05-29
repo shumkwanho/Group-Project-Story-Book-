@@ -1,5 +1,6 @@
 import { bookReader } from './bookReader.js';
 import { showCharacterCard } from './showCharacterCard.js';
+import { createStorybook } from './createStorybook.js';
 
 import { login } from './login.js';
 import { register } from './register.js';
@@ -11,10 +12,11 @@ window["toggleLike"] = toggleLike;
 
 window["showCharacterCard"] = showCharacterCard;
 window["bookReader"] = bookReader;
+window["createStorybook"] = createStorybook;
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin();
-    await loadCharacters();
+    // await loadCharacters();
     const data = await getAllStorybook();
     loadStorybooks(data);
     const bookTypeData = await storybookType();
@@ -24,23 +26,23 @@ window.addEventListener("load", async (e) => {
     }
 });
 
-const loadCharacters = async () => {
-    const res = await fetch("/characters")
-    const data = (await res.json()).data
-    const characterArea = document.querySelector(".character-area")
-    for (let character of data) {
-        characterArea.innerHTML +=
-            `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
-                <div class="character-image">image</div>
-                <div class="character-name">${character.name}</div>
-            </div>`
-    }
-}
+// const loadCharacters = async () => {
+//     const res = await fetch("/characters")
+//     const data = (await res.json()).data
+//     const characterArea = document.querySelector(".character-area")
+//     for (let character of data) {
+//         characterArea.innerHTML +=
+//             `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
+//                 <div class="character-image">image</div>
+//                 <div class="character-name">${character.name}</div>
+//             </div>`
+//     }
+// }
 
 const loadStorybooks = (data) => {
     const storybookArea = document.querySelector(".storybook-area")
     storybookArea.innerHTML = `   
-    <div class="book create-storybook border">
+    <div class="book create-storybook border" onclick="createStorybook()">
         <div>Create Story Book</div>
     </div>`
     for (let storybook of data) {
