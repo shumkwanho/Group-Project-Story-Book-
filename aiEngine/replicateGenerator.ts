@@ -1,6 +1,7 @@
+//not using in this app
+
 import { replicate } from "./replicate";
 import { downloadImage } from "../utils/downloadImg";
-
 
 let seed = 123;
 
@@ -21,7 +22,5 @@ export async function imageModel(object: string): Promise<any> {
         }
     );
     const url = output[0]
-    const newFileName = await downloadImage(url, 'character')
-    console.log(newFileName);
-    
+    const newFileName = await downloadImage(url, 'character')    
 }
