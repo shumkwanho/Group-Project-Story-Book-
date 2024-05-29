@@ -60,9 +60,8 @@ export class StorybookController {
 
     onclickStoryBookById = async (req:Request, res: Response) => {
         try{
-            // console.log("hello",req.query)
             const { id } = req.query;
-            // console.log("gg",id)
+            
             const storybookQueryResult = await this.service.getStoryBookByCategory(id as string);
             res.status(200).json({data: storybookQueryResult})
         } 

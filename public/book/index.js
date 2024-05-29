@@ -29,7 +29,6 @@ async function getStoryBook (id) {
             </div>
             `
         }
-        console.log()
     }
 getStoryBook(id)
 

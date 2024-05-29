@@ -1,4 +1,3 @@
-import { showCharacterCard } from '../helpers/showCharacterCard.js';
 import { createStorybook } from '../helpers/createStorybook.js';
 
 import { login } from './login.js';
@@ -9,7 +8,6 @@ window["login"] = login;
 window["register"] = register;
 window["toggleLike"] = toggleLike;
 
-window["showCharacterCard"] = showCharacterCard;
 window["createStorybook"] = createStorybook;
 
 window.addEventListener("load", async (e) => {
@@ -62,8 +60,13 @@ const loadStorybooks = (data) => {
 }
 async function getAllStorybook() {
     const res = await fetch("/storybooks")
-    const data = (await res.json()).data
-    return data
+    const response = await res.json()
+
+    if (res.ok) {
+        return response.data
+    } else {
+        console.log("error")
+    }
 }
 
 async function toggleLike(e, bookId) {

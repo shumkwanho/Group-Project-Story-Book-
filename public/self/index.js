@@ -132,7 +132,7 @@ async function editUserInfo(e){
         body: JSON.stringify({ username }),
     })
     const data = await res.json()
-    console.log(data);
+    // console.log(data);
 }
 
 async function changePassword(e){
