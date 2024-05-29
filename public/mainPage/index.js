@@ -14,7 +14,7 @@ window["bookReader"] = bookReader;
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin();
-    await loadCharacters();
+    // await loadCharacters();
     const data = await getAllStorybook();
     loadStorybooks(data);
     const bookTypeData = await storybookType();
@@ -24,18 +24,18 @@ window.addEventListener("load", async (e) => {
     }
 });
 
-const loadCharacters = async () => {
-    const res = await fetch("/characters")
-    const data = (await res.json()).data
-    const characterArea = document.querySelector(".character-area")
-    for (let character of data) {
-        characterArea.innerHTML +=
-            `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
-                <div class="character-image">image</div>
-                <div class="character-name">${character.name}</div>
-            </div>`
-    }
-}
+// const loadCharacters = async () => {
+//     const res = await fetch("/characters")
+//     const data = (await res.json()).data
+//     const characterArea = document.querySelector(".character-area")
+//     for (let character of data) {
+//         characterArea.innerHTML +=
+//             `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
+//                 <div class="character-image">image</div>
+//                 <div class="character-name">${character.name}</div>
+//             </div>`
+//     }
+// }
 
 const loadStorybooks = (data) => {
     const storybookArea = document.querySelector(".storybook-area")
