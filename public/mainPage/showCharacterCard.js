@@ -18,6 +18,7 @@ export async function showCharacterCard(characterId) {
 
     deleteBtn.addEventListener('click', () => {
         deleteCharacter(characterId)
+        //TODO: add confirmation pop up
         window.location.reload()
     })
 
@@ -38,19 +39,19 @@ async function getCharacterData(id) {
 }
 
 async function deleteCharacter(id) {
-    // let res = await fetch(`/character?id=${id}`, {
-    //     method: 'DELETE',
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
-    // })
+    let res = await fetch(`/character?id=${id}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
 
-    // if (res.ok) {
-    //     let response = await res.json()
-    //     return response.data
-    // }
+    if (res.ok) {
+        let response = await res.json()
+        return response.data
+    }
 }
 
 function createStoryWithCharacter(id) {
-
+    //TODO
 }

@@ -1,5 +1,6 @@
 import { bookReader } from './bookReader.js';
 import { showCharacterCard } from './showCharacterCard.js';
+import { createStorybook } from './createStorybook.js';
 
 import { login } from './login.js';
 import { register } from './register.js';
@@ -11,6 +12,7 @@ window["toggleLike"] = toggleLike;
 
 window["showCharacterCard"] = showCharacterCard;
 window["bookReader"] = bookReader;
+window["createStorybook"] = createStorybook;
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin();
@@ -40,7 +42,7 @@ window.addEventListener("load", async (e) => {
 const loadStorybooks = (data) => {
     const storybookArea = document.querySelector(".storybook-area")
     storybookArea.innerHTML = `   
-    <div class="book create-storybook border">
+    <div class="book create-storybook border" onclick="createStorybook()">
         <div>Create Story Book</div>
     </div>`
     for (let storybook of data) {

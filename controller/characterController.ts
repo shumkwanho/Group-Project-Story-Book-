@@ -11,10 +11,11 @@ const IMAGE_MODEL = 'dall-e-3'
 export class CharacterController {
     constructor(private service: CharacterService) { }
 
-    loadCharacter = async (req: Request, res: Response) => {
+    loadCharacters = async (req: Request, res: Response) => {
         try {
-            const allCharacter = await this.service.loadCharacter()
-            res.status(200).json({ data: allCharacter })
+            const userId = req.session.userId;
+            const allCharacters = await this.service.loadCharacters(userId as string)
+            res.status(200).json({ data: allCharacters })
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
@@ -73,6 +74,17 @@ export class CharacterController {
             const { id } = req.query
             await this.service.deleteCharacter(id as string)
             res.status(200).json({ message: "delete successfully" })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+    }
+
+    hideCharacter = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.query
+            await this.service.hideCharacter(id as string)
+            res.status(200).json({ message: "hide character successfully" })
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })

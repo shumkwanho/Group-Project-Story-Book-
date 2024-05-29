@@ -1,0 +1,57 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    margin-bottom: 70px;
+    width: 98%;
+    padding: 20px;
+    align-items: center;
+}
+a{
+    padding-left: 20px;
+}
+.personal-info{
+    display: flex;
+    align-items: center;
+    padding: 30px 20px;
+    position: relative;
+}
+
+.border{
+    border: solid 1px black;
+}
+
+.image{
+    width: 150px;
+    height: 150px;
+}
+
+.user-name{
+    position: relative;
+    bottom: 30px;
+    left: 20px;
+    font-size: 50px;
+}
+
+.edit{
+    position: absolute;
+    bottom: 20px;
+    left: 150px;
+    font-size: 25px;
+    width: 25px;
+    height: 25px;
+    background-color: rgb(25, 25, 228);
+    padding: 5px;
+    border-radius: 100%;
+    color: white;
+}
+
+.collection{
+    margin-top: 30px;
+    display: flex;
+}
+
+.character, .bookshelf{
+    padding: 10px 30px;
+    font-size: 25px;
+}

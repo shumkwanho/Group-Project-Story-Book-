@@ -72,6 +72,10 @@ export class StorybookController {
         }
     };
 
+    /** createStoryBook
+     * @param req : userId, characterId, targetAge, category, totalPage
+     * @param res : bookName, storybookId, content
+    */
     createStoryBook = async (req: Request, res: Response) => {
         try {
             const userId = req.session.userId;
@@ -102,7 +106,7 @@ export class StorybookController {
 
             let storybookId = createStorybookQuery[0].id;
 
-            console.log(storybookContentJSON)
+            // console.log(storybookContentJSON)
 
             for (let i = 0; i < totalPage; i++) {
                 let pageDetails = storybookContentJSON.scenario[i];
@@ -112,9 +116,9 @@ export class StorybookController {
                 let pageImageURL = await imageGeneratorModel(pageTextPromptGPT as string, IMAGE_MODEL);
                 let pageImageFileName = await downloadImage(pageImageURL as string, 'page');
 
-                console.log(`page${i+1}`);
-                console.log(pageTextPrompt);
-                console.log(pageTextPromptGPT);
+                // console.log(`page${i+1}`);
+                // console.log(pageTextPrompt);
+                // console.log(pageTextPromptGPT);
 
                 await pageService.createPage(
                     storybookId, 
@@ -127,7 +131,9 @@ export class StorybookController {
             res.json({
                 message: 'create story book successfully',
                 data: {
-                    name: bookName
+                    name: bookName,
+                    storybookId: storybookId,
+                    content: storybookContentJSON
                 }
             })
             

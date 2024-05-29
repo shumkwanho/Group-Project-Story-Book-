@@ -30,7 +30,7 @@ export function login(userId) {
         loginButton.textContent = 'Login';
         loginButton.addEventListener('click', showLoginWindow);
         navbar.appendChild(loginButton);
-        return null;
+        return;
     };
 }
 

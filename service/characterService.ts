@@ -3,10 +3,12 @@ import { Knex } from "knex";
 export class CharacterService {
     constructor(private knex: Knex) { }
 
-    loadCharacter = async () => {
+    loadCharacters = async (user_id: string) => {
         const data = await this.knex
             .select("id", "name", "image")
             .from("characters")
+            .where("is_hidden", false)
+            .where("user_id", user_id)
         return data
     }
 
@@ -32,9 +34,16 @@ export class CharacterService {
             .into("characters")
     }
 
+    //never allow users to delete
     deleteCharacter = async (character_id: string) => {
         await this.knex("characters")
             .where("id", character_id)
             .del()
     }
+
+    hideCharacter = async (character_id: string) => {
+        await this.knex('characters')
+          .where('id', character_id)
+          .update({ is_hidden: true });
+      };
 }

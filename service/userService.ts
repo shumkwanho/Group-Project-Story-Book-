@@ -16,4 +16,8 @@ export class UserService {
         return await this.knex.insert({ username, email, password }).into("users").returning("id")
     }
     
+    getUserInfo = async (userId:string) =>{
+        return this.knex.select("id","username","email").from("users").where("id",userId)
+    }
+
 }
