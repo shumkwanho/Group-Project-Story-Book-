@@ -50,7 +50,9 @@ export class CharacterController {
             let imageURL = await imageGeneratorModel(characterTextPromptGPT as string, IMAGE_MODEL);
             let filename = await downloadImage(imageURL as string, 'character');
 
-            await this.service.createCharacter(userId as string, name, filename as string, characterTextPromptGPT as string, JSON.stringify(characterRequirementJSON));
+            let characterName = `${name} the ${speciesType}`
+
+            await this.service.createCharacter(userId as string, characterName, filename as string, characterTextPromptGPT as string, JSON.stringify(characterRequirementJSON));
 
             res.status(200).json(
                 {

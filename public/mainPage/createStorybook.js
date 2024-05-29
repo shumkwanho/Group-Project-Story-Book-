@@ -51,7 +51,6 @@ export async function createStorybook(characterId = -1) {
             } else {
                 console.log(result);
             }
-
         })
 }
 
