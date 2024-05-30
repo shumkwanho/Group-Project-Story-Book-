@@ -1,6 +1,13 @@
+import { getCharacterData } from "./characterCard.js";
+
 const createNewStoryModal = new bootstrap.Modal(document.getElementById('createNewStoryModal'), {});
 
+const characterImage = document.querySelector(".new-story-character-image")
 const characterSelection = document.querySelector("#new-storybook-character")
+
+characterSelection.setAttribute("onchange", 'displayCharacterImage(this.value)')
+
+window["displayCharacterImage"] = displayCharacterImage
 
 export async function createStorybook(characterId = -1) {
 
@@ -8,7 +15,12 @@ export async function createStorybook(characterId = -1) {
 
     const characterData = await loadCharacters()
 
+    let hasDisplayFirstCharacterImage = false;
     for (let data of characterData) {
+        if (!hasDisplayFirstCharacterImage) {
+            displayCharacterImage(data.id);
+            hasDisplayFirstCharacterImage = true;
+        }
         characterSelection.insertAdjacentHTML(
             "beforeend",
             `<option value="${data.id}">${data.name}</option>`
@@ -59,4 +71,10 @@ async function loadCharacters() {
     const res = await fetch("/characters")
     let result = await res.json()
     return result.data;
+}
+
+async function displayCharacterImage (id) {
+    let characterData = await getCharacterData(id)
+
+    characterImage.innerHTML = `<img src="../uploads/characterImg/${characterData[0].image}" id="character-image">`
 }

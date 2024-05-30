@@ -27,7 +27,7 @@ export async function showCharacterCard(characterId) {
     })
 }
 
-async function getCharacterData(id) {
+export async function getCharacterData(id) {
     let res = await fetch(`/character?id=${id}`, {
         method: 'GET',
     })
