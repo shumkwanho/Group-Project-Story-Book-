@@ -1,14 +1,13 @@
 import { createStorybook } from '../helpers/createStorybook.js';
 import { bookReader } from '../helpers/bookReader.js'
-
 import { login } from './login.js';
 import { register } from './register.js';
 
 window["logout"] = logout;
 window["login"] = login;
 window["toggleLike"] = toggleLike;
-window["closeForm"] = closeForm;
-
+// window["closeForm"] = closeForm;
+window["register"] = register;
 window["createStorybook"] = createStorybook;
 window["bookReader"] = bookReader;
 
