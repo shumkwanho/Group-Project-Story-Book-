@@ -59,9 +59,8 @@ export class UserController {
             }
 
             const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-            const userId = await this.service.register(newUsername, newEmail, newPassword)
-
+            const userId = await this.service.register(newUsername, newEmail, hashedPassword)
+            
             req.session.userId = userId.toString()
             req.session.save()
             res.status(200).json({ message: 'Registration successful' });
