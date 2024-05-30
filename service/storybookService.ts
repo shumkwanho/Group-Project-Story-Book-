@@ -27,7 +27,7 @@ export class StorybookService {
 
     searchStoryBook = async (str:string)=>{
         return await this.knex
-        .select("bookname","target_age",  "category", "description")
+        .select("id","bookname","target_age",  "category", "description")
         .from("storybooks")
         .whereILike("bookname",`%${str}%`)
         .orWhereILike("description",`%${str}%`)
