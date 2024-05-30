@@ -11,6 +11,7 @@ window["toggleLike"] = toggleLike;
 window["register"] = register;
 window["createStorybook"] = createStorybook;
 window["requirePayment"] = requirePayment
+window["toBookPage"] = toBookPage
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin();
@@ -19,13 +20,13 @@ window.addEventListener("load", async (e) => {
     const bookTypeData = await storybookType();
     loadFilter(bookTypeData);
     if (!userId) {
-      return 
+        return
     }
     await displayLike();
 });
 
 const loadStorybooks = (data) => {
-    //only showing public books
+    storybookArea.innerHTML = ""    //only showing public books
     for (let storybook of data) {
         if (storybook.is_public === true) {
             let displayAge = convertDisplayAge(storybook.target_age);
@@ -98,10 +99,11 @@ const displayLike = async () => {
 
 const checkLogin = async () => {
     const res = await fetch("../checkLogin")
-    const userData = await res.json()
+    const data = await res.json()
     const navbar = document.querySelector(".navbar")
 
-    if (userData.data) {
+
+    if (data.data) {
         //users has logged in
         const isMember = await checkIsMember()
         const isAttemped = await hasFirstAttempt()
@@ -110,7 +112,7 @@ const checkLogin = async () => {
         document.querySelector(".selection-area")
             .insertAdjacentHTML(
                 "afterbegin",
-                `<div class="create-storybook border" style="width:300px; height: 800px;" onclick=${ableToCreateStorybook?"createStorybook()" : "requirePayment()"}>
+                `<div class="create-storybook border" style="width:300px; height: 800px;" onclick=${ableToCreateStorybook ? "createStorybook()" : "requirePayment()"}>
                     <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
                     <p class="textAbsolute">Create Story Book</p>
                 </div>`
@@ -123,10 +125,8 @@ const checkLogin = async () => {
             .addEventListener("click", () => {
                 window.location.href = '../member';
             });
-        
-        document.querySelector("#username-display").innerHTML = userData.data.username;
 
-        return userData.data
+        return data.data
     }
     navbar.innerHTML += `
         <button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>
@@ -153,14 +153,14 @@ async function search(e) {
         body: JSON.stringify({ search }),
     })
     const data = (await res.json()).data
+
     for (let book of data) {
         let bookname = book.bookname.replace(search, `<b>${search}</b>`)
         let description = book.description.replace(search, `<b>${search}</b>`)
         searchResult.innerHTML += `
         <div class="search-result border">
-            <div class="book-detail" onclick=>
+            <div class="book-detail" onclick="toBookPage(${book.id})">
                 <div class="search-bookname">${bookname}</div>
-                <div class="search-book-description">${description}</div>
             </div>
             <img src="" alt="" class="search-image">
         </div>
@@ -278,28 +278,61 @@ async function sort(e) {
     loadStorybooks(data)
 }
 
-function randomNum (num){
-    return Math.floor(Math.random()*num)
+function randomNum(num) {
+    return Math.floor(Math.random() * num)
 }
 
 
 
-async function checkIsMember(){
+async function checkIsMember() {
     const res = await fetch("../payment")
     const data = (await res.json()).data
-    if(data.length > 0){
+    if (data.length > 0) {
         return true
     }
     return false
 }
 
-async function hasFirstAttempt(){
+async function hasFirstAttempt() {
     const res = await fetch("../free-trial")
     const data = (await res.json()).data
     return data[0].has_first_attempt
 }
 
-function requirePayment(e){
+function requirePayment(e) {
     const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'), {});
     paymentModal.show()
+
 }
+
+function toBookPage(bookId) {
+    window.location.href = `../book/?id=${bookId}`
+}
+
+document.addEventListener("click", (e) => {
+    const searchResult = document.querySelector(".search-result-container")
+    const searchBar = document.querySelector(".search-bar")
+
+    let isClickTargetArea = document.activeElement === searchBar || document.activeElement === searchResult
+    let isDisplaying = !searchResult.classList.contains("hide")
+
+    if (isDisplaying && !isClickTargetArea) {
+        searchResult.classList.add("hide")
+        searchBar.value = ""
+    }
+})
+
+// document.addEventListener("click", (e) => {
+//     const toggleFilter = Array.from(document.querySelectorAll(".toggle-filter"))
+//     const option = Array.from(document.querySelectorAll(".option"))
+//     const filterList = document.querySelectorAll(".filter-list")
+//     //display ture when click outside
+//     const clickOutside = e.target in toggleFilter == false && e.target in option == false
+//     filterList.forEach((list) => {
+//         if (!list.classList.contains("hide")) {
+//             if (clickOutside) {
+//                 list.classList.add("hide")
+//             }
+//         }
+//     })
+// })
