@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { knex } from "../utils/knex";
 import { PaymentService } from "../service/paymentService";
 
 const stripe = require('stripe')('sk_test_51PIidhDdEVvEGUkxnioFgWXwphLAPJKjUcREvNIXxjKkgHO9Ws2ei1o6Qdirx9rgytMuFAb0ki3gQr39COHji8m300dWDkK8rs');
@@ -34,7 +33,7 @@ export class PaymentController {
             res.redirect(303, session.url);
         } catch (error) {
             console.log(error);
-
+            res.status(500).json({ message: "Interrnal Server Error" })
         }
 
     }
@@ -56,7 +55,7 @@ export class PaymentController {
                 const paymentIntentSucceeded = event.data.object;
                 const stripeId = paymentIntentSucceeded.id
                 const userId = paymentIntentSucceeded.metadata.userId
-                await this.service.updatePayment(userId,stripeId)
+                await this.service.updatePayment(userId, stripeId)
                 break;
             // ... handle other event types
             default:
@@ -64,7 +63,18 @@ export class PaymentController {
         }
 
         // Return a 200 response to acknowledge receipt of the event
-        res.send('ggg');
+    }
+
+    checkUserPayment = async (req: Request, res: Response) => {
+
+        try {
+            const userId = req.session.userId
+            const data = await this.service.checkUserPayment(userId as string)
+            res.json({ data })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Interrnal Server Error" })
+        }
     }
 }
 

@@ -83,7 +83,6 @@ export class StorybookController {
             let characterInfo = await characterService.loadCharacterById(characterId);
 
             let characterRequirementJSON = JSON.parse(characterInfo[0].requirement);
-            // let characterName = `${characterInfo[0].name} the ${characterRequirementJSON.character_features.species_type}`;
             let characterName = characterInfo[0].name;
 
             let storybookTextPrompt = genStorybookTextPrompt(characterName, targetAge, category, totalPage);

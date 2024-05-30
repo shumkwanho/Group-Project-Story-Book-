@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserService } from "../service/userService";
+import { UserService } from "../service/userService"
 import bcrypt from 'bcrypt';
 
 export class UserController {
@@ -7,9 +7,16 @@ export class UserController {
 
     checkLogin = async (req: Request, res: Response) => {
         if (req.session.userId) {
-            return res.json({ data: req.session.userId })
+            let userId = req.session.userId;
+            const userInfo = (await this.service.getUserInfo(userId as string))[0]
+            return res.json({
+                data: {
+                    id: userId,
+                    username: userInfo.username
+                }
+            })
         }
-        return res.json({ messgae: "Did not login" })
+        return res.json({ message: "Did not login" })
     }
 
     login = async (req: Request, res: Response) => {
@@ -43,25 +50,24 @@ export class UserController {
 
     register = async (req: Request, res: Response) => {
         try {
-            const { username, email, password, confirmPassword } = req.body;
+            const { newUsername, newEmail, newPassword, confirmPassword } = req.body;
             // 1. Check if passwords match
-            if (!password || !confirmPassword) {
+            if (!newPassword || !confirmPassword) {
                 return res.status(400).json({ message: 'Password and confirm password fields are required' });
             }
 
-            if (password !== confirmPassword) {
+            if (newPassword !== confirmPassword) {
                 return res.status(400).json({ message: 'Passwords do not match' });
             }
 
-            const existingUser = await this.service.checkDuplicateUser(username, email)
+            const existingUser = await this.service.checkDuplicateUser(newUsername, newEmail)
             if (existingUser[0]) {
                 return res.status(400).json({ message: 'Username or email already exists' });
             }
 
-            const hashedPassword = await bcrypt.hash(password, 10);
-
-            const userId = await this.service.register(username, email, password)
-
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            const userId = await this.service.register(newUsername, newEmail, hashedPassword)
+            
             req.session.userId = userId.toString()
             req.session.save()
             res.status(200).json({ message: 'Registration successful' });
@@ -111,7 +117,7 @@ export class UserController {
             const { username } = req.body
             const userId = req.session.userId
             await this.service.editUsername(userId as string, username)
-            res.json({ message: "ok" })
+            res.json({ message: "Update Username Sucessfully" })
         } catch (error) {
             console.error('Error in login route:', error);
             return res.status(500).json({ message: 'Internal server error' })
@@ -139,6 +145,17 @@ export class UserController {
             
             res.json({message:"Update Password Sucessfully"})
 
+        } catch (error) {
+            console.error('Error in login route:', error);
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
+
+    checkFirstTrial = async (req: Request, res: Response) => {
+        try {
+            const userId = req.session.userId
+            const data = await this.service.checkFreeTrial(userId as string)
+            res.json({data})
         } catch (error) {
             console.error('Error in login route:', error);
             return res.status(500).json({ message: 'Internal server error' })
