@@ -120,17 +120,19 @@ const checkLogin = async () => {
     const navbar = document.querySelector(".navbar")
     if (data.data) {
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
+        document.querySelector(".search-bar").addEventListener("input", search)
         return data.data
     }
     navbar.innerHTML += `
         <button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>
         <button id="register" onclick="register()" type="button" class="btn btn-primary">Register</button>
         `
-    document.querySelector(".test").addEventListener("input", search)
+    document.querySelector(".search-bar").addEventListener("input", search)
     return null
 }
 
 async function search(e) {
+
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
     const search = e.target.value
