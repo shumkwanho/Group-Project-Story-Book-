@@ -1,8 +1,10 @@
 import { showCharacterCard } from "../helpers/characterCard.js"
 import { createCharacter } from "../helpers/createCharacter.js"
+import { createStorybook } from "../helpers/createStorybook.js"
 
 window["showCharacterCard"] = showCharacterCard
 window["createCharacter"] = createCharacter
+window["createStorybook"] = createStorybook
 
 const displayArea = document.querySelector(".display-area")
 
@@ -58,10 +60,10 @@ async function getStorybookByUserId() {
 }
 
 function loadStorybooks(storybooksData) {
-    displayArea.innerHTML = `<div class="create-storybook card">Create Storybook</div>`
+    displayArea.innerHTML = `<div class="create-storybook card" onclick="createStorybook()">Create Storybook</div>`
     for (let storybook of storybooksData) {
         displayArea.innerHTML += `
-        <div class="book card border" onclick="bookReader(${storybook.id})" >
+        <div class="book card border" onclick="window.location.href ='../book/?id=${storybook.id}'" >
                 <div class="book-img border">img</div>
                 <div class="book-detail border">
                     <div class="book-title">${storybook.bookname}</div>

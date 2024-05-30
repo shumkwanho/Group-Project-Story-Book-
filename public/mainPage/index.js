@@ -40,8 +40,6 @@ window.addEventListener("load", async (e) => {
 
 const loadStorybooks = (data) => {
 
-
-
     const storybookArea = document.querySelector(".storybook-area")
 
     //TODO: only show when logged in
