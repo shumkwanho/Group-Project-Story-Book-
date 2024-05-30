@@ -17,9 +17,15 @@ window.addEventListener("load", async (e) => {
     loadStorybooks(data);
     const bookTypeData = await storybookType();
     loadFilter(bookTypeData);
-    if (userId) {
-        await displayLike();
+    if (!userId) {
+      return 
     }
+    await displayLike();
+    const isMember = await checkIsMember()
+    const isAttemped = await checkFirstTrial()
+   if(!isMember & isAttemped){
+    requirePayment()
+   }
 });
 
 const loadStorybooks = (data) => {
@@ -47,7 +53,7 @@ async function getAllStorybook() {
 }
 
 async function toggleLike(e, bookId) {
-
+    e.stopPropagation()
     e.target.classList.toggle('fa-regular')
     e.target.classList.toggle('fa-solid')
     const isLiked = e.target.classList.contains('fa-solid')
@@ -121,7 +127,6 @@ const checkLogin = async () => {
 }
 
 async function search(e) {
-
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
     const search = e.target.value
@@ -264,3 +269,26 @@ function randomNum (num){
     return Math.floor(Math.random()*num)
 }
 
+
+
+async function checkIsMember(){
+    const res = await fetch("/payment")
+    const data = (await res.json()).data
+    if(data.length > 0){
+        return true
+    }
+    return false
+}
+
+async function checkFirstTrial(){
+    const res = await fetch("/free-trial")
+    const data = (await res.json()).data
+    if(data.length > 0){
+        return true
+    }
+    return false
+}
+
+function requirePayment(){
+    const paymentModal = new bootstrap.Modal(document.getElementById('readerModal'), {});
+}

@@ -38,4 +38,8 @@ export class UserService {
     editPassword = async (userId:string ,hashPassword:string)=>{
         await this.knex("users").update({password : hashPassword}).where("id",userId)
     }
+
+    checkFreeTrial = async (userId:string)=>{
+        return await this.knex.select("is_first_attempt").from("users").where("id",userId)
+    }
 }
