@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserService } from "../service/userService";
+import { UserService } from "../service/userService"
 import bcrypt from 'bcrypt';
 
 export class UserController {

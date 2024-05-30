@@ -29,6 +29,7 @@ export function register() {
       });
   
       const data = await response.json();
+      window.location.reload()
   
       if (response.ok) {
         alert(data.message);

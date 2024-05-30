@@ -1,15 +1,18 @@
 export function openForm() {
   document.getElementById("myForm").style.display = "block";
 }
+
 export function closeForm() {
   document.getElementById("myForm").style.display = "none";
 }
+
 window["openForm"] = openForm;
 window["closeForm"] = closeForm;
 
 export function login() {
-  openForm()
+  openForm();
 }
+
 document.getElementById('myForm').addEventListener('submit', async (event) => {
   event.preventDefault();
   const username = document.getElementById('username').value;
@@ -33,13 +36,12 @@ document.getElementById('myForm').addEventListener('submit', async (event) => {
 
     if (response.ok) {
       alert('Login successful!');
-      window.history.back();
+      window.location.reload();
     } else {
-      const data = await response.json();
       alert(`Login failed: ${data.message}`);
     }
   } catch (error) {
     alert('An error occurred during login.');
     console.error(error);
   }
-})
+});
