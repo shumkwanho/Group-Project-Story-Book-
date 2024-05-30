@@ -35,18 +35,19 @@ router.post('/create-checkout-session', paymentController.payment);
 
 const characterService = new CharacterService(knex)
 const characterController = new CharacterController (characterService)
-router.get("/characters", characterController.loadCharacter)
+router.get("/characters", characterController.loadCharacters)
 router.get("/character", characterController.loadCharacterById)
 router.post("/character", characterController.createCharacter)
 router.delete("/character", characterController.deleteCharacter)
+router.put("/character", characterController.hideCharacter)
 
 
 const commentService = new CommentService (knex)
 const commentController = new CommentController (commentService)
-router.get("/comment", commentController.getAllComment);
-router.post("/comment", commentController.createComment);
-router.put("/comment", commentController.updateComment);
-router.delete("/comment", commentController.deleteComment);
+router.get("/comment", commentController.getAllComment)
+router.post("/comment", commentController.createComment)
+router.put("/comment", commentController.updateComment)
+router.delete("/comment", commentController.deleteComment)
 router.get("/comment-user", commentController.getCommentByUserId)
 
 
@@ -60,6 +61,8 @@ router.get("/booktype", storybookController.getStoryBookType)
 router.post("/filter", storybookController.filterBook)
 router.post("/sort", storybookController.bookSorting)
 router.post("/search",storybookController.searchStoryBook)
+
+
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);
@@ -70,6 +73,10 @@ router.get("/checkLogin", userController.checkLogin)
 router.post("/login", userController.login)
 router.post("/register", userController.register)
 router.get("/logout", userController.logout)
+router.get("/user",userController.getUserInfo)
+router.get("/user-storybooks",userController.getStorybookbyUserId)
+router.put("/username",userController.editUsername)
+router.put("/password",userController.changePassword)
 
 const likeService = new LikeService(knex)
 const likeController = new LikeController(likeService)

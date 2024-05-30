@@ -1,4 +1,4 @@
-import { bookReader } from "../mainPage/bookReader.js";
+import { bookReader } from "../helpers/bookReader.js";
 
 
 const createComment = document.querySelector("#create-comment")
@@ -6,8 +6,6 @@ const commentArea = document.querySelector(".comment-area")
 
 var searchParams = new URLSearchParams(window.location.search);
 const id = searchParams.get("id");
-
-// console.log(id)
 
 window["bookReader"] = bookReader;
 window["editComment"]= editComment;
@@ -18,7 +16,6 @@ async function getStoryBook (id) {
     let res = await fetch(`/storybookByid?id=${id}`)
     let response = await res.json()
     if(res.ok){
-        console.log(response)
         let target = document.querySelector(".upper-part");
             target.innerHTML += `
             <img src="" alt="" class="book-cover border">
@@ -32,7 +29,6 @@ async function getStoryBook (id) {
             </div>
             `
         }
-        console.log()
     }
 getStoryBook(id)
 

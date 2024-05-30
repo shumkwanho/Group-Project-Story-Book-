@@ -22,7 +22,7 @@ form.addEventListener("submit",async (e) =>{
         characterName: form.characterName.value,
         description: form.description.value
     }
-    console.log(req);
+
     const res = await fetch('http://localhost:8080/character/', {
         method: 'POST',
         headers: {

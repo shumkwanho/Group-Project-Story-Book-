@@ -11,10 +11,11 @@ const IMAGE_MODEL = 'dall-e-3'
 export class CharacterController {
     constructor(private service: CharacterService) { }
 
-    loadCharacter = async (req: Request, res: Response) => {
+    loadCharacters = async (req: Request, res: Response) => {
         try {
-            const allCharacter = await this.service.loadCharacter()
-            res.status(200).json({ data: allCharacter })
+            const userId = req.session.userId;
+            const allCharacters = await this.service.loadCharacters(userId as string)
+            res.status(200).json({ data: allCharacters })
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
@@ -49,7 +50,9 @@ export class CharacterController {
             let imageURL = await imageGeneratorModel(characterTextPromptGPT as string, IMAGE_MODEL);
             let filename = await downloadImage(imageURL as string, 'character');
 
-            await this.service.createCharacter(userId as string, name, filename as string, characterTextPromptGPT as string, JSON.stringify(characterRequirementJSON));
+            let characterName = `${name} the ${speciesType}`
+
+            await this.service.createCharacter(userId as string, characterName, filename as string, characterTextPromptGPT as string, JSON.stringify(characterRequirementJSON));
 
             res.status(200).json(
                 {
@@ -73,6 +76,17 @@ export class CharacterController {
             const { id } = req.query
             await this.service.deleteCharacter(id as string)
             res.status(200).json({ message: "delete successfully" })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+    }
+
+    hideCharacter = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.query
+            await this.service.hideCharacter(id as string)
+            res.status(200).json({ message: "hide character successfully" })
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })

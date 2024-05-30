@@ -8,7 +8,7 @@ export class CommentController {
     getAllComment = async (req: Request, res: Response) => {
         try {
             const storybookId = req.query.id
-            console.log(req.query)
+            // console.log(req.query)
             const comments = await this.service.getAllComment(
                 storybookId as string,
             );

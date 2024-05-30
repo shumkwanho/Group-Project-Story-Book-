@@ -1,5 +1,5 @@
-import { bookReader } from './bookReader.js';
-import { showCharacterCard } from './showCharacterCard.js';
+import { createStorybook } from '../helpers/createStorybook.js';
+
 import { login } from './login.js';
 import { register } from './register.js';
 
@@ -12,6 +12,7 @@ window["bookReader"] = bookReader;
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin();
+    // await loadCharacters();
     // await loadCharacters();
     const data = await getAllStorybook();
     loadStorybooks(data);
@@ -34,27 +35,51 @@ window.addEventListener("load", async (e) => {
 //             </div>`
 //     }
 // }
+// const loadCharacters = async () => {
+//     const res = await fetch("/characters")
+//     const data = (await res.json()).data
+//     const characterArea = document.querySelector(".character-area")
+//     for (let character of data) {
+//         characterArea.innerHTML +=
+//             `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
+//                 <div class="character-image">image</div>
+//                 <div class="character-name">${character.name}</div>
+//             </div>`
+//     }
+// }
 
 const loadStorybooks = (data) => {
     const storybookArea = document.querySelector(".storybook-area")
+
+    //TODO: only show when logged in
     storybookArea.innerHTML = `   
-    <div class="book create-storybook border">
-        <div>Create Story Book</div>
+    <div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
+        <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
+        
+        <p class="textAbsolute">Create Story Book</p>
     </div>`
+
+    //TODO: show public books when logged out
     for (let storybook of data) {
         storybookArea.innerHTML +=
             `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
                 <div class="book-img border">img</div>
-                <div class="book-title">${storybook.bookname}</div>
-                <div class="book-description">${storybook.description}</div>
-                <div class="suitable-age">${storybook.target_age} years old</div>
+                <div class="book-title"><p class="p2">${storybook.bookname}</p></div>
+                <div class="book-description"><p class="p2">${storybook.description}</p></div>
+                <div class="suitable-age"><p class="p2">${storybook.target_age} years old</p></div>
+                <img src="./img/tiger.png" class="image1 style="width: 3px ;height: 3px;">
             </div>`
     }
 }
 async function getAllStorybook() {
     const res = await fetch("/storybooks")
-    const data = (await res.json()).data
-    return data
+    const response = await res.json()
+
+    if (res.ok) {
+        return response.data
+    } else {
+        console.log("error")
+    }
 }
 
 async function toggleLike(e, bookId) {
@@ -86,13 +111,13 @@ async function toggleLike(e, bookId) {
 const displayLike = async () => {
     const res = await fetch("/like")
     const data = (await res.json()).data
-    const bookIds = data.map(elem => elem.storybook_id)
+    const bookIds = data.map(elem => elem.id)
     const books = document.querySelectorAll(".book")
     for (let book of books) {
         if (book.classList.contains("create-storybook")) {
             continue
         }
-        const bookId = book.id.slice(5, 7)
+        const bookId = parseInt(book.id.slice(5, 7))
         const isLiked = bookIds.includes(bookId)
         if (isLiked) {
             book.innerHTML += `<i class="fa-solid fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
@@ -117,6 +142,7 @@ const checkLogin = async () => {
     document.querySelector(".test").addEventListener("input", search)
     return null
 }
+
 async function search(e) {
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
@@ -202,7 +228,6 @@ function selectAll(e) {
         }
         checkbox.checked = false
     }
-
 }
 
 document.querySelectorAll(".toggle-filter").forEach((btn) => {
@@ -211,8 +236,6 @@ document.querySelectorAll(".toggle-filter").forEach((btn) => {
         e.stopPropagation()
     })
 })
-
-
 
 async function submitFilterForm(e) {
     e.preventDefault()
@@ -240,9 +263,6 @@ async function submitFilterForm(e) {
     await loadStorybooks(data)
 }
 
-
-
-
 document.querySelector("#sort").addEventListener("change", sort)
 
 async function sort(e) {
@@ -261,41 +281,3 @@ async function sort(e) {
     const data = (await res.json()).data
     loadStorybooks(data)
 }
-
-document.querySelector('#new-character-form')
-    .addEventListener('submit', async (e) => {
-        e.preventDefault()
-
-        const name = document.querySelector("#new-character-name").value;
-        const speciesType = document.querySelector("#new-character-species-type").value;
-        const gender = document.querySelector("#character-preference-gender").value;
-        const age = document.querySelector("#character-preference-age").value;
-        const bodyShape = document.querySelector("#character-preference-body-shape").value;
-        const heightSize = document.querySelector("#character-preference-height-size").value;
-
-        document.querySelector("#new-character-submit-btn").setAttribute("disabled", "");
-        document.querySelector("#new-character-content-footer")
-            .insertAdjacentHTML(
-                "afterbegin",
-                `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
-            )
-
-        let res = await fetch('/character', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name, speciesType, gender, age, bodyShape, heightSize })
-        })
-
-        let result = await res.json()
-
-        if (res.ok) {
-            //create character successful
-            //TODO: better user experience
-            window.location.reload();
-        } else {
-            console.log(result);
-        }
-    })
-

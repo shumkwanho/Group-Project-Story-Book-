@@ -4,7 +4,13 @@ export class LikeService {
     constructor(private knex: Knex) { }
 
     getLikes = async (user_id:string)=>{
-        const result = await this.knex.select("storybook_id").from("like_relation").where("user_id",user_id)
+        const result = (await this.knex.raw(`
+        select s.id as id, character_id,bookname,description,target_age,created_at,category,total_page 
+        from like_relation l 
+        join storybooks s 
+        on storybook_id = s.id 
+        where s.user_id = ?;
+        `,[user_id])).rows
         return result
     }
 
