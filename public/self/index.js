@@ -63,7 +63,7 @@ function loadStorybooks(storybooksData) {
     displayArea.innerHTML = `<div class="create-storybook card" onclick="createStorybook()">Create Storybook</div>`
     for (let storybook of storybooksData) {
         displayArea.innerHTML += `
-        <div class="book card border" onclick="window.location.href ='../book/?id=${storybook.id}'" >
+        <div class="book card border" onclick="window.location.href ='../book/?id=${storybook.id}'">
                 <div class="book-img border">img</div>
                 <div class="book-detail border">
                     <div class="book-title">${storybook.bookname}</div>
@@ -84,7 +84,7 @@ function displayLikes(likesData) {
     displayArea.innerHTML = ""
     for (let like of likesData) {
         displayArea.innerHTML += `
-        <div class="like card border" onclick="bookReader(${like.id})" >
+        <div class="like card border" onclick="window.location.href ='../book/?id=${like.id}'" >
             <div class="book-img border">img</div>
             <div class="book-detail border">
                 <div class="book-title">${like.bookname}</div>
