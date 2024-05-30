@@ -10,24 +10,17 @@ window["toggleLike"] = toggleLike;
 window["register"] = register;
 window["createStorybook"] = createStorybook;
 window["requirePayment"] = requirePayment
-window.addEventListener("load", async (e) => {
 
+window.addEventListener("load", async (e) => {
     const userId = await checkLogin();
     const data = await getAllStorybook();
-
     loadStorybooks(data);
-
     const bookTypeData = await storybookType();
-
     loadFilter(bookTypeData);
     if (!userId) {
       return 
     }
     await displayLike();
-
-   if(!isMember & isAttemped){
-
-   }
 });
 
 const loadStorybooks = (data) => {
@@ -44,7 +37,7 @@ const loadStorybooks = (data) => {
     }
 }
 async function getAllStorybook() {
-    const res = await fetch("/storybooks")
+    const res = await fetch("../storybooks")
     const response = await res.json()
 
     if (res.ok) {
@@ -60,7 +53,7 @@ async function toggleLike(e, bookId) {
     e.target.classList.toggle('fa-solid')
     const isLiked = e.target.classList.contains('fa-solid')
     if (isLiked) {
-        const res = await fetch('/like', {
+        const res = await fetch('../like', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -70,7 +63,7 @@ async function toggleLike(e, bookId) {
         return
     }
 
-    const res = await fetch('/dislike', {
+    const res = await fetch('../dislike', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -81,7 +74,7 @@ async function toggleLike(e, bookId) {
 }
 
 const displayLike = async () => {
-    const res = await fetch("/like")
+    const res = await fetch("../like")
     const data = (await res.json()).data
     const bookIds = data.map(elem => elem.id)
     const books = document.querySelectorAll(".book")
@@ -100,15 +93,16 @@ const displayLike = async () => {
 }
 
 const checkLogin = async () => {
-    const res = await fetch("/checkLogin")
+    const res = await fetch("../checkLogin")
     const data = await res.json()
     const navbar = document.querySelector(".navbar")
-    const isMember = await checkIsMember()
-    const isAttemped = await hasFirstAttempt()
-    const ableToCreateStorybook = !isAttemped || isMember
+
 
     if (data.data) {
         //users has logged in
+        const isMember = await checkIsMember()
+        const isAttemped = await hasFirstAttempt()
+        const ableToCreateStorybook = !isAttemped || isMember
         document.querySelector(".selection-area")
             .insertAdjacentHTML(
                 "afterbegin",
@@ -145,7 +139,7 @@ async function search(e) {
         return
     }
     searchResult.classList.remove("hide")
-    const res = await fetch('/search', {
+    const res = await fetch('../search', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -169,13 +163,13 @@ async function search(e) {
 }
 
 async function logout() {
-    const res = await fetch("/logout")
+    const res = await fetch("../logout")
     const data = await res.json()
     window.location.reload()
 }
 
 async function storybookType() {
-    const res = await fetch("/booktype")
+    const res = await fetch("../booktype")
     const data = (await res.json()).data
     return data
 }
@@ -245,7 +239,7 @@ async function submitFilterForm(e) {
     if (!obj.condition[0]) {
         return
     }
-    const res = await fetch('/filter', {
+    const res = await fetch('../filter', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -263,7 +257,7 @@ async function sort(e) {
     if (category == "") {
         return
     }
-    const res = await fetch('/sort', {
+    const res = await fetch('../sort', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -282,7 +276,7 @@ function randomNum (num){
 
 
 async function checkIsMember(){
-    const res = await fetch("/payment")
+    const res = await fetch("../payment")
     const data = (await res.json()).data
     if(data.length > 0){
         return true
@@ -291,7 +285,7 @@ async function checkIsMember(){
 }
 
 async function hasFirstAttempt(){
-    const res = await fetch("/free-trial")
+    const res = await fetch("../free-trial")
     const data = (await res.json()).data
     return data[0].has_first_attempt
 }
