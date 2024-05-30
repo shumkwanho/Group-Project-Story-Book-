@@ -35,7 +35,6 @@ export async function createStorybook(characterId = -1) {
                     `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
                 )
 
-
             let res = await fetch('/storybook', {
                 method: "POST",
                 headers: {

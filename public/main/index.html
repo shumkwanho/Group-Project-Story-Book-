@@ -15,7 +15,10 @@
 
 <body>
     <div class="navbar" id="navbar">
-        <div id="user-page-redirect">User Page</div>
+        <div id="user-page-redirect" class="border-large">
+            <i class="fa-regular fa-user"></i>
+            Hello <span id="username-display">Guest</span>
+        </div>
         <div class="search-container">
             <input type="text" placeholder="Search Bar" class="search-bar">
             <div class="search-result-container">
@@ -56,7 +59,7 @@
             <label for="newPassword"><b>Password</b></label>
             <input id="newPassword" type="password" placeholder="Enter Password" name="newPassword" value="1" required>
 
-            <label for="comfirmpassword"><b>Comfirm Password</b></label>
+            <label for="confirmpassword"><b>Confirm Password</b></label>
             <input id="confirmPassword" type="password" placeholder="Confirm Password" name="confirmPassword" value="1" required>
 
             <button type="submit" class="btn">Register</button>
@@ -129,23 +132,27 @@
         <div class="main-part border">
             <section class="search-area border">
                 <div class="filter-area">
-                    <form class="filter ">
-                        <label class="toggle-filter p2 text-wrapper" id="category">Category <i
-                                class="fa-sharp fa-solid fa-caret-down"></i></label>
+                    <form class="filter">
+                        <label class="toggle-filter p2 text-wrapper" id="category">
+                            Category
+                            <i class="fa-sharp fa-solid fa-caret-down"></i>
+                        </label>
                         <div class=" filter-list filter-category hide border"></div>
                     </form>
-                    <form class="filter ">
-                        <label class="toggle-filter p2 text-wrapper" id="target_age">TargetAge <i
-                                class="fa-sharp fa-solid fa-caret-down"></i></label>
+                    <form class="filter">
+                        <label class="toggle-filter p2 text-wrapper" id="target_age">
+                            Target Age <i class="fa-sharp fa-solid fa-caret-down"></i>
+                        </label>
                         <div class="filter-list filter-target_age hide border"></div>
                     </form>
                     <form class="filter">
-                        <label class="toggle-filter p2 text-wrapper" id="total_page">Pages <i
-                                class="fa-sharp fa-solid fa-caret-down"></i></label>
+                        <label class="toggle-filter p2 text-wrapper" id="total_page">
+                            Total Page <i class="fa-sharp fa-solid fa-caret-down"></i>
+                        </label>
                         <div class="filter-list filter-total_page hide border"></div>
                     </form>
                 </div>
-                <div class="sort">
+                <div class="sort-area">
                     <form class="sort-form p2">
                         <label>SORT BY</label>
                         <select name="sort-drop-down" id="sort">

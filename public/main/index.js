@@ -97,10 +97,10 @@ const displayLike = async () => {
 
 const checkLogin = async () => {
     const res = await fetch("/checkLogin")
-    const data = await res.json()
+    const userData = await res.json()
     const navbar = document.querySelector(".navbar")
     
-    if (data.data) {
+    if (userData.data) {
         //users has logged in
         document.querySelector(".selection-area")
             .insertAdjacentHTML(
@@ -118,8 +118,10 @@ const checkLogin = async () => {
             .addEventListener("click", () => {
                 window.location.href = '../member';
             });
+        
+        document.querySelector("#username-display").innerHTML = userData.data.username;
 
-        return data.data
+        return userData.data
     }
     navbar.innerHTML += `
         <button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>
