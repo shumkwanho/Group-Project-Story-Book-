@@ -7,15 +7,18 @@ const storybookArea = document.querySelector(".storybook-area")
 window["logout"] = logout;
 window["login"] = login;
 window["toggleLike"] = toggleLike;
-// window["closeForm"] = closeForm;
 window["register"] = register;
 window["createStorybook"] = createStorybook;
 
 window.addEventListener("load", async (e) => {
+
     const userId = await checkLogin();
     const data = await getAllStorybook();
+
     loadStorybooks(data);
+
     const bookTypeData = await storybookType();
+
     loadFilter(bookTypeData);
     if (!userId) {
       return 
@@ -104,18 +107,23 @@ const checkLogin = async () => {
     
     if (data.data) {
         //users has logged in
-        storybookArea.innerHTML = `   
-        <div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
-            <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
-            <p class="textAbsolute">Create Story Book</p>
-        </div>`
-
-        document.getElementById('user-page-redirect').onclick = () => {
-            console.log("haha")
-        }
+        document.querySelector(".selection-area")
+            .insertAdjacentHTML(
+                "afterbegin",
+                `<div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
+                    <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
+                    <p class="textAbsolute">Create Story Book</p>
+                </div>`
+            )
 
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         document.querySelector(".search-bar").addEventListener("input", search)
+
+        document.querySelector("#user-page-redirect")
+            .addEventListener("click", () => {
+                window.location.href = '../member';
+            });
+
         return data.data
     }
     navbar.innerHTML += `
