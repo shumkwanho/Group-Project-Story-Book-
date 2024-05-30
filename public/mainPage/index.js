@@ -39,20 +39,7 @@ window.addEventListener("load", async (e) => {
 // }
 
 const loadStorybooks = (data) => {
-    // 1. 取得 "littleImage" 資料夾中所有 .png 檔案的檔名
-    const fs = require('fs');
-    const path = require('path');
 
-    const folderPath = "src='./littleImage/'";
-    const pngFiles = fs.readdirSync(folderPath).filter(file => path.extname(file).toLowerCase() === '.png');
-
-    // 2. 從中隨機選擇一個檔案
-    const randomIndex = Math.floor(Math.random() * pngFiles.length);
-    const selectedFile = pngFiles[randomIndex];
-
-    // 3. 返回選擇的檔案路徑
-    const selectedFilePath = path.join(folderPath, selectedFile);
-    console.log('Selected file:', selectedFilePath);
 
 
     const storybookArea = document.querySelector(".storybook-area")
@@ -72,7 +59,7 @@ const loadStorybooks = (data) => {
                 <div class="book-img border">img</div>
                 <div class="book-title"><p class="p2">${storybook.bookname}</p></div>               
                 <div class="suitable-age"><p class="p2">${storybook.target_age} years old</p></div>
-                <img src="./littleImage/1.png" class="image1 style="width: 3px ;height: 3px;">
+                <img src="./littleImage/${randomNum(12)}.png" class="image1 style="width: 3px ;height: 3px;">
             </div>`
     }
 }
@@ -288,3 +275,8 @@ async function sort(e) {
     const data = (await res.json()).data
     loadStorybooks(data)
 }
+
+function randomNum (num){
+    return Math.floor(Math.random()*num)
+}
+
