@@ -1,52 +1,45 @@
-export function login(userId) {
-    
-    console.log("hahah")
-
-    //1) show a popup window
-
-    //2) get event listener from the form
-
-    //3) fetch login API with body (username, email, password)
-
-    //4) check res.ok
-
-    //4.1) if ok => tell user login successful
-    //4.2) if not ok => login not successful => tell user about the error
-        // check (if result.message === 'Invalid credentials password not match')
-
-
-    const checkLogin = async () => {
-        const res = await fetch("/checkLogin");
-        const data = await res.json();
-        const navbar = document.querySelector("#navbar");
-        if (data.data) {
-            navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary">Logout</button>`;
-            return data.data;
-        }
-        const loginButton = document.createElement('button');
-        loginButton.id = 'login';
-        loginButton.type = 'button';
-        loginButton.className = 'btn btn-primary';
-        loginButton.textContent = 'Login';
-        loginButton.addEventListener('click', showLoginWindow);
-        navbar.appendChild(loginButton);
-        return null;
-    };
+export function openForm() {
+  document.getElementById("myForm").style.display = "block";
 }
-
-const showLoginButton = document.getElementById('show-login');
-const loginWindow = document.getElementById('login-window');
-const closeButton = document.getElementById('close-login');
-
-function showLoginWindow() {
-  loginWindow.style.display = 'block';
+export function closeForm() {
+  document.getElementById("myForm").style.display = "none";
 }
+window["openForm"] = openForm;
+window["closeForm"] = closeForm;
 
-function hideLoginWindow() {
-  loginWindow.style.display = 'none';
+export function login() {
+  openForm()
 }
+document.getElementById('myForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const username = document.getElementById('username').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
 
-showLoginButton.addEventListener('click', showLoginWindow);
+  console.log('Username:', username);
+  console.log('Email:', email);
+  console.log('Password:', password);
 
-closeButton.addEventListener('click', hideLoginWindow);
+  try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, email, password })
+    });
 
+    const data = await response.json();
+
+    if (response.ok) {
+      alert('Login successful!');
+      window.history.back();
+    } else {
+      const data = await response.json();
+      alert(`Login failed: ${data.message}`);
+    }
+  } catch (error) {
+    alert('An error occurred during login.');
+    console.error(error);
+  }
+})
