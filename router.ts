@@ -22,6 +22,8 @@ import { UserController } from "./controller/userController";
 import { LikeController } from "./controller/likeController";
 import { LikeService } from "./service/likeService";
 
+import { isLoggedIn } from "./utils/guards";
+
 
 export const router = Router()
 const paymentService = new PaymentService(knex)
@@ -32,6 +34,7 @@ router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
 router.post('/create-checkout-session', paymentController.payment); 
+router.get("/payment",paymentController.checkUserPayment)
 
 const characterService = new CharacterService(knex)
 const characterController = new CharacterController (characterService)
@@ -73,10 +76,11 @@ router.get("/checkLogin", userController.checkLogin)
 router.post("/login", userController.login)
 router.post("/register", userController.register)
 router.get("/logout", userController.logout)
-router.get("/user",userController.getUserInfo)
+router.get("/user",isLoggedIn,userController.getUserInfo)
 router.get("/user-storybooks",userController.getStorybookbyUserId)
-router.put("/username",userController.editUsername)
+router.put("/username",isLoggedIn,userController.editUsername)
 router.put("/password",userController.changePassword)
+router.get("/free-trial",userController.checkFirstTrial)
 
 const likeService = new LikeService(knex)
 const likeController = new LikeController(likeService)

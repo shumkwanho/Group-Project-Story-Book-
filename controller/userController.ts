@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserService } from "../service/userService";
+import { UserService } from "../service/userService"
 import bcrypt from 'bcrypt';
 
 export class UserController {
@@ -145,6 +145,17 @@ export class UserController {
             
             res.json({message:"Update Password Sucessfully"})
 
+        } catch (error) {
+            console.error('Error in login route:', error);
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
+
+    checkFirstTrial = async (req: Request, res: Response) => {
+        try {
+            const userId = req.session.userId
+            const data = await this.service.checkFreeTrial(userId as string)
+            res.json({data})
         } catch (error) {
             console.error('Error in login route:', error);
             return res.status(500).json({ message: 'Internal server error' })

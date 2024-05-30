@@ -21,8 +21,8 @@
     <input type="text" name="description" value="cute cat">
     <input type="submit">
   </form>
-  <script async src="https://js.stripe.com/v3/buy-button.js">
-  </script>
+
+
 
   <div class="product">
     <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" />
@@ -35,48 +35,7 @@
     <button type="submit" id="checkout-button">Checkout</button>
   </form>
 
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button>
   
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <main>
-            <div class="row row-cols-1 mb-3 text-center">
-              <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                  <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Premium</h4>
-                  </div>
-                  <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$50<small class="text-body-secondary fw-light"></small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                      <li> Free Access to StoryBooks</li>
-                      <li>Create StoryBook(Unlimited)</li>
-                      <li>Create Character(Unlimited)</li>
-                    </ul>
-                    <form action="/create-checkout-session" method="POST">
-                      <button type="submit" class="w-100 btn btn-lg btn-outline-primary" id="checkout-button">Checkout</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
 
 
