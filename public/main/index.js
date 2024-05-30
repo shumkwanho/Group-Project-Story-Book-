@@ -1,21 +1,20 @@
 import { createStorybook } from '../helpers/createStorybook.js';
 import { bookReader } from '../helpers/bookReader.js'
-
 import { login } from './login.js';
 import { register } from './register.js';
+
+const storybookArea = document.querySelector(".storybook-area")
 
 window["logout"] = logout;
 window["login"] = login;
 window["toggleLike"] = toggleLike;
-window["closeForm"] = closeForm;
-
+// window["closeForm"] = closeForm;
+window["register"] = register;
 window["createStorybook"] = createStorybook;
 window["bookReader"] = bookReader;
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin();
-    // await loadCharacters();
-    // await loadCharacters();
     const data = await getAllStorybook();
     loadStorybooks(data);
     const bookTypeData = await storybookType();
@@ -25,25 +24,11 @@ window.addEventListener("load", async (e) => {
     }
 });
 
-
-
 const loadStorybooks = (data) => {
 
-    const storybookArea = document.querySelector(".storybook-area")
-
-    //TODO: only show when logged in
-    storybookArea.innerHTML = `   
-        <div class="create-storybook border"  onclick="createStorybook()">
-            <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
-            
-            <p class="textAbsolute">Create Story Book</p>
-        </div>
-        <div class="display-storybook">
-        </div>`
-    const displayStorybook = document.querySelector(".display-storybook")
     //TODO: show public books when logged out
     for (let storybook of data) {
-        displayStorybook.innerHTML +=
+        storybookArea.innerHTML +=
             `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
                 <div class="book-img border">img</div>
                 <div class="book-title"><p class="p2">${storybook.bookname}</p></div>               
@@ -112,7 +97,15 @@ const checkLogin = async () => {
     const res = await fetch("/checkLogin")
     const data = await res.json()
     const navbar = document.querySelector(".navbar")
+    
     if (data.data) {
+        //users has logged in
+        storybookArea.innerHTML = `   
+        <div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
+            <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
+            <p class="textAbsolute">Create Story Book</p>
+        </div>`
+
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         document.querySelector(".search-bar").addEventListener("input", search)
         return data.data
@@ -265,7 +258,7 @@ async function sort(e) {
     loadStorybooks(data)
 }
 
-function randomNum(num) {
-    return Math.floor(Math.random() * num)
+function randomNum (num){
+    return Math.floor(Math.random()*num)
 }
 
