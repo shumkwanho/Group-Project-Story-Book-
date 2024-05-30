@@ -22,6 +22,8 @@ import { UserController } from "./controller/userController";
 import { LikeController } from "./controller/likeController";
 import { LikeService } from "./service/likeService";
 
+import { isLoggedIn } from "./utils/guards";
+
 
 export const router = Router()
 const paymentService = new PaymentService(knex)
@@ -74,9 +76,9 @@ router.get("/checkLogin", userController.checkLogin)
 router.post("/login", userController.login)
 router.post("/register", userController.register)
 router.get("/logout", userController.logout)
-router.get("/user",userController.getUserInfo)
+router.get("/user",isLoggedIn,userController.getUserInfo)
 router.get("/user-storybooks",userController.getStorybookbyUserId)
-router.put("/username",userController.editUsername)
+router.put("/username",isLoggedIn,userController.editUsername)
 router.put("/password",userController.changePassword)
 router.get("/free-trial",userController.checkFirstTrial)
 
