@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { knex } from "../utils/knex";
+// import { knex } from "../utils/knex";
 import { PaymentService } from "../service/paymentService";
 
 const stripe = require('stripe')('sk_test_51PIidhDdEVvEGUkxnioFgWXwphLAPJKjUcREvNIXxjKkgHO9Ws2ei1o6Qdirx9rgytMuFAb0ki3gQr39COHji8m300dWDkK8rs');

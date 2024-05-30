@@ -1,17 +1,20 @@
 import { createStorybook } from '../helpers/createStorybook.js';
+import { bookReader } from '../helpers/bookReader.js'
 
 import { login } from './login.js';
 import { register } from './register.js';
 
 window["logout"] = logout;
 window["login"] = login;
-window["register"] = register;
 window["toggleLike"] = toggleLike;
+window["closeForm"] = closeForm;
 
 window["createStorybook"] = createStorybook;
+window["bookReader"] = bookReader;
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin();
+    // await loadCharacters();
     // await loadCharacters();
     const data = await getAllStorybook();
     loadStorybooks(data);
