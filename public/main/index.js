@@ -3,6 +3,8 @@ import { bookReader } from '../helpers/bookReader.js'
 import { login } from './login.js';
 import { register } from './register.js';
 
+const storybookArea = document.querySelector(".storybook-area")
+
 window["logout"] = logout;
 window["login"] = login;
 window["toggleLike"] = toggleLike;
@@ -13,8 +15,6 @@ window["bookReader"] = bookReader;
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin();
-    // await loadCharacters();
-    // await loadCharacters();
     const data = await getAllStorybook();
     loadStorybooks(data);
     const bookTypeData = await storybookType();
@@ -24,30 +24,7 @@ window.addEventListener("load", async (e) => {
     }
 });
 
-// const loadCharacters = async () => {
-//     const res = await fetch("/characters")
-//     const data = (await res.json()).data
-//     const characterArea = document.querySelector(".character-area")
-//     for (let character of data) {
-//         characterArea.innerHTML +=
-//             `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
-//                 <div class="character-image">image</div>
-//                 <div class="character-name">${character.name}</div>
-//             </div>`
-//     }
-// }
-
 const loadStorybooks = (data) => {
-
-    const storybookArea = document.querySelector(".storybook-area")
-
-    //TODO: only show when logged in
-    storybookArea.innerHTML = `   
-    <div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
-        <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
-        
-        <p class="textAbsolute">Create Story Book</p>
-    </div>`
 
     //TODO: show public books when logged out
     for (let storybook of data) {
@@ -120,7 +97,15 @@ const checkLogin = async () => {
     const res = await fetch("/checkLogin")
     const data = await res.json()
     const navbar = document.querySelector(".navbar")
+    
     if (data.data) {
+        //users has logged in
+        storybookArea.innerHTML = `   
+        <div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
+            <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
+            <p class="textAbsolute">Create Story Book</p>
+        </div>`
+
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         document.querySelector(".search-bar").addEventListener("input", search)
         return data.data
