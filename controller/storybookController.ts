@@ -77,6 +77,7 @@ export class StorybookController {
     */
     createStoryBook = async (req: Request, res: Response) => {
         try {
+
             const userId = req.session.userId;
             const { characterId, targetAge, category, totalPage } = req.body;
 
@@ -134,7 +135,44 @@ export class StorybookController {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
         }
+    }
 
+    createStoryBookPlot = async (req: Request, res: Response) => {
+        try {
+            const userId = req.session.userId;
+            const { characterId, targetAge, category, totalPage } = req.body;
+
+            let characterInfo = await characterService.loadCharacterById(characterId);
+
+            let characterName = characterInfo[0].name;
+
+            let storybookTextPrompt = genStorybookTextPrompt(characterName, targetAge, category, totalPage);
+            let storybookContent = await textGeneratorModel(storybookTextPrompt, TEXT_MODEL);
+            let storybookContentJSON = JSON.parse(storybookContent as string);
+
+            let bookName = storybookContentJSON.story_name;
+            let description = storybookContentJSON.description_summary;
+
+            await this.service.createStorybook(
+                parseInt(userId as string), 
+                bookName as string, 
+                description as string,
+                parseInt(characterId), 
+                parseInt(targetAge), 
+                category as string, 
+                parseInt(totalPage),
+                JSON.stringify(storybookContentJSON)
+            );
+
+            res.json({
+                message: "create storybook plot successful",
+                data: storybookContentJSON
+            })
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
     }
 
     getStoryBookType = async (req: Request, res: Response) => {
