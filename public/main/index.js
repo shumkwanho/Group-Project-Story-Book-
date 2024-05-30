@@ -1,58 +1,42 @@
 import { createStorybook } from '../helpers/createStorybook.js';
-import { bookReader } from '../helpers/bookReader.js'
 import { login } from './login.js';
 import { register } from './register.js';
+
+const storybookArea = document.querySelector(".storybook-area")
 
 window["logout"] = logout;
 window["login"] = login;
 window["toggleLike"] = toggleLike;
-// window["closeForm"] = closeForm;
 window["register"] = register;
 window["createStorybook"] = createStorybook;
-window["bookReader"] = bookReader;
 
 window.addEventListener("load", async (e) => {
+
     const userId = await checkLogin();
-    // await loadCharacters();
-    // await loadCharacters();
     const data = await getAllStorybook();
+
     loadStorybooks(data);
+
     const bookTypeData = await storybookType();
+
     loadFilter(bookTypeData);
-    if (userId) {
-        await displayLike();
+    if (!userId) {
+      return 
     }
+    await displayLike();
+    const isMember = await checkIsMember()
+    const isAttemped = await checkFirstTrial()
+   if(!isMember & isAttemped){
+    requirePayment()
+   }
 });
 
-// const loadCharacters = async () => {
-//     const res = await fetch("/characters")
-//     const data = (await res.json()).data
-//     const characterArea = document.querySelector(".character-area")
-//     for (let character of data) {
-//         characterArea.innerHTML +=
-//             `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
-//                 <div class="character-image">image</div>
-//                 <div class="character-name">${character.name}</div>
-//             </div>`
-//     }
-// }
-
 const loadStorybooks = (data) => {
-
-    const storybookArea = document.querySelector(".storybook-area")
-
-    //TODO: only show when logged in
-    storybookArea.innerHTML = `   
-    <div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
-        <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
-        
-        <p class="textAbsolute">Create Story Book</p>
-    </div>`
 
     //TODO: show public books when logged out
     for (let storybook of data) {
         storybookArea.innerHTML +=
-            `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
+            `<div class="book border" id="book_${storybook.id}" onclick="window.location.href ='../book/?id=${storybook.id}'">
                 <div class="book-img border">img</div>
                 <div class="book-title"><p class="p2">${storybook.bookname}</p></div>               
                 <div class="suitable-age"><p class="p2">${storybook.target_age} years old</p></div>
@@ -72,7 +56,7 @@ async function getAllStorybook() {
 }
 
 async function toggleLike(e, bookId) {
-
+    e.stopPropagation()
     e.target.classList.toggle('fa-regular')
     e.target.classList.toggle('fa-solid')
     const isLiked = e.target.classList.contains('fa-solid')
@@ -120,9 +104,26 @@ const checkLogin = async () => {
     const res = await fetch("/checkLogin")
     const data = await res.json()
     const navbar = document.querySelector(".navbar")
+    
     if (data.data) {
+        //users has logged in
+        document.querySelector(".selection-area")
+            .insertAdjacentHTML(
+                "afterbegin",
+                `<div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
+                    <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
+                    <p class="textAbsolute">Create Story Book</p>
+                </div>`
+            )
+
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         document.querySelector(".search-bar").addEventListener("input", search)
+
+        document.querySelector("#user-page-redirect")
+            .addEventListener("click", () => {
+                window.location.href = '../member';
+            });
+
         return data.data
     }
     navbar.innerHTML += `
@@ -134,7 +135,6 @@ const checkLogin = async () => {
 }
 
 async function search(e) {
-
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
     const search = e.target.value
@@ -277,3 +277,26 @@ function randomNum (num){
     return Math.floor(Math.random()*num)
 }
 
+
+
+async function checkIsMember(){
+    const res = await fetch("/payment")
+    const data = (await res.json()).data
+    if(data.length > 0){
+        return true
+    }
+    return false
+}
+
+async function checkFirstTrial(){
+    const res = await fetch("/free-trial")
+    const data = (await res.json()).data
+    if(data.length > 0){
+        return true
+    }
+    return false
+}
+
+function requirePayment(){
+    const paymentModal = new bootstrap.Modal(document.getElementById('readerModal'), {});
+}

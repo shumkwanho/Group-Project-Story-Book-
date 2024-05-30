@@ -31,6 +31,7 @@ export class StorybookService {
         .from("storybooks")
         .whereILike("bookname",`%${str}%`)
         .orWhereILike("description",`%${str}%`)
+        .limit(5)
     }
 
     getStoryBookByCategory = async (category:string) => {

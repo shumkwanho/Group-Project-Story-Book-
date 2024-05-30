@@ -1,6 +1,6 @@
-import { showCharacterCard } from "../../public/helpers/characterCard.js"
-import { createCharacter } from "../../public/helpers/createCharacter.js"
-import { createStorybook } from "../../public/helpers/createStorybook.js"
+import { showCharacterCard } from "../../helpers/characterCard.js"
+import { createCharacter } from "../../helpers/createCharacter.js"
+import { createStorybook } from "../../helpers/createStorybook.js"
 
 window["showCharacterCard"] = showCharacterCard
 window["createCharacter"] = createCharacter
