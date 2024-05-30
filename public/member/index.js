@@ -26,8 +26,8 @@ function loadUserInfo(user) {
     document.querySelector(".email").innerHTML = user.email
     document.getElementsByName("username")[0].value = user.username
     document.getElementsByName("email")[0].value = user.email
-    document.querySelector(".edit-user-info").addEventListener("submit",editUserInfo)
-    document.querySelector(".edit-password").addEventListener("submit",changePassword)
+    document.querySelector(".edit-user-info").addEventListener("submit", editUserInfo)
+    document.querySelector(".edit-password").addEventListener("submit", changePassword)
 }
 
 async function getcharacter() {
@@ -38,7 +38,7 @@ async function getcharacter() {
 
 function loadCharacter(charactersData) {
 
-    displayArea.innerHTML = `<div class="create-character card" onclick="createCharacter()">Create Character</div>`
+    displayArea.innerHTML = `<div id="createCharacterCard" class="create-character card" onclick="createCharacter()">Create Character</div>`
 
     for (let character of charactersData) {
         displayArea.innerHTML +=
@@ -123,7 +123,7 @@ document.querySelectorAll(".collection div").forEach((selection) => {
     })
 })
 
-async function editUserInfo(e){
+async function editUserInfo(e) {
     e.preventDefault()
     let username = e.target.username.value
     const res = await fetch('/username', {
@@ -135,13 +135,13 @@ async function editUserInfo(e){
     })
     const data = await res.json()
     const editUserMessage = document.querySelector(".edit-user-message")
-    if(res.ok){
+    if (res.ok) {
         editUserMessage.style.color = "green"
         editUserMessage.innerHTML = data.message
     }
 }
 
-async function changePassword(e){
+async function changePassword(e) {
     e.preventDefault()
     const orginalPassword = e.target.originalPassword.value
     const newPassword = e.target.newPassword.value
