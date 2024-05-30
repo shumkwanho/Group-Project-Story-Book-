@@ -104,12 +104,14 @@ const checkLogin = async () => {
             <p class="textAbsolute">Create Story Book</p>
         </div>`
 
-        document.getElementById('user-page-redirect').onclick = () => {
-            console.log("haha")
-        }
-
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         document.querySelector(".search-bar").addEventListener("input", search)
+
+        document.querySelector("#user-page-redirect")
+            .addEventListener("click", () => {
+                window.location.href = '../member';
+            });
+
         return data.data
     }
     navbar.innerHTML += `

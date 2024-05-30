@@ -1,4 +1,4 @@
-@import url('../helpers/characterCard.css');
+@import url('../../helpers/characterCard.css');
 
 .navbar {
     display: flex;
