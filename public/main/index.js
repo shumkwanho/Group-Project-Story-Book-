@@ -107,7 +107,7 @@ const checkLogin = async () => {
     const isAttemped = await hasFirstAttempt()
     const ableToCreateStorybook = !isAttemped || isMember
 
-    if (data.data) {
+    if (userData.data) {
         //users has logged in
         document.querySelector(".selection-area")
             .insertAdjacentHTML(
