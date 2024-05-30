@@ -25,36 +25,25 @@ window.addEventListener("load", async (e) => {
     }
 });
 
-// const loadCharacters = async () => {
-//     const res = await fetch("/characters")
-//     const data = (await res.json()).data
-//     const characterArea = document.querySelector(".character-area")
-//     for (let character of data) {
-//         characterArea.innerHTML +=
-//             `<div class="character border" id="character_${character.id}" onclick="showCharacterCard(${character.id})">
-//                 <div class="character-image">image</div>
-//                 <div class="character-name">${character.name}</div>
-//             </div>`
-//     }
-// }
+
 
 const loadStorybooks = (data) => {
-
-
 
     const storybookArea = document.querySelector(".storybook-area")
 
     //TODO: only show when logged in
     storybookArea.innerHTML = `   
-    <div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
-        <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
-        
-        <p class="textAbsolute">Create Story Book</p>
-    </div>`
-
+        <div class="create-storybook border"  onclick="createStorybook()">
+            <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
+            
+            <p class="textAbsolute">Create Story Book</p>
+        </div>
+        <div class="display-storybook">
+        </div>`
+    const displayStorybook = document.querySelector(".display-storybook")
     //TODO: show public books when logged out
     for (let storybook of data) {
-        storybookArea.innerHTML +=
+        displayStorybook.innerHTML +=
             `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
                 <div class="book-img border">img</div>
                 <div class="book-title"><p class="p2">${storybook.bookname}</p></div>               
@@ -276,7 +265,7 @@ async function sort(e) {
     loadStorybooks(data)
 }
 
-function randomNum (num){
-    return Math.floor(Math.random()*num)
+function randomNum(num) {
+    return Math.floor(Math.random() * num)
 }
 
