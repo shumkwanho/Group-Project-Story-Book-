@@ -12,6 +12,11 @@ export class PaymentService {
     }
 
     checkUserPayment = async(userId:string)=>{
-        return await this.knex.select("*").from("payment").where("user_id",userId).andWhere("status","completed")
+        return await this.knex("payment")
+        .where({
+            user_id : userId,
+            status:"completed"
+        })
+        .select("*")
     }
 }

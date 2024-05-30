@@ -40,6 +40,6 @@ export class UserService {
     }
 
     checkFreeTrial = async (userId:string)=>{
-        return await this.knex.select("is_first_attempt").from("users").where("id",userId)
+        return await this.knex.select("has_first_attempt").from("users").where("id",userId)
     }
 }

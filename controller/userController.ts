@@ -7,9 +7,16 @@ export class UserController {
 
     checkLogin = async (req: Request, res: Response) => {
         if (req.session.userId) {
-            return res.json({ data: req.session.userId })
+            let userId = req.session.userId;
+            const userInfo = (await this.service.getUserInfo(userId as string))[0]
+            return res.json({
+                data: {
+                    id: userId,
+                    username: userInfo.username
+                }
+            })
         }
-        return res.json({ messgae: "Did not login" })
+        return res.json({ message: "Did not login" })
     }
 
     login = async (req: Request, res: Response) => {

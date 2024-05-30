@@ -1,6 +1,7 @@
 import { createStorybook } from '../helpers/createStorybook.js';
 import { login } from './login.js';
 import { register } from './register.js';
+import { convertDisplayAge } from '../helpers/convertDisplayAge.js';
 
 const storybookArea = document.querySelector(".storybook-area")
 
@@ -9,43 +10,38 @@ window["login"] = login;
 window["toggleLike"] = toggleLike;
 window["register"] = register;
 window["createStorybook"] = createStorybook;
+window["requirePayment"] = requirePayment
 
 window.addEventListener("load", async (e) => {
-
     const userId = await checkLogin();
     const data = await getAllStorybook();
-
     loadStorybooks(data);
-
     const bookTypeData = await storybookType();
-
     loadFilter(bookTypeData);
     if (!userId) {
       return 
     }
     await displayLike();
-    const isMember = await checkIsMember()
-    const isAttemped = await checkFirstTrial()
-   if(!isMember & isAttemped){
-    requirePayment()
-   }
 });
 
 const loadStorybooks = (data) => {
-
-    //TODO: show public books when logged out
+    //only showing public books
     for (let storybook of data) {
-        storybookArea.innerHTML +=
-            `<div class="book border" id="book_${storybook.id}" onclick="window.location.href ='../book/?id=${storybook.id}'">
-                <div class="book-img border">img</div>
-                <div class="book-title"><p class="p2">${storybook.bookname}</p></div>               
-                <div class="suitable-age"><p class="p2">${storybook.target_age} years old</p></div>
-                <img src="./littleImage/${randomNum(12)}.png" class="image1 style="width: 3px ;height: 3px;">
+        if (storybook.is_public === true) {
+            let displayAge = convertDisplayAge(storybook.target_age);
+            storybookArea.innerHTML +=
+                `<div class="book border" id="book_${storybook.id}" onclick="window.location.href ='../book/?id=${storybook.id}'">
+                <img src="../../uploads/pageImg/${storybook.image}" class="book-img border">
+                <div class="book-title"><p class="p2">${storybook.bookname}</p></div>
+                <div class="suitable-age"><p class="p2">Age: ${displayAge}</p></div>          
+                <img src="./img/icons/${randomNum(12)}.png" class="image1 style="width: 3px ;height: 3px;">
             </div>`
+        }
     }
 }
+
 async function getAllStorybook() {
-    const res = await fetch("/storybooks")
+    const res = await fetch("../storybooks")
     const response = await res.json()
 
     if (res.ok) {
@@ -61,7 +57,7 @@ async function toggleLike(e, bookId) {
     e.target.classList.toggle('fa-solid')
     const isLiked = e.target.classList.contains('fa-solid')
     if (isLiked) {
-        const res = await fetch('/like', {
+        const res = await fetch('../like', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -71,7 +67,7 @@ async function toggleLike(e, bookId) {
         return
     }
 
-    const res = await fetch('/dislike', {
+    const res = await fetch('../dislike', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -82,7 +78,7 @@ async function toggleLike(e, bookId) {
 }
 
 const displayLike = async () => {
-    const res = await fetch("/like")
+    const res = await fetch("../like")
     const data = (await res.json()).data
     const bookIds = data.map(elem => elem.id)
     const books = document.querySelectorAll(".book")
@@ -93,24 +89,28 @@ const displayLike = async () => {
         const bookId = parseInt(book.id.slice(5, 7))
         const isLiked = bookIds.includes(bookId)
         if (isLiked) {
-            book.innerHTML += `<i class="fa-solid fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
+            book.innerHTML += `<i class="fa-solid fa-heart like-btn" style="color: #efad5c;" onclick=toggleLike(event,${bookId})></i>`
             continue
         }
-        book.innerHTML += `<i class="fa-regular fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
+        book.innerHTML += `<i class="fa-regular fa-heart like-btn" style="color: #efad5c;" onclick=toggleLike(event,${bookId})></i>`
     }
 }
 
 const checkLogin = async () => {
-    const res = await fetch("/checkLogin")
-    const data = await res.json()
+    const res = await fetch("../checkLogin")
+    const userData = await res.json()
     const navbar = document.querySelector(".navbar")
-    
-    if (data.data) {
+
+    if (userData.data) {
         //users has logged in
+        const isMember = await checkIsMember()
+        const isAttemped = await hasFirstAttempt()
+        const ableToCreateStorybook = !isAttemped || isMember
+
         document.querySelector(".selection-area")
             .insertAdjacentHTML(
                 "afterbegin",
-                `<div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
+                `<div class="create-storybook border" style="width:300px; height: 800px;" onclick=${ableToCreateStorybook?"createStorybook()" : "requirePayment()"}>
                     <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
                     <p class="textAbsolute">Create Story Book</p>
                 </div>`
@@ -123,8 +123,10 @@ const checkLogin = async () => {
             .addEventListener("click", () => {
                 window.location.href = '../member';
             });
+        
+        document.querySelector("#username-display").innerHTML = userData.data.username;
 
-        return data.data
+        return userData.data
     }
     navbar.innerHTML += `
         <button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>
@@ -143,7 +145,7 @@ async function search(e) {
         return
     }
     searchResult.classList.remove("hide")
-    const res = await fetch('/search', {
+    const res = await fetch('../search', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -167,18 +169,19 @@ async function search(e) {
 }
 
 async function logout() {
-    const res = await fetch("/logout")
+    const res = await fetch("../logout")
     const data = await res.json()
     window.location.reload()
 }
 
 async function storybookType() {
-    const res = await fetch("/booktype")
+    const res = await fetch("../booktype")
     const data = (await res.json()).data
     return data
 }
 
 function loadFilter(list) {
+
     for (let type in list) {
         if (type == "all") {
             continue
@@ -190,10 +193,12 @@ function loadFilter(list) {
             <input type="checkbox" name="all" value="filter-all">
         </div>
         `
-        for (let i = 0; i < list[type].length; i++) {
+
+        for (let i = 0; i < list[type].length; i++) {   
+            let displayAge = convertDisplayAge(list[type][i][type])
             filterForm.innerHTML += `
             <div class="option">
-                <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age " + list[type][i][type] : list[type][i][type]}</label>
+                <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age " + displayAge : list[type][i][type]}</label>
                 <input type="checkbox" name="${type}" value="${list[type][i][type]}">
             </div>
             `
@@ -243,7 +248,7 @@ async function submitFilterForm(e) {
     if (!obj.condition[0]) {
         return
     }
-    const res = await fetch('/filter', {
+    const res = await fetch('../filter', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -261,7 +266,7 @@ async function sort(e) {
     if (category == "") {
         return
     }
-    const res = await fetch('/sort', {
+    const res = await fetch('../sort', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -280,7 +285,7 @@ function randomNum (num){
 
 
 async function checkIsMember(){
-    const res = await fetch("/payment")
+    const res = await fetch("../payment")
     const data = (await res.json()).data
     if(data.length > 0){
         return true
@@ -288,15 +293,13 @@ async function checkIsMember(){
     return false
 }
 
-async function checkFirstTrial(){
-    const res = await fetch("/free-trial")
+async function hasFirstAttempt(){
+    const res = await fetch("../free-trial")
     const data = (await res.json()).data
-    if(data.length > 0){
-        return true
-    }
-    return false
+    return data[0].has_first_attempt
 }
 
-function requirePayment(){
-    const paymentModal = new bootstrap.Modal(document.getElementById('readerModal'), {});
+function requirePayment(e){
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'), {});
+    paymentModal.show()
 }

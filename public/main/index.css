@@ -9,6 +9,16 @@
     
 }
 
+.border-large {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 6px
+}
+
+.border-large:hover {
+    background-color: rgb(239, 173, 92);
+}
+
 .main-container {
     display: flex;
     flex-direction: column;
@@ -42,7 +52,7 @@
 }
 
 .main-part {
-    width: 80%;
+    width: 85%;
     height: 1200px;
     padding: 30px;
 }
@@ -58,6 +68,7 @@
 .selection-area {
     display: flex;
     width: 100%;
+    height: 800px;
 }
 
 .character-area {
@@ -83,7 +94,6 @@
     margin-right: 30px;
 }
 
-
 .storybook-area {
     padding: 30px;
     width: 100%;
@@ -91,10 +101,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
-
-
 
 .book {
     padding: 10px;
@@ -113,9 +121,8 @@
     line-height: 120px;
 }
 
-.book-description,
-.suitable-age {
-    font-size: 12px;
+.book-title {
+    padding-top: 15px;
 }
 
 .like-btn {
@@ -126,6 +133,7 @@
     border: none;
     cursor: pointer;
     z-index: 20;
+    font-size: xx-large;
 }
 
 .book:hover {
@@ -146,32 +154,9 @@
     left: 50%;
 }
 
-/* .register-floating-window,
-.floating-window .login-window {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-}
-
-.register-floating-window.floating-window .window-content .login-window {
-    max-width: 400px;
-}
-
-.register-floating-window button .floating-window button .login-window {
-    display: block;
-    margin-top: 10px;
-    margin-left: auto;
-} */
-
 .filter-area {
     display: flex;
-    width: 500px;
+    width: 70%;
     justify-content: space-between;
     align-items: center;
 
@@ -191,10 +176,11 @@
     position: absolute;
     top: 30px;
     left: -10px;
-    height: 150px;
-    overflow-y: auto;
+    max-height: 150px;
+    overflow-y: scroll;
     background-color: white;
     font-size: 17px;
+    z-index: 99;
 }
 
 .option {
@@ -288,7 +274,7 @@
 }
 
 /* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
+.form-container .btn:hover, .open-button:hover, .filter:hover {
   opacity: 1;
 }
 
@@ -299,16 +285,14 @@
     text-align: center;
 }
 
-.p1{
+.p1 {
     font-size: 30px;
-    justify-content: space-between;
     font-family: "Papyrus", "fantasy";
     font-style: italic;
 }
 
-.p2{
+.p2 {
     font-size: 20px;
-    justify-content: space-between;
     font-family: "Papyrus", "fantasy";
     font-style: italic;
 }
@@ -355,4 +339,8 @@
     height: 55px;
     position: absolute;
     text-align: center;
+}
+
+.toggle-filter {
+    width: 100px
 }

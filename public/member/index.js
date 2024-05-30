@@ -59,8 +59,12 @@ async function getStorybookByUserId() {
     return data
 }
 
-function loadStorybooks(storybooksData) {
-    displayArea.innerHTML = `<div class="create-storybook card" onclick="createStorybook()">Create Storybook</div>`
+async function loadStorybooks(storybooksData) {
+    const isMember = await checkIsMember()
+    const isAttemped = await hasFirstAttempt()
+    const ableToCreateStorybook = !isAttemped || isMember
+
+    displayArea.innerHTML = `<div class="create-storybook card" onclick=${ableToCreateStorybook ? "createStorybook()" : "requirePayment()"}>Create Storybook</div>`
     for (let storybook of storybooksData) {
         displayArea.innerHTML += `
         <div class="book card border" onclick="window.location.href ='../book/?id=${storybook.id}'">
@@ -163,4 +167,25 @@ async function changePassword(e) {
     }
     passwordMessage.style.color = "red"
     passwordMessage.innerHTML = data.message
+}
+
+async function checkIsMember() {
+    const res = await fetch("/payment")
+    const data = (await res.json()).data
+    if (data.length > 0) {
+        return true
+    }
+    return false
+}
+
+async function hasFirstAttempt() {
+    const res = await fetch("/free-trial")
+    const data = (await res.json()).data
+    return data[0].has_first_attempt
+}
+
+function requirePayment(e) {
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'), {});
+    paymentModal.show()
+
 }
