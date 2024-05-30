@@ -1,6 +1,7 @@
 import { createStorybook } from '../helpers/createStorybook.js';
 import { login } from './login.js';
 import { register } from './register.js';
+import { convertDisplayAge } from '../helpers/convertDisplayAge.js';
 
 const storybookArea = document.querySelector(".storybook-area")
 
@@ -24,18 +25,21 @@ window.addEventListener("load", async (e) => {
 });
 
 const loadStorybooks = (data) => {
-
-    //TODO: show public books when logged out
+    //only showing public books
     for (let storybook of data) {
-        storybookArea.innerHTML +=
-            `<div class="book border" id="book_${storybook.id}" onclick="window.location.href ='../book/?id=${storybook.id}'">
-                <div class="book-img border">img</div>
-                <div class="book-title"><p class="p2">${storybook.bookname}</p></div>               
-                <div class="suitable-age"><p class="p2">${storybook.target_age} years old</p></div>
-                <img src="./littleImage/${randomNum(12)}.png" class="image1 style="width: 3px ;height: 3px;">
+        if (storybook.is_public === true) {
+            let displayAge = convertDisplayAge(storybook.target_age);
+            storybookArea.innerHTML +=
+                `<div class="book border" id="book_${storybook.id}" onclick="window.location.href ='../book/?id=${storybook.id}'">
+                <img src="../../uploads/pageImg/${storybook.image}" class="book-img border">
+                <div class="book-title"><p class="p2">${storybook.bookname}</p></div>
+                <div class="suitable-age"><p class="p2">Age: ${displayAge}</p></div>          
+                <img src="./img/icons/${randomNum(12)}.png" class="image1 style="width: 3px ;height: 3px;">
             </div>`
+        }
     }
 }
+
 async function getAllStorybook() {
     const res = await fetch("../storybooks")
     const response = await res.json()
@@ -85,10 +89,10 @@ const displayLike = async () => {
         const bookId = parseInt(book.id.slice(5, 7))
         const isLiked = bookIds.includes(bookId)
         if (isLiked) {
-            book.innerHTML += `<i class="fa-solid fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
+            book.innerHTML += `<i class="fa-solid fa-heart like-btn" style="color: #efad5c;" onclick=toggleLike(event,${bookId})></i>`
             continue
         }
-        book.innerHTML += `<i class="fa-regular fa-heart like-btn" onclick=toggleLike(event,${bookId})></i>`
+        book.innerHTML += `<i class="fa-regular fa-heart like-btn" style="color: #efad5c;" onclick=toggleLike(event,${bookId})></i>`
     }
 }
 
@@ -102,6 +106,7 @@ const checkLogin = async () => {
         const isMember = await checkIsMember()
         const isAttemped = await hasFirstAttempt()
         const ableToCreateStorybook = !isAttemped || isMember
+
         document.querySelector(".selection-area")
             .insertAdjacentHTML(
                 "afterbegin",
@@ -176,6 +181,7 @@ async function storybookType() {
 }
 
 function loadFilter(list) {
+
     for (let type in list) {
         if (type == "all") {
             continue
@@ -187,10 +193,12 @@ function loadFilter(list) {
             <input type="checkbox" name="all" value="filter-all">
         </div>
         `
-        for (let i = 0; i < list[type].length; i++) {
+
+        for (let i = 0; i < list[type].length; i++) {   
+            let displayAge = convertDisplayAge(list[type][i][type])
             filterForm.innerHTML += `
             <div class="option">
-                <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age " + list[type][i][type] : list[type][i][type]}</label>
+                <label class="type">${type == "total_page" ? list[type][i][type] + " Pages" : type == "target_age" ? "Age " + displayAge : list[type][i][type]}</label>
                 <input type="checkbox" name="${type}" value="${list[type][i][type]}">
             </div>
             `
@@ -294,5 +302,4 @@ async function hasFirstAttempt(){
 function requirePayment(e){
     const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'), {});
     paymentModal.show()
-
 }
