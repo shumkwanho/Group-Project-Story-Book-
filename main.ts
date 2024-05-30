@@ -33,6 +33,9 @@ declare module "express-session" {
 
 app.use("/test",express.static("public/testingPage"))
 
+//TODO: need to set middle guard
+app.use("/private", express.static("private"))
+
 app.use("/uploads", express.static("uploads"))
 app.use("/",router);
 app.use("/", express.static("public/main"));

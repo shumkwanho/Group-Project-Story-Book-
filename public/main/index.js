@@ -1,5 +1,4 @@
 import { createStorybook } from '../helpers/createStorybook.js';
-import { bookReader } from '../helpers/bookReader.js'
 import { login } from './login.js';
 import { register } from './register.js';
 
@@ -11,7 +10,6 @@ window["toggleLike"] = toggleLike;
 // window["closeForm"] = closeForm;
 window["register"] = register;
 window["createStorybook"] = createStorybook;
-window["bookReader"] = bookReader;
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin();
@@ -29,7 +27,7 @@ const loadStorybooks = (data) => {
     //TODO: show public books when logged out
     for (let storybook of data) {
         storybookArea.innerHTML +=
-            `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
+            `<div class="book border" id="book_${storybook.id}" onclick="window.location.href ='../book/?id=${storybook.id}'">
                 <div class="book-img border">img</div>
                 <div class="book-title"><p class="p2">${storybook.bookname}</p></div>               
                 <div class="suitable-age"><p class="p2">${storybook.target_age} years old</p></div>
@@ -105,6 +103,10 @@ const checkLogin = async () => {
             <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
             <p class="textAbsolute">Create Story Book</p>
         </div>`
+
+        document.getElementById('user-page-redirect').onclick = () => {
+            console.log("haha")
+        }
 
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         document.querySelector(".search-bar").addEventListener("input", search)

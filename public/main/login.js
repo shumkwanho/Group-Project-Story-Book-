@@ -31,9 +31,10 @@ document.getElementById('myForm').addEventListener('submit', async (event) => {
 
     const data = await response.json();
 
+    //TODO: do not use alert, use pop up
     if (response.ok) {
       alert('Login successful!');
-      window.history.back();
+      window.location.reload();
     } else {
       const data = await response.json();
       alert(`Login failed: ${data.message}`);
