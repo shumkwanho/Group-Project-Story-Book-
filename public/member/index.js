@@ -26,8 +26,8 @@ function loadUserInfo(user) {
     document.querySelector(".email").innerHTML = user.email
     document.getElementsByName("username")[0].value = user.username
     document.getElementsByName("email")[0].value = user.email
-    document.querySelector(".edit-user-info").addEventListener("submit",editUserInfo)
-    document.querySelector(".edit-password").addEventListener("submit",changePassword)
+    document.querySelector(".edit-user-info").addEventListener("submit", editUserInfo)
+    document.querySelector(".edit-password").addEventListener("submit", changePassword)
 }
 
 async function getcharacter() {
@@ -59,8 +59,12 @@ async function getStorybookByUserId() {
     return data
 }
 
-function loadStorybooks(storybooksData) {
-    displayArea.innerHTML = `<div class="create-storybook card" onclick="createStorybook()">Create Storybook</div>`
+async function loadStorybooks(storybooksData) {
+    const isMember = await checkIsMember()
+    const isAttemped = await hasFirstAttempt()
+    const ableToCreateStorybook = !isAttemped || isMember
+
+    displayArea.innerHTML = `<div class="create-storybook card" onclick=${ableToCreateStorybook ? "createStorybook()" : "requirePayment()"}>Create Storybook</div>`
     for (let storybook of storybooksData) {
         displayArea.innerHTML += `
         <div class="book card border" onclick="window.location.href ='../book/?id=${storybook.id}'">
@@ -123,7 +127,7 @@ document.querySelectorAll(".collection div").forEach((selection) => {
     })
 })
 
-async function editUserInfo(e){
+async function editUserInfo(e) {
     e.preventDefault()
     let username = e.target.username.value
     const res = await fetch('/username', {
@@ -135,13 +139,13 @@ async function editUserInfo(e){
     })
     const data = await res.json()
     const editUserMessage = document.querySelector(".edit-user-message")
-    if(res.ok){
+    if (res.ok) {
         editUserMessage.style.color = "green"
         editUserMessage.innerHTML = data.message
     }
 }
 
-async function changePassword(e){
+async function changePassword(e) {
     e.preventDefault()
     const orginalPassword = e.target.originalPassword.value
     const newPassword = e.target.newPassword.value
@@ -163,4 +167,25 @@ async function changePassword(e){
     }
     passwordMessage.style.color = "red"
     passwordMessage.innerHTML = data.message
+}
+
+async function checkIsMember() {
+    const res = await fetch("/payment")
+    const data = (await res.json()).data
+    if (data.length > 0) {
+        return true
+    }
+    return false
+}
+
+async function hasFirstAttempt() {
+    const res = await fetch("/free-trial")
+    const data = (await res.json()).data
+    return data[0].has_first_attempt
+}
+
+function requirePayment(e) {
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'), {});
+    paymentModal.show()
+
 }

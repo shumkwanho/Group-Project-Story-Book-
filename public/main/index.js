@@ -9,7 +9,7 @@ window["login"] = login;
 window["toggleLike"] = toggleLike;
 window["register"] = register;
 window["createStorybook"] = createStorybook;
-
+window["requirePayment"] = requirePayment
 window.addEventListener("load", async (e) => {
 
     const userId = await checkLogin();
@@ -24,10 +24,9 @@ window.addEventListener("load", async (e) => {
       return 
     }
     await displayLike();
-    const isMember = await checkIsMember()
-    const isAttemped = await checkFirstTrial()
+
    if(!isMember & isAttemped){
-    requirePayment()
+
    }
 });
 
@@ -104,13 +103,16 @@ const checkLogin = async () => {
     const res = await fetch("/checkLogin")
     const data = await res.json()
     const navbar = document.querySelector(".navbar")
-    
+    const isMember = await checkIsMember()
+    const isAttemped = await hasFirstAttempt()
+    const ableToCreateStorybook = !isAttemped || isMember
+
     if (data.data) {
         //users has logged in
         document.querySelector(".selection-area")
             .insertAdjacentHTML(
                 "afterbegin",
-                `<div class="create-storybook border" style="width:300px; height: 800px;" onclick="createStorybook()">
+                `<div class="create-storybook border" style="width:300px; height: 800px;" onclick=${ableToCreateStorybook?"createStorybook()" : "requirePayment()"}>
                     <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
                     <p class="textAbsolute">Create Story Book</p>
                 </div>`
@@ -288,15 +290,14 @@ async function checkIsMember(){
     return false
 }
 
-async function checkFirstTrial(){
+async function hasFirstAttempt(){
     const res = await fetch("/free-trial")
     const data = (await res.json()).data
-    if(data.length > 0){
-        return true
-    }
-    return false
+    return data[0].has_first_attempt
 }
 
-function requirePayment(){
-    const paymentModal = new bootstrap.Modal(document.getElementById('readerModal'), {});
+function requirePayment(e){
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'), {});
+    paymentModal.show()
+
 }
