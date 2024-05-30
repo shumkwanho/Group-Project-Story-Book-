@@ -19,19 +19,26 @@
 
 .navbar {
     display: flex;
-    justify-content: space-between;
     
     margin: 0;
     margin-bottom: 5px;
-    width: 98%;
+    width: 100%;
     padding: 20px;
     align-items: center;
+    border: 40px solid;
+    border-image-source: url(./img/borderimage.avif);
+    border-image-slice: 80 fill;
+    border-image-repeat: round;
+    
 }
 
 .search-bar {
-    width: 300px;
-    height: 30px;
+    width: 800px;
+    height: 35px;
     font-size: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: rgb(239, 173, 92);
 }
 
 .main-part {
@@ -82,6 +89,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 
@@ -177,12 +185,14 @@
     justify-content: center;
     padding: 5px;
     font-size: 12px;
-    width: 120px;
+    width: 200px;
     position: absolute;
     top: 30px;
     left: -10px;
-    height: 100px;
-    overflow-y: scroll;
+    height: 150px;
+    overflow-y: auto;
+    background-color: white;
+    font-size: 17px;
 }
 
 .option {
@@ -216,6 +226,8 @@
 .search-result-container {
     position: absolute;
     top: 30px;
+    background: rgb(198, 198, 197);
+    z-index: 100;
 }
 
 /* The popup form - hidden by default */
@@ -333,4 +345,12 @@
     width:300px;
     height: 800px;
     min-width: 300px;
+}
+
+.text-wrapper{
+    background-color: rgb(227, 150, 150);
+    border-radius: 2000px 2000px 0 0;
+    height: 55px;
+    position: absolute;
+    text-align: center;
 }
