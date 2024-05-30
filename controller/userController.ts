@@ -111,7 +111,7 @@ export class UserController {
             const { username } = req.body
             const userId = req.session.userId
             await this.service.editUsername(userId as string, username)
-            res.json({ message: "ok" })
+            res.json({ message: "Update Username Sucessfully" })
         } catch (error) {
             console.error('Error in login route:', error);
             return res.status(500).json({ message: 'Internal server error' })

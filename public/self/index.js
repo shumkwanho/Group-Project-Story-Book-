@@ -132,7 +132,11 @@ async function editUserInfo(e){
         body: JSON.stringify({ username }),
     })
     const data = await res.json()
-    // console.log(data);
+    const editUserMessage = document.querySelector(".edit-user-message")
+    if(res.ok){
+        editUserMessage.style.color = "green"
+        editUserMessage.innerHTML = data.message
+    }
 }
 
 async function changePassword(e){

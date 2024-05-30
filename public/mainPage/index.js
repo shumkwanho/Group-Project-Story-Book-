@@ -53,10 +53,9 @@ const loadStorybooks = (data) => {
         storybookArea.innerHTML +=
             `<div class="book border" id="book_${storybook.id}" onclick= "window.location.href ='../book/?id=${storybook.id}'">
                 <div class="book-img border">img</div>
-                <div class="book-title"><p class="p2">${storybook.bookname}</p></div>
-                <div class="book-description"><p class="p2">${storybook.description}</p></div>
+                <div class="book-title"><p class="p2">${storybook.bookname}</p></div>               
                 <div class="suitable-age"><p class="p2">${storybook.target_age} years old</p></div>
-                <img src="./img/tiger.png" class="image1 style="width: 3px ;height: 3px;">
+                <img src="./littleImage/${randomNum(12)}.png" class="image1 style="width: 3px ;height: 3px;">
             </div>`
     }
 }
@@ -122,17 +121,19 @@ const checkLogin = async () => {
     const navbar = document.querySelector(".navbar")
     if (data.data) {
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
+        document.querySelector(".search-bar").addEventListener("input", search)
         return data.data
     }
     navbar.innerHTML += `
         <button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>
         <button id="register" onclick="register()" type="button" class="btn btn-primary">Register</button>
         `
-    document.querySelector(".test").addEventListener("input", search)
+    document.querySelector(".search-bar").addEventListener("input", search)
     return null
 }
 
 async function search(e) {
+
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
     const search = e.target.value
@@ -270,3 +271,8 @@ async function sort(e) {
     const data = (await res.json()).data
     loadStorybooks(data)
 }
+
+function randomNum (num){
+    return Math.floor(Math.random()*num)
+}
+
