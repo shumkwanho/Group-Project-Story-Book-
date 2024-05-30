@@ -121,9 +121,8 @@
     line-height: 120px;
 }
 
-.book-description,
-.suitable-age {
-    font-size: 12px;
+.book-title {
+    padding-top: 15px;
 }
 
 .like-btn {
@@ -134,6 +133,7 @@
     border: none;
     cursor: pointer;
     z-index: 20;
+    font-size: xx-large;
 }
 
 .book:hover {

@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="navbar border">
+    <div id="navbarBorder" class="navbar border">
         <div id="icon">ICON</div>
         <div class="search-container">
             <input type="text" placeholder="Search Bar" class="test">
@@ -22,7 +22,7 @@
         <button type="submit" class="btn btn-primary submit" onclick="logout()">Logout</button>
     </div>
 
-    <div class="container border">
+    <div id="containerBorder" class="container border">
         <a href="../mainPage">Home Page</a>
         <div class="personal-info border">
             <div class="image border"><img src="" alt=""></div>
@@ -44,46 +44,46 @@
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Personal Info</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Personal Info</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="edit-user-info">
+                        <label for="">Username</label>
+                        <br>
+                        <input type="text" name="username">
+                        <br>
+                        <label for="">Email</label>
+                        <br>
+                        <input type="email" name="email" disabled>
+                        <br>
+                        <div class="edit-user-message"></div>
+                        <button type="submit" class="btn btn-primary submit">Save changes</button>
+                    </form>
+                    <hr>
+                    <form class="edit-password">
+                        <label for="">Current Password</label>
+                        <br>
+                        <input type="password" name="originalPassword" required>
+                        <br>
+                        <label for="">Enter New Password</label>
+                        <br>
+                        <input type="password" name="newPassword" required>
+                        <br>
+                        <label for="">Confirm New Password</label>
+                        <br>
+                        <input type="password" name="confirmPassword" required>
+                        <br>
+                        <div class="password-message"></div>
+                        <button type="submit" class="btn btn-primary submit">Save changes</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <form class="edit-user-info">
-                    <label for="">Username</label>
-                    <br>
-                    <input type="text" name="username">
-                    <br>
-                    <label for="">Email</label>
-                    <br>
-                    <input type="email" name="email" disabled>
-                    <br>
-                    <div class="edit-user-message"></div>
-                    <button  type="submit" class="btn btn-primary submit">Save changes</button>
-                </form>
-                <hr>
-                <form class="edit-password">
-                    <label for="">Current Password</label>
-                    <br>
-                    <input type="password" name="originalPassword" required>
-                    <br>
-                    <label for="">Enter New Password</label>
-                    <br>
-                    <input type="password" name="newPassword" required>
-                    <br>
-                    <label for="">Confirm New Password</label>
-                    <br>
-                    <input type="password" name="confirmPassword" required>
-                    <br>
-                    <div class="password-message"></div>
-                    <button  type="submit" class="btn btn-primary submit">Save changes</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </div>
         </div>
     </div>
 
@@ -209,14 +209,14 @@
                 </div>
                 <form id="new-storybook-form">
                     <div class="modal-body" id="create-storybook-body">
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-character">Main Character</label>
                             <select class="form-select" id="new-storybook-character">
                                 <!-- contents to be printed in js -->
                             </select>
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-category">Category</label>
                             <select class="form-select" id="new-storybook-category">
@@ -230,7 +230,7 @@
                                 <option value="Kindness">Kindness</option>
                             </select>
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-target-age">Target Age</label>
                             <select class="form-select" id="new-storybook-target-age">
@@ -241,7 +241,7 @@
                                 <option value="12">10 or above</option>
                             </select>
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-total-page">Total Pages</label>
                             <select class="form-select" id="new-storybook-total-page">
@@ -251,7 +251,7 @@
                                 <option value="12">12</option>
                             </select>
                         </div>
-    
+
                     </div>
                     <div class="modal-footer" id="create-storybook-footer">
                         <button class="btn btn-primary" type="submit" for="new-storybook-form"

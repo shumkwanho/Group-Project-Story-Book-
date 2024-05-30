@@ -6,9 +6,18 @@ export class StorybookService {
 
     loadAllStorybook = async () => {
         const data = await this.knex
-            .select("id", "bookname", "description", "target_age")
+            .select(
+                "storybooks.id",
+                "storybooks.bookname",
+                "storybooks.description",
+                "storybooks.target_age",
+                "storybook_pages.image",
+                "storybooks.is_public"
+            )
             .from("storybooks")
-        return data
+            .join("storybook_pages", "storybooks.id", "=", "storybook_pages.storybook_id")
+            .where("storybook_pages.page_number", "=", 1);
+        return data;
     }
 
     getStoryBookInfoById = async (id?: string) => {

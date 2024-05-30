@@ -38,7 +38,7 @@ async function getcharacter() {
 
 function loadCharacter(charactersData) {
 
-    displayArea.innerHTML = `<div class="create-character card" onclick="createCharacter()">Create Character</div>`
+    displayArea.innerHTML = `<div id="createCharacterCard" class="create-character card" onclick="createCharacter()">Create Character</div>`
 
     for (let character of charactersData) {
         displayArea.innerHTML +=
