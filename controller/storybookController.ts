@@ -61,9 +61,9 @@ export class StorybookController {
     onclickStoryBookById = async (req:Request, res: Response) => {
         try{
             const { id } = req.query;
-            //
             let storybookQueryResult:any = (await this.service.getStoryBookById(id as string))[0]
             const likes = await this.service.getBookLikes(id as string)
+            
             storybookQueryResult.likeCount = likes.count
             res.status(200).json({data: storybookQueryResult})
         } 
