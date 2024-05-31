@@ -120,7 +120,7 @@ const checkLogin = async () => {
 
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         document.querySelector(".search-bar").addEventListener("input", search)
-
+        
         document.querySelector("#user-page-redirect")
             .addEventListener("click", () => {
                 window.location.href = '../member';
@@ -136,37 +136,7 @@ const checkLogin = async () => {
     return null
 }
 
-async function search(e) {
-    const searchResult = document.querySelector(".search-result-container")
-    searchResult.innerHTML = ""
-    const search = e.target.value
-    if (search.length == 0) {
-        searchResult.classList.add("hide")
-        return
-    }
-    searchResult.classList.remove("hide")
-    const res = await fetch('../search', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify({ search }),
-    })
-    const data = (await res.json()).data
 
-    for (let book of data) {
-        let bookname = book.bookname.replace(search, `<b>${search}</b>`)
-        let description = book.description.replace(search, `<b>${search}</b>`)
-        searchResult.innerHTML += `
-        <div class="search-result border">
-            <div class="book-detail" onclick="toBookPage(${book.id})">
-                <div class="search-bookname">${bookname}</div>
-            </div>
-            <img src="" alt="" class="search-image">
-        </div>
-        `
-    }
-}
 
 async function logout() {
     const res = await fetch("../logout")
@@ -320,6 +290,8 @@ document.addEventListener("click", (e) => {
         searchResult.classList.add("hide")
         searchBar.value = ""
     }
+
+
 })
 
 // document.addEventListener("click", (e) => {

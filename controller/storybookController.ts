@@ -62,7 +62,7 @@ export class StorybookController {
         try{
             const { id } = req.query;
             
-            const storybookQueryResult = await this.service.getStoryBookByCategory(id as string);
+            const storybookQueryResult = await this.service.getStoryBookById(id as string);
             res.status(200).json({data: storybookQueryResult})
         } 
         catch (error) {
@@ -226,4 +226,5 @@ export class StorybookController {
             res.status(500).json({ message: "Internal Server Error" })  
         }
     } 
+   
 }
