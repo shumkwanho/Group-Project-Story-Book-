@@ -59,7 +59,12 @@ const storybookController = new StorybookController(storybookService)
 router.get("/storybooks", storybookController.getAllStoryBook)
 router.get("/storybook", storybookController.getStoryBookById)
 router.get("/storybookByid", storybookController.onclickStoryBookById)
+
+//create storybook at once, keep to test if result will be better
 router.post("/storybook", storybookController.createStoryBook)
+
+//create only storybook plot (use plot to create page image one by one)
+router.post("/storybook-plot", storybookController.createStoryBookPlot)
 router.get("/booktype", storybookController.getStoryBookType)
 router.post("/filter", storybookController.filterBook)
 router.post("/sort", storybookController.bookSorting)
@@ -69,6 +74,7 @@ router.post("/search",storybookController.searchStoryBook)
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);
+router.post('/', pageController.createPage)
 
 const userService = new UserService(knex)
 const userController = new UserController(userService)

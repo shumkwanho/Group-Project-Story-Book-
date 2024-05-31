@@ -4,11 +4,12 @@ export class CharacterService {
     constructor(private knex: Knex) { }
 
     loadCharacters = async (user_id: string) => {
-        const data = await this.knex
-            .select("id", "name", "image")
-            .from("characters")
-            .where("is_hidden", false)
-            .andWhere("user_id", user_id);
+        const data = await this.knex("characters")
+            .where({
+                is_hidden: false,
+                user_id: user_id
+            })
+            .select("id", "name", "image");
         return data;
     }
 
