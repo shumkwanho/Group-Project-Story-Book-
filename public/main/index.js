@@ -123,8 +123,7 @@ const checkLogin = async () => {
             )
         }
 
-
-        navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
+        document.querySelector("#logout").classList.toggle("hide");
         document.querySelector(".search-bar").addEventListener("input", search)
         
         document.querySelector("#user-page-redirect")
@@ -134,10 +133,10 @@ const checkLogin = async () => {
 
         return data.data
     }
-    navbar.innerHTML += `
-        <button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>
-        <button id="register" onclick="register()" type="button" class="btn btn-primary">Register</button>
-        `
+
+    document.querySelector("#login").classList.toggle("hide")
+    document.querySelector("#register").classList.toggle("hide")
+
     document.querySelector(".search-bar").addEventListener("input", search)
     return null
 }

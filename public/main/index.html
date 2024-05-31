@@ -25,10 +25,14 @@
             <div class="search-result-container">
             </div>
         </div>
+        <button id="login" onclick=login() type="button" class="btn btn-primary hide">Login</button>
+        <button id="register" onclick="register()" type="button" class="btn btn-primary hide">Register</button>
+        <button id="logout" onclick="logout()" type="button" class="btn btn-primary hide">Logout</button>
+
     </div>
 
-    <div class="form-popup" id="myForm">
-        <form class="form-container">
+    <div class="login-form" id="loginForm">
+        <form class="login-form-container">
             <h1>Login</h1>
 
             <label for="username"><b>Username</b></label>
@@ -41,28 +45,28 @@
             <input id="password" type="password" placeholder="Enter Password" name="password" value="123" required>
 
             <button type="submit" class="btn">Login</button>
-            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            <button type="button" class="btn cancel" onclick="loginCloseForm()">Close</button>
         </form>
     </div>
 
-    <div class="registerPopup" id="registerForm">
-        <form class="registerFormContainer">
+    <div class="register-form" id="registerForm">
+        <form class="register-form-container">
             <h1>Register</h1>
 
             <label for="newUsername"><b>Username</b></label>
-            <input id="newUsername" type="text" placeholder="Enter Username" name="newUsername" value="1" required>
+            <input id="newUsername" type="text" placeholder="Enter Username" name="newUsername" required>
 
             <label for="newEmail"><b>Email</b></label>
-            <input id="newEmail" type="text" placeholder="Enter Email" name="newEmail" value="1@gmail.com" required>
+            <input id="newEmail" type="text" placeholder="Enter Email" name="newEmail" required>
 
             <label for="newPassword"><b>Password</b></label>
-            <input id="newPassword" type="password" placeholder="Enter Password" name="newPassword" value="1" required>
+            <input id="newPassword" type="password" placeholder="Enter Password" name="newPassword" required>
 
             <label for="confirmpassword"><b>Confirm Password</b></label>
-            <input id="confirmPassword" type="password" placeholder="Confirm Password" name="confirmPassword" value="1" required>
+            <input id="confirmPassword" type="password" placeholder="Confirm Password" name="confirmPassword" required>
 
             <button type="submit" class="btn">Register</button>
-            <button type="button" class="registerCancel" onclick="registerCloseForm()">Close</button>
+            <button type="button" class="btn cancel" onclick="registerCloseForm()">Close</button>
         </form>
     </div>
 

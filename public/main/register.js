@@ -1,5 +1,8 @@
-export function register() {
-  document.getElementById("registerForm").style.display = "block";
+const registerForm = document.getElementById("registerForm")
+const registerBtn = document.getElementById("register");
+
+export function registerOpenForm() {
+  registerForm.style.display = "block";
 }
 
 export function registerCloseForm() {
@@ -9,8 +12,14 @@ export function registerCloseForm() {
 window["register"] = register;
 window["registerCloseForm"] = registerCloseForm;
 
-export function login(userId) {
-  register()
+export function register() {
+  registerOpenForm()
+
+  document.addEventListener('click', (e) => {
+    if(!registerForm.contains(e.target) && !registerBtn.contains(e.target)) {
+      registerCloseForm();
+    }
+  })
 }
 
 document.getElementById('registerForm').addEventListener('submit', async (event) => {
