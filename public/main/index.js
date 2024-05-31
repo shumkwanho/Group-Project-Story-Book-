@@ -155,14 +155,15 @@ async function search(e) {
     const data = (await res.json()).data
 
     for (let book of data) {
+        console.log(book);
         let bookname = book.bookname.replace(search, `<b>${search}</b>`)
-        let description = book.description.replace(search, `<b>${search}</b>`)
+
         searchResult.innerHTML += `
         <div class="search-result border">
             <div class="book-detail" onclick="toBookPage(${book.id})">
                 <div class="search-bookname">${bookname}</div>
             </div>
-            <img src="" alt="" class="search-image">
+            <img src="../../uploads/pageImg/${book.image}" alt="" class="search-image">
         </div>
         `
     }
@@ -320,6 +321,8 @@ document.addEventListener("click", (e) => {
         searchResult.classList.add("hide")
         searchBar.value = ""
     }
+
+
 })
 
 // document.addEventListener("click", (e) => {

@@ -60,6 +60,7 @@ router.get("/storybooks", storybookController.getAllStoryBook)
 router.get("/storybook", storybookController.getStoryBookById)
 router.get("/storybookByid", storybookController.onclickStoryBookById)
 
+
 //create storybook at once, keep to test if result will be better
 router.post("/storybook", storybookController.createStoryBook)
 
@@ -74,7 +75,7 @@ router.post("/search",storybookController.searchStoryBook)
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);
-router.post('/', pageController.createPage)
+router.post('/page', pageController.createPage)
 
 const userService = new UserService(knex)
 const userController = new UserController(userService)

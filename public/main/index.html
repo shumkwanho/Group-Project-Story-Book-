@@ -188,14 +188,14 @@
                         <div class="new-story-character-image">
                             <!-- contents to be printed in js -->
                         </div>
-
+    
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-character">Main Character</label>
                             <select class="form-select" id="new-storybook-character">
                                 <!-- contents to be printed in js -->
                             </select>
                         </div>
-
+    
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-category">Category</label>
                             <select class="form-select" id="new-storybook-category">
@@ -209,7 +209,7 @@
                                 <option value="Kindness">Kindness</option>
                             </select>
                         </div>
-
+    
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-target-age">Target Age</label>
                             <select class="form-select" id="new-storybook-target-age">
@@ -220,23 +220,54 @@
                                 <option value="12">10 or above</option>
                             </select>
                         </div>
-
+    
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-total-page">Total Pages</label>
                             <select class="form-select" id="new-storybook-total-page">
                                 <option value="6">6</option>
+                                <option value="7">7</option>
                                 <option selected value="8">8</option>
+                                <option value="9">9</option>
                                 <option value="10">10</option>
-                                <option value="12">12</option>
                             </select>
                         </div>
-
+    
                     </div>
                     <div class="modal-footer" id="create-storybook-footer">
+                        <span class="create-story-book-done-status"></span>
+                        <span class="create-story-book-status"></span>
+                        <i class="fa-solid fa-spinner fa-spin-pulse hidden" id="create-story-book-in-progress-icon"
+                            style="color: #74C0FC;"></i>
+                        <i class="fa-solid fa-check hidden" id="create-story-book-done-icon" style="color: #74C0FC;"></i>
                         <button class="btn btn-primary" type="submit" for="new-storybook-form"
                             id="new-storybook-submit-btn">Create Story Book</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- storybook reader -->
+    <div class="modal fade modal" id="readerModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true"
+        aria-labelledby="readerModalLabel" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" id="storybook-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 storybook-content-header" id="readerModalLabel">
+                        <!-- content to be displayed by js -->
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="storybook-content-body">
+                    <!-- content to be displayed by js -->
+                </div>
+                <div class="modal-footer" id="storybook-content-footer">
+                    <button class="btn btn-primary prev-page-btn">Previous</button>
+                    <div class="story-page-number-container">
+                        <!-- content to be displayed by js -->
+                    </div>
+                    <button class="btn btn-primary next-page-btn">Next</button>
+                </div>
             </div>
         </div>
     </div>
@@ -283,11 +314,13 @@
         </div>
     </div>
 
+    
+
     <footer class="footer bg-dark text-white mt-5">
         <div class="container">
             <footer class="py-5">
-                <div class="row">
-                    <div class="col-6 col-md-2 mb-3">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-4 col-md-2 mb-3">
                         <h5>Section</h5>
                         <ul class="nav flex-column text-white">
                             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Home</a></li>
@@ -298,18 +331,23 @@
                         </ul>
                     </div>
 
-
-
-                    <div class="col-md-5 offset-md-1 mb-3">
-                        <form>
-                            <h5>Subscribe to our newsletter</h5>
-                            <p>Monthly digest of what's new and exciting from us.</p>
-                            <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                                <label for="newsletter1" class="visually-hidden">Email address</label>
-                                <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                                <button class="btn btn-primary" type="button">Subscribe</button>
-                            </div>
-                        </form>
+                    <div class="publishedBy col-4 col-md-4 mb-3">
+                        <div class="belowContainer-top p1">
+                            Published By
+                        </div>
+                        <div class="belowContainer-below">
+                            <img src="./img/DALL.E 3.png" style="width: 200px;">
+                        </div>
+                        
+                    </div>
+                    <div class="supportedBy col-4 col-md-4 mb-3">
+                        <div class="belowContainer-top p1">
+                        Supported By
+                        </div> 
+                        <div class="belowContainer-below p1">
+                            Adams Ip
+                            <img src="./img/adams.webp" style="width: 175px;">
+                        </div>
                     </div>
                 </div>
 

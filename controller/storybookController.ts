@@ -61,8 +61,10 @@ export class StorybookController {
     onclickStoryBookById = async (req:Request, res: Response) => {
         try{
             const { id } = req.query;
+            let storybookQueryResult:any = (await this.service.getStoryBookById(id as string))[0]
+            const likes = await this.service.getBookLikes(id as string)
             
-            const storybookQueryResult = await this.service.getStoryBookByCategory(id as string);
+            storybookQueryResult.likeCount = likes.count
             res.status(200).json({data: storybookQueryResult})
         } 
         catch (error) {
@@ -153,7 +155,7 @@ export class StorybookController {
             let bookName = storybookContentJSON.story_name;
             let description = storybookContentJSON.description_summary;
 
-            await this.service.createStorybook(
+            let createStoryBookPlotQuery = await this.service.createStorybook(
                 parseInt(userId as string), 
                 bookName as string, 
                 description as string,
@@ -166,7 +168,10 @@ export class StorybookController {
 
             res.json({
                 message: "create storybook plot successful",
-                data: storybookContentJSON
+                data: {
+                    id: createStoryBookPlotQuery[0].id,
+                    plot: storybookContentJSON,
+                }
             })
             
         } catch (error) {
@@ -226,4 +231,5 @@ export class StorybookController {
             res.status(500).json({ message: "Internal Server Error" })  
         }
     } 
+   
 }

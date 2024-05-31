@@ -1,5 +1,6 @@
 @import url('../helpers/characterCard.css');
 @import url('../helpers/createStorybook.css');
+@import url('../helpers/bookReader.css');
 
 body {
     margin: 0;
