@@ -47,6 +47,7 @@
     border: 1px solid black;
     border-radius: 10px;
     background-color: rgb(180, 238, 255);
+    padding: 0 30px;
 }
 
 .search-result-container {
@@ -332,4 +333,12 @@ textarea{
     position: relative;
     left: 28px;
     margin-top: 20px;
+}
+
+.hide{
+    display: none;
+}
+
+.like-container{
+    display: flex;
 }
