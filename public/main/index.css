@@ -1,7 +1,4 @@
-/* body{
-    background-color: rgb(219, 219, 219);
-} */
-
+@import url('../helpers/createStorybook.css');
 
 .border {
     border: 1px solid black;

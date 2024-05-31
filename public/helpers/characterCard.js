@@ -1,3 +1,5 @@
+import { getCharacterData } from "./getCharacterData.js";
+
 const characterCardModal = new bootstrap.Modal(document.getElementById('characterCardModal'), {});
 
 const characterContentBody = document.querySelector("#character-content-body");
@@ -25,17 +27,6 @@ export async function showCharacterCard(characterId) {
     createStoryWithCharacterBtn.addEventListener('click', () => {
         createStoryWithCharacter(characterId)
     })
-}
-
-async function getCharacterData(id) {
-    let res = await fetch(`/character?id=${id}`, {
-        method: 'GET',
-    })
-
-    if (res.ok) {
-        let response = await res.json()
-        return response.data
-    }
 }
 
 async function deleteCharacter(id) {
