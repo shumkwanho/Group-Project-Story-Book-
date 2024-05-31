@@ -116,11 +116,13 @@ export class StorybookService {
     }
 
     getBookLikes = async (storybookId:string)=>{
-        return (await this.knex.raw(`
+        let result = (await this.knex.raw(`
         select count(storybook_id)
         from like_relation
         where storybook_id = ?
         group by storybook_id`,[storybookId])).rows[0]
+
+        return result || { count: 0 };
     }
 
 }
