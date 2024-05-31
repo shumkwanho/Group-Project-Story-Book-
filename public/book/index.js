@@ -28,7 +28,7 @@ window.addEventListener("load", async (e) => {
 
 async function getStoryBook(id) {
     let res = await fetch(`/storybookByid?id=${id}`)
-    let data = (await res.json()).data[0]
+    let data = (await res.json()).data
     console.log(data);
     if (res.ok) {
         let target = document.querySelector(".upper-part");
@@ -40,8 +40,8 @@ async function getStoryBook(id) {
                 <div class="description border">About Story: <h class="textcolor">${data.description}</h></div>
             </div>
             <div class="function border">
-                
                 <button id="read" type="button" class="btn btn-primary" onclick="bookReader(${id})">Read Now</button>
+                
             </div>
             `
     }

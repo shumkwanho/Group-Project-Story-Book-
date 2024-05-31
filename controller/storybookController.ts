@@ -62,7 +62,9 @@ export class StorybookController {
         try{
             const { id } = req.query;
             
-            const storybookQueryResult = await this.service.getStoryBookById(id as string);
+            let storybookQueryResult:any = (await this.service.getStoryBookById(id as string))[0]
+            const likes = await this.service.getBookLikes(id as string)
+            storybookQueryResult.likeCount = likes.count
             res.status(200).json({data: storybookQueryResult})
         } 
         catch (error) {
