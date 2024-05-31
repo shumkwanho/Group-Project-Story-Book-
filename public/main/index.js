@@ -26,6 +26,7 @@ window.addEventListener("load", async (e) => {
 });
 
 const loadStorybooks = (data) => {
+
     storybookArea.innerHTML = ""    //only showing public books
     for (let storybook of data) {
         if (storybook.is_public === true) {
@@ -102,21 +103,24 @@ const checkLogin = async () => {
     const data = await res.json()
     const navbar = document.querySelector(".navbar")
 
-
     if (data.data) {
         //users has logged in
         const isMember = await checkIsMember()
         const isAttemped = await hasFirstAttempt()
         const ableToCreateStorybook = !isAttemped || isMember
 
-        document.querySelector(".selection-area")
-            .insertAdjacentHTML(
-                "afterbegin",
-                `<div class="create-storybook border" style="width:300px; height: 800px;" onclick=${ableToCreateStorybook ? "createStorybook()" : "requirePayment()"}>
-                    <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
-                    <p class="textAbsolute">Create Story Book</p>
-                </div>`
+        if (ableToCreateStorybook) {
+            document.querySelector(".create-storybook").setAttribute(
+                "onclick",
+                "createStorybook()"
             )
+        } else {
+            document.querySelector(".create-storybook").setAttribute(
+                "onclick",
+                "requirePayment()"
+            )
+        }
+
 
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         document.querySelector(".search-bar").addEventListener("input", search)
