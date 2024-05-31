@@ -321,8 +321,6 @@ document.addEventListener("click", (e) => {
         searchResult.classList.add("hide")
         searchBar.value = ""
     }
-
-
 })
 
 // document.addEventListener("click", (e) => {
