@@ -8,7 +8,8 @@ export class PaymentService {
     }
 
     updatePayment = async(user_id:string,payment_id:string) =>{
-        await this.knex.raw("update payment set payment_id = ?,status = 'completed' where user_id = ?",[payment_id,user_id])
+        const pending = await this.knex.raw(`delete from payment where user_id = ? and status = 'pending'`,[user_id])
+        await this.knex.insert({ user_id, status:"completed",payment_id}).into("payment")
     }
 
     checkUserPayment = async(userId:string)=>{
