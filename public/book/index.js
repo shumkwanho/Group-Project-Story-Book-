@@ -21,7 +21,7 @@ window.addEventListener("load", async (e) => {
     await getStoryBook(id)
     await loadComment()
     if (userId) {
-        await loadBtn(userId)
+        await loadBtn()
     }
 })
 
@@ -51,7 +51,7 @@ async function getStoryBook(id) {
             const isLiked = likeData.includes(parseInt(id))
             document.querySelector(".function").innerHTML += `
                 <div class="like-container">
-                    <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #efad5c;" onclick=toggleLike(event,${id})></i>
+                    <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #9ECDFF;" onclick=toggleLike(event,${id})></i>
                     <span class="like-count">${data.likeCount}</span>
                 </div>`
         }
@@ -95,11 +95,13 @@ const loadComment = async () => {
         const date = comment.updated_at.slice(0, 10)
         commentArea.innerHTML += `
         <div class="comment-container" id="comment_${comment.id}">
-            <div class="comment-detail">
-                <div class="user">${comment.username ? comment.username : "Anonymous"}</div>
-                <div class="comment">${comment.content}</div>
+            <div class="comment">
+                <div class="comment-detail">
+                    <div class="user">${comment.username ? comment.username : "Anonymous"}</div>
+                    <div class="comment-content">${comment.content}</div>
+                </div>
+                <div class="created-at">${date}</div>
             </div>
-            <div class="created-at">${date}</div>
         </div>`
     }
 }
@@ -119,6 +121,7 @@ const checkLogin = async () => {
 }
 
 async function search(e) {
+    console.log(e.target.value);
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
     const search = e.target.value
@@ -175,14 +178,16 @@ createComment.addEventListener("click", async (e) => {
     }
 })
 
-async function loadBtn(userId) {
+async function loadBtn() {
     const res = await fetch("/comment-user")
     const data = (await res.json()).data
     const commentIds = data.map(e => e.id)
     for (let id of commentIds) {
         document.querySelector(`#comment_${id}`).innerHTML += `
-        <button id="read" type="button" onclick=deleteComment(${id}) class="btn btn-primary">Delete </button>
-        <button id="read" type="button" onclick=editComment(${id}) class="btn btn-primary">Edit </button>
+        <div class="btn-group">
+            <div id="editComment" onclick=editComment(${id})> <i class="fa-solid fa-pen" style="color: #48A0FF;"></i> </div>
+            <div id="deleteComment" onclick=deleteComment(${id})> <i class="fa-solid fa-trash" style="color: #48A0FF;"></i> </div>
+        </div>
         `
     }
 }
