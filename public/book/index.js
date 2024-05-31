@@ -28,7 +28,7 @@ window.addEventListener("load", async (e) => {
 
 async function getStoryBook(id) {
     let res = await fetch(`/storybookByid?id=${id}`)
-    let data = (await res.json()).data[0]
+    let data = (await res.json()).data
     console.log(data);
     if (res.ok) {
         let target = document.querySelector(".upper-part");

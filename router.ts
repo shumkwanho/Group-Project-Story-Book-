@@ -75,7 +75,7 @@ router.post("/search",storybookController.searchStoryBook)
 const pageService = new PageService(knex);
 const pageController = new PageController(pageService);
 router.get('/page', pageController.getPageByStorybookId);
-router.post('/', pageController.createPage)
+router.post('/page', pageController.createPage)
 
 const userService = new UserService(knex)
 const userController = new UserController(userService)

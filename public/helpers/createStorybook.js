@@ -1,9 +1,17 @@
 import { getCharacterData } from "./getCharacterData.js";
+import { bookReader } from "./bookReader.js";
+
+window["bookReader"] = bookReader
 
 const createNewStoryModal = new bootstrap.Modal(document.getElementById('createNewStoryModal'), {});
 
 const characterImage = document.querySelector(".new-story-character-image")
 const characterSelection = document.querySelector("#new-storybook-character")
+const createStatus = document.querySelector(".create-story-book-status")
+const createDoneStatus = document.querySelector(".create-story-book-done-status")
+const createInProgressIcon = document.getElementById("create-story-book-in-progress-icon")
+const createDoneIcon = document.getElementById("create-story-book-done-icon")
+const createStorybookFooter = document.querySelector("#create-storybook-footer")
 
 characterSelection.setAttribute("onchange", 'displayCharacterImage(this.value)')
 
@@ -27,8 +35,6 @@ export async function createStorybook(characterId = -1) {
         )
     }
 
-    //TODO: show image in card when selected
-
     createNewStoryModal.show();
 
     document.querySelector("#new-storybook-form")
@@ -43,24 +49,6 @@ export async function createStorybook(characterId = -1) {
             document.querySelector("#new-storybook-submit-btn").setAttribute("disabled", "");
 
             generateStoryPlot(characterId, category, targetAge, totalPage)
-
-            // let res = await fetch('/storybook', {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify({ characterId, category, targetAge, totalPage })
-            // })
-
-            // let result = await res.json()
-
-            // if (res.ok) {
-            //     //create storybook successful
-            //     //TODO: better user experience
-            //     window.location.reload();
-            // } else {
-            //     console.log(result);
-            // }
         })
 }
 
@@ -77,13 +65,8 @@ async function displayCharacterImage (id) {
 }
 
 async function generateStoryPlot(characterId, category, targetAge, totalPage) {
-    document.querySelector("#create-storybook-footer")
-        .insertAdjacentHTML(
-            "afterbegin",
-            `Generating Plot ... 
-            <i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>
-            `
-        )
+    createInProgressIcon.classList.toggle("hidden");
+    createStatus.innerHTML = "Generating Plots ... "
 
     let res = await fetch("/storybook-plot", {
         method: "POST",
@@ -96,26 +79,48 @@ async function generateStoryPlot(characterId, category, targetAge, totalPage) {
     let result = await res.json()
 
     if (res.ok) {
+        createDoneStatus.innerHTML = "Plots Completed! "
 
-        console.log(result)
+        let storybookContentJSON = result.data.plot
+        let storybookId = result.data.id
 
-        let storybookContentJSON = result[0].data
         for (let page = 1; page <= totalPage; page++) {
-            generatePage(storybookContentJSON, page)
+            await generatePage(characterId, storybookContentJSON, storybookId, page)
         }
+
+        createStatus.innerHTML = ""
+        createStatus.innerHTML = "All Done!"
+        createInProgressIcon.classList.toggle("hidden")
+        createDoneIcon.classList.toggle("hidden")
+        createStorybookFooter.insertAdjacentHTML(
+            'beforeend',
+            `<button class="btn btn-primary" id="read-now-btn" onclick="bookReader(${storybookId})">Read Now</button>`
+        )
+
     } else {
         console.log(result);
     }
-
 }
 
-function generatePage(storybookContentJSON, page) {
-    console.log(page)
-    document.querySelector("#create-storybook-footer")
-    .insertAdjacentHTML(
-        "afterbegin",
-        `Generating Page ${page} ... 
-        <i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>
-        `
-    )
+async function generatePage(characterId, storybookContentJSON, storybookId, pageNumber) {
+
+    let storybookContentJSONStr = JSON.stringify(storybookContentJSON)
+    
+    createStatus.innerHTML = `Now Generating Page ${pageNumber} ... `
+
+    let res = await fetch("/page", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ characterId, storybookContentJSONStr, storybookId, pageNumber }),
+    });
+
+    let result = await res.json();
+
+    if (res.ok) {
+        createDoneStatus.innerHTML = `Page ${pageNumber} Completed! `
+    } else {
+        console.log(result);
+    }
 }

@@ -319,3 +319,20 @@ h2{
     height: 70%;
     width: 95%;
 }
+
+
+textarea{
+    position: relative;
+    left: 28px;
+    margin-top: 50px;
+    font-family: "Papyrus", "fantasy";
+    font-style: italic;
+    font-size: 15px;
+    padding: 15px;
+}
+
+#create-comment{
+    position: relative;
+    left: 28px;
+    margin-top: 20px;
+}

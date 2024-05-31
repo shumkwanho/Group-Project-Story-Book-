@@ -115,12 +115,15 @@ export class StorybookService {
         group by storybook_id,bookname,description,target_age`)).rows
     }
 
-    getFirstPageImg = async (storybookId:string)=>{
-        return this.knex.raw(`
-        select img from storybooks 
-        join storybook_pages
-        on storybooks.id = storybook_id
-        where storybooks.id = ?`,[storybookId])
+    getBookLikes = async (storybookId:string)=>{
+        let result = (await this.knex.raw(`
+        select count(storybook_id)
+        from like_relation
+        where storybook_id = ?
+        group by storybook_id`,[storybookId])).rows[0]
+
+        return result || { count: 0 };
     }
+
 }
 
