@@ -120,7 +120,7 @@ const checkLogin = async () => {
 
         navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
         document.querySelector(".search-bar").addEventListener("input", search)
-
+        
         document.querySelector("#user-page-redirect")
             .addEventListener("click", () => {
                 window.location.href = '../member';
