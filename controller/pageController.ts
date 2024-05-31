@@ -34,14 +34,15 @@ export class PageController {
     createPage = async (req: Request, res: Response) => {
         try {
             const userId = req.session.userId;
-            const { characterId, storybookContentJSON, storybookId, pageNumber } = req.body;
+            const { characterId, storybookContentJSONStr, storybookId, pageNumber } = req.body;
 
             let characterInfo = await characterService.loadCharacterById(characterId);
 
             let characterRequirementJSON = JSON.parse(characterInfo[0].requirement);
+            let storybookContentJSON = JSON.parse(storybookContentJSONStr)
             
-            //use [pageNumber - 1] as storybookContentJSON.scerario is array
-            let pageDetails = storybookContentJSON.scenario[pageNumber - 1];
+            let pageDetails = storybookContentJSON.scenario[pageNumber - 1]; // storybookContentJSON.scenario is array
+
             let pageTextPrompt = genPageImagePrompt(characterRequirementJSON, pageDetails);
             let pageTextPromptGPT = await textGeneratorModel(pageTextPrompt, TEXT_MODEL);
 

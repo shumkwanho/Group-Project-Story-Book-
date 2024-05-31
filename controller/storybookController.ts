@@ -153,7 +153,7 @@ export class StorybookController {
             let bookName = storybookContentJSON.story_name;
             let description = storybookContentJSON.description_summary;
 
-            await this.service.createStorybook(
+            let createStoryBookPlotQuery = await this.service.createStorybook(
                 parseInt(userId as string), 
                 bookName as string, 
                 description as string,
@@ -166,7 +166,10 @@ export class StorybookController {
 
             res.json({
                 message: "create storybook plot successful",
-                data: storybookContentJSON
+                data: {
+                    id: createStoryBookPlotQuery[0].id,
+                    plot: storybookContentJSON,
+                }
             })
             
         } catch (error) {
