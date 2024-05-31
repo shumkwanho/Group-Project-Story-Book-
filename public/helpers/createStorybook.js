@@ -19,6 +19,8 @@ window["displayCharacterImage"] = displayCharacterImage
 
 export async function createStorybook(characterId = -1) {
 
+    characterSelection.innerHTML = ""
+
     //TODO: if no character is created under this user, prompt user to create a character
 
     const characterData = await loadCharacters()

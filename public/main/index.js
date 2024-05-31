@@ -2,6 +2,7 @@ import { createStorybook } from '../helpers/createStorybook.js';
 import { login } from './login.js';
 import { register } from './register.js';
 import { convertDisplayAge } from '../helpers/convertDisplayAge.js';
+import { getUserInfo } from '../helpers/getUserInfo.js';
 
 const storybookArea = document.querySelector(".storybook-area")
 
@@ -26,10 +27,13 @@ window.addEventListener("load", async (e) => {
 });
 
 const loadStorybooks = (data) => {
+
     storybookArea.innerHTML = ""    //only showing public books
     for (let storybook of data) {
         if (storybook.is_public === true) {
+            
             let displayAge = convertDisplayAge(storybook.target_age);
+            
             storybookArea.innerHTML +=
                 `<div class="book border" id="book_${storybook.id}" onclick="window.location.href ='../book/?id=${storybook.id}'">
                 <img src="../../uploads/pageImg/${storybook.image}" class="book-img border">
@@ -102,23 +106,28 @@ const checkLogin = async () => {
     const data = await res.json()
     const navbar = document.querySelector(".navbar")
 
-
     if (data.data) {
+        const userInfo = await getUserInfo()
+        document.querySelector("#username-display").innerHTML = userInfo.username;
+
         //users has logged in
         const isMember = await checkIsMember()
         const isAttemped = await hasFirstAttempt()
         const ableToCreateStorybook = !isAttemped || isMember
 
-        document.querySelector(".selection-area")
-            .insertAdjacentHTML(
-                "afterbegin",
-                `<div class="create-storybook border" style="width:300px; height: 800px;" onclick=${ableToCreateStorybook ? "createStorybook()" : "requirePayment()"}>
-                    <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
-                    <p class="textAbsolute">Create Story Book</p>
-                </div>`
+        if (ableToCreateStorybook) {
+            document.querySelector(".create-storybook").setAttribute(
+                "onclick",
+                "createStorybook()"
             )
+        } else {
+            document.querySelector(".create-storybook").setAttribute(
+                "onclick",
+                "requirePayment()"
+            )
+        }
 
-        navbar.innerHTML += `<button id="logout" onclick="logout()" type="button" class="btn btn-primary" >Logout</button>`
+        document.querySelector("#logout").classList.toggle("hide");
         document.querySelector(".search-bar").addEventListener("input", search)
         
         document.querySelector("#user-page-redirect")
@@ -128,10 +137,10 @@ const checkLogin = async () => {
 
         return data.data
     }
-    navbar.innerHTML += `
-        <button id="login" onclick=login() type="button" class="btn btn-primary">Login</button>
-        <button id="register" onclick="register()" type="button" class="btn btn-primary">Register</button>
-        `
+
+    document.querySelector("#login").classList.toggle("hide")
+    document.querySelector("#register").classList.toggle("hide")
+
     document.querySelector(".search-bar").addEventListener("input", search)
     return null
 }
@@ -321,8 +330,6 @@ document.addEventListener("click", (e) => {
         searchResult.classList.add("hide")
         searchBar.value = ""
     }
-
-
 })
 
 // document.addEventListener("click", (e) => {

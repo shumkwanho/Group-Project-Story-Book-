@@ -14,13 +14,14 @@ window["confirmEdit"] = confirmEdit;
 window["logout"] = logout
 window["search"] = search
 window["toBookPage"] = toBookPage
+window["toggleLike"] = toggleLike;
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin()
     await getStoryBook(id)
     await loadComment()
     if (userId) {
-        await loadBtn(userId)
+        await loadBtn()
     }
 })
 
@@ -29,7 +30,6 @@ window.addEventListener("load", async (e) => {
 async function getStoryBook(id) {
     let res = await fetch(`/storybookByid?id=${id}`)
     let data = (await res.json()).data
-    console.log(data);
     if (res.ok) {
         let target = document.querySelector(".upper-part");
         target.innerHTML += `
@@ -44,8 +44,49 @@ async function getStoryBook(id) {
                 <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${id})"> <img src="./img/stars.gif" style="width: 50px; height: 30px; alt="grc">Read Now</button>
             </div>
             `
+
+        if (await checkLogin()) {
+            const likeRes = await fetch("../like")
+            const likeData = (await likeRes.json()).data.map(elem => elem.id)
+            const isLiked = likeData.includes(parseInt(id))
+            document.querySelector(".function").innerHTML += `
+                <div class="like-container">
+                    <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #9ECDFF;" onclick=toggleLike(event,${id})></i>
+                    <span class="like-count">${data.likeCount}</span>
+                </div>`
+        }
     }
 }
+
+async function toggleLike(e, bookId) {
+    e.stopPropagation()
+    e.target.classList.toggle('fa-regular')
+    e.target.classList.toggle('fa-solid')
+    const isLiked = e.target.classList.contains('fa-solid')
+    let likeCount = document.querySelector(".like-count")
+    if (isLiked) {
+        likeCount.innerHTML = parseInt(likeCount.innerHTML) + 1
+        const res = await fetch('../like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+            body: JSON.stringify({ bookId }),
+        })
+
+        return
+    }
+    likeCount.innerHTML = parseInt(likeCount.innerHTML) - 1
+    const res = await fetch('../dislike', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ bookId }),
+    })
+    return
+}
+
 
 const loadComment = async () => {
     const res = await fetch(`/comment?id=${id}`)
@@ -54,11 +95,13 @@ const loadComment = async () => {
         const date = comment.updated_at.slice(0, 10)
         commentArea.innerHTML += `
         <div class="comment-container" id="comment_${comment.id}">
-            <div class="comment-detail">
-                <div class="user">${comment.username ? comment.username : "Anonymous"}</div>
-                <div class="comment">${comment.content}</div>
+            <div class="comment">
+                <div class="comment-detail">
+                    <div class="user">${comment.username ? comment.username : "Anonymous"}</div>
+                    <div class="comment-content">${comment.content}</div>
+                </div>
+                <div class="created-at">${date}</div>
             </div>
-            <div class="created-at">${date}</div>
         </div>`
     }
 }
@@ -78,6 +121,7 @@ const checkLogin = async () => {
 }
 
 async function search(e) {
+    console.log(e.target.value);
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
     const search = e.target.value
@@ -114,7 +158,7 @@ function toBookPage(bookId) {
     window.location.href = `../book/?id=${bookId}`
 }
 
-async function logout ()  {
+async function logout() {
     const res = await fetch("/logout")
     const data = await res.json()
     window.location.reload()
@@ -134,14 +178,16 @@ createComment.addEventListener("click", async (e) => {
     }
 })
 
-async function loadBtn(userId) {
+async function loadBtn() {
     const res = await fetch("/comment-user")
     const data = (await res.json()).data
     const commentIds = data.map(e => e.id)
     for (let id of commentIds) {
         document.querySelector(`#comment_${id}`).innerHTML += `
-        <button id="read" type="button" onclick=deleteComment(${id}) class="btn btn-primary">Delete </button>
-        <button id="read" type="button" onclick=editComment(${id}) class="btn btn-primary">Edit </button>
+        <div class="btn-group">
+            <div id="editComment" onclick=editComment(${id})> <i class="fa-solid fa-pen" style="color: #48A0FF;"></i> </div>
+            <div id="deleteComment" onclick=deleteComment(${id})> <i class="fa-solid fa-trash" style="color: #48A0FF;"></i> </div>
+        </div>
         `
     }
 }
@@ -185,3 +231,16 @@ async function confirmEdit(event, commentId) {
         window.location.reload()
     }
 }
+
+document.addEventListener("click", (e) => {
+    const searchResult = document.querySelector(".search-result-container")
+    const searchBar = document.querySelector(".search-bar")
+
+    let isClickTargetArea = document.activeElement === searchBar || document.activeElement === searchResult
+    let isDisplaying = !searchResult.classList.contains("hide")
+
+    if (isDisplaying && !isClickTargetArea) {
+        searchResult.classList.add("hide")
+        searchBar.value = ""
+    }
+})

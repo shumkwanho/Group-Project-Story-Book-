@@ -18,17 +18,21 @@
     <div class="navbar fixed-top" id="navbar">
         <div id="user-page-redirect" class="border-large">
             <i class="fa-regular fa-user"></i>
-            Hello <span id="username-display">Guest</span>
+            Hello <span id="username-display"></span>
         </div>
         <div class="search-container">
             <input type="text" placeholder="Search Bar" class="search-bar">
             <div class="search-result-container">
             </div>
         </div>
+        <button id="login" onclick=login() type="button" class="btn btn-primary hide">Login</button>
+        <button id="register" onclick="register()" type="button" class="btn btn-primary hide">Register</button>
+        <button id="logout" onclick="logout()" type="button" class="btn btn-primary hide">Logout</button>
+
     </div>
 
-    <div class="form-popup" id="myForm">
-        <form class="form-container">
+    <div class="login-form" id="loginForm">
+        <form class="login-form-container">
             <h1>Login</h1>
 
             <label for="username"><b>Username</b></label>
@@ -41,28 +45,28 @@
             <input id="password" type="password" placeholder="Enter Password" name="password" value="123" required>
 
             <button type="submit" class="btn">Login</button>
-            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            <button type="button" class="btn cancel" onclick="loginCloseForm()">Close</button>
         </form>
     </div>
 
-    <div class="registerPopup" id="registerForm">
-        <form class="registerFormContainer">
+    <div class="register-form" id="registerForm">
+        <form class="register-form-container">
             <h1>Register</h1>
 
             <label for="newUsername"><b>Username</b></label>
-            <input id="newUsername" type="text" placeholder="Enter Username" name="newUsername" value="1" required>
+            <input id="newUsername" type="text" placeholder="Enter Username" name="newUsername" required>
 
             <label for="newEmail"><b>Email</b></label>
-            <input id="newEmail" type="text" placeholder="Enter Email" name="newEmail" value="1@gmail.com" required>
+            <input id="newEmail" type="text" placeholder="Enter Email" name="newEmail" required>
 
             <label for="newPassword"><b>Password</b></label>
-            <input id="newPassword" type="password" placeholder="Enter Password" name="newPassword" value="1" required>
+            <input id="newPassword" type="password" placeholder="Enter Password" name="newPassword" required>
 
             <label for="confirmpassword"><b>Confirm Password</b></label>
-            <input id="confirmPassword" type="password" placeholder="Confirm Password" name="confirmPassword" value="1" required>
+            <input id="confirmPassword" type="password" placeholder="Confirm Password" name="confirmPassword" required>
 
             <button type="submit" class="btn">Register</button>
-            <button type="button" class="registerCancel" onclick="registerCloseForm()">Close</button>
+            <button type="button" class="btn cancel" onclick="registerCloseForm()">Close</button>
         </form>
     </div>
 
@@ -84,7 +88,6 @@
                             <h1>Example headline.</h1>
                             <p class="opacity-75">Some representative placeholder content for the first slide of the
                                 carousel.</p>
-                            <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
                         </div>
                     </div>
                 </div>
@@ -94,7 +97,6 @@
                         <div class="carousel-caption">
                             <h1>Another example headline.</h1>
                             <p>Some representative placeholder content for the second slide of the carousel.</p>
-                            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
                         </div>
                     </div>
                 </div>
@@ -104,7 +106,6 @@
                         <div class="carousel-caption text-end">
                             <h1>One more for good measure.</h1>
                             <p>Some representative placeholder content for the third slide of this carousel.</p>
-                            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
                         </div>
                     </div>
                 </div>
@@ -165,6 +166,10 @@
             </section>
 
             <div class="selection-area">
+                <div class="create-storybook border" style="width:300px; height: 800px;" onclick="login()">
+                    <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
+                    <p class="textAbsolute">Create Story Book</p>
+                </div>
                 <section class="storybook-area border">
                     <!-- contents to be printed in js -->
                 </section>

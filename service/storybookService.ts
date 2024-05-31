@@ -39,17 +39,17 @@ export class StorybookService {
             .join("storybook_pages", "storybook_id", "storybooks.id")
             .select("storybooks.id", "bookname", "target_age", "category", "description", "image")
             .whereILike("bookname", `%${str}%`)
-            .andWhere("page_number","1")
+            .andWhere("page_number", "1")
             .limit(5)
     }
 
     getStoryBookById = async (storybookId: string) => {
         return await this.knex
-            .select("bookname", "description", "target_age", "total_page", "category", "storybooks.created_at","image")
+            .select("bookname", "description", "target_age", "total_page", "category", "storybooks.created_at", "image")
             .from("storybooks")
-            .join("storybook_pages","storybooks.id","storybook_id")
+            .join("storybook_pages", "storybooks.id", "storybook_id")
             .where(`storybooks.id`, storybookId)
-            .andWhere("page_number","1")
+            .andWhere("page_number", "1")
     }
 
     getCharacterByStorybookId = async (id: string) => {
@@ -115,14 +115,14 @@ export class StorybookService {
         group by storybook_id,bookname,description,target_age`)).rows
     }
 
-    getBookLikes = async (storybookId:string)=>{
-        let result = (await this.knex.raw(`
+    getBookLikes = async (storybookId: string) => {
+        const result = (await this.knex.raw(`
         select count(storybook_id)
         from like_relation
         where storybook_id = ?
-        group by storybook_id`,[storybookId])).rows[0]
+        group by storybook_id`, [storybookId])).rows[0]
 
-        return result || { count: 0 };
+        return result || { count: 0 }
     }
 
 }

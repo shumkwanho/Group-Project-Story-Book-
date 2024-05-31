@@ -1,19 +1,28 @@
-export function openForm() {
-  document.getElementById("myForm").style.display = "block";
+const loginForm = document.getElementById("loginForm");
+const loginBtn = document.getElementById("login");
+
+export function loginOpenForm() {
+  loginForm.style.display = "block";
 }
 
-export function closeForm() {
-  document.getElementById("myForm").style.display = "none";
+export function loginCloseForm() {
+  loginForm.style.display = "none";
 }
 
-window["openForm"] = openForm;
-window["closeForm"] = closeForm;
+window["loginOpenForm"] = loginOpenForm;
+window["loginCloseForm"] = loginCloseForm;
 
 export function login() {
-  openForm();
+  loginOpenForm();
+
+  document.addEventListener('click', (e) => {
+    if(!loginForm.contains(e.target) && !loginBtn.contains(e.target)) {
+      loginCloseForm();
+    }
+  })
 }
 
-document.getElementById('myForm').addEventListener('submit', async (event) => {
+loginForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   
   const username = document.getElementById('username').value;
