@@ -102,7 +102,7 @@ a {
 }
 
 .card {
-    width: 150px;
+    width: 200px;
     text-align: center;
     margin: 10px;
     height: 180px;
@@ -120,6 +120,7 @@ a {
     background-repeat: no-repeat;
     object-fit: cover;
     margin-bottom: 30px;
+    border-bottom: 5px solid red; /* Add a red border at the bottom */
 }
 
 .hide {
