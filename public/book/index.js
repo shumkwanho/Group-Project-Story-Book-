@@ -53,7 +53,7 @@ const loadComment = async () => {
     for (let comment of data) {
         const date = comment.updated_at.slice(0, 10)
         commentArea.innerHTML += `
-        <div class="comment-container border" id="comment_${comment.id}">
+        <div class="comment-container" id="comment_${comment.id}">
             <div class="comment-detail">
                 <div class="user">${comment.username ? comment.username : "Anonymous"}</div>
                 <div class="comment">${comment.content}</div>

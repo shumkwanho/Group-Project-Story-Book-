@@ -1,5 +1,9 @@
 @import url('../helpers/bookReader.css');
 
+body{
+    min-width: 1400px;
+}
+
 .border {
     border: 1px solid rgb(18, 42, 253);
     border-radius: 10px;
@@ -168,22 +172,30 @@
 
 .comment-area{
     margin-top: 30px;
-    
+    height: 250px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #016864 #fffefe;
 }
 
+
 h2{
-    padding: 10px;
-    
+    color: white;
+    padding: 10px;  
+    background-image: url(./img/bd-bird.png);
+    border-radius: 10px;
 }
+
 .comment-container{
     display: flex;
     justify-content: space-between;
     align-items: end;
+    padding: 0 30px;
+    border-bottom: 2px solid;
+    border-color: rgb(168, 252, 252);
 }
 
-.comment-container{
-    padding: 0 30px;
-}
+
 
 .comment-container:hover{
     background-color: rgb(217, 245, 247);
@@ -329,6 +341,7 @@ textarea{
     font-style: italic;
     font-size: 15px;
     padding: 15px;
+    width: 95%;
 }
 
 #create-comment{
