@@ -34,14 +34,14 @@ async function getStoryBook(id) {
         let target = document.querySelector(".upper-part");
         target.innerHTML += `
             <img src="../../uploads/pageImg/${data.image}" alt="" class="book-cover border">
-            <div class="book-detail border ">
+            <div class="book-detail">
                 <div class="book-name">Book Name:  <h class="textcolor"> ${data.bookname}</h></div>
-                <div class="author border">Author By:</div>
-                <div class="description border">About Story: <h class="textcolor">${data.description}</h></div>
+                <div class="author">Author By:</div>
+                <div class="description">About Story: <h class="textcolor">${data.description}</h></div>
             </div>
-            <div class="function border">
+            <div class="function">
                 
-                <button id="read" type="button" class="btn btn-primary" onclick="bookReader(${id})">Read Now</button>
+                <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${id})"> <img src="./img/stars.gif" style="width: 50px; height: 30px; alt="grc">Read Now</button>
             </div>
             `
     }
