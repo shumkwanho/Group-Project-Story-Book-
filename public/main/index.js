@@ -30,7 +30,9 @@ const loadStorybooks = (data) => {
     storybookArea.innerHTML = ""    //only showing public books
     for (let storybook of data) {
         if (storybook.is_public === true) {
+            
             let displayAge = convertDisplayAge(storybook.target_age);
+            
             storybookArea.innerHTML +=
                 `<div class="book border" id="book_${storybook.id}" onclick="window.location.href ='../book/?id=${storybook.id}'">
                 <img src="../../uploads/pageImg/${storybook.image}" class="book-img border">

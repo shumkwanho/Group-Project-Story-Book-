@@ -21,9 +21,25 @@ export class UserService {
     }
 
     getStorybookbyUserId = async (userId: string) => { 
-        return this.knex.select("id","character_id","bookname","description","target_age","created_at","category","total_page")
-                .from("storybooks").where("user_id",userId)
-    }       
+        return await this.knex
+            .select(
+                "storybooks.id",
+                "storybooks.character_id",
+                "storybooks.bookname",
+                "storybooks.description",
+                "storybooks.target_age",
+                "storybooks.created_at",
+                "storybooks.category",
+                "storybooks.total_page",
+                "storybook_pages.image"
+            )
+            .from("storybooks")
+            .leftJoin("storybook_pages", "storybooks.id", "=", "storybook_pages.storybook_id")
+            .where({
+                "storybooks.user_id": userId,
+                "storybook_pages.page_number": 1
+            });
+    };     
 
 
     editUsername = async (userId:string, username:string)=>{
