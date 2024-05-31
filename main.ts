@@ -31,8 +31,6 @@ declare module "express-session" {
     }
 }
 
-app.use("/test",express.static("public/testingPage"))
-
 app.use("/uploads", express.static("uploads"))
 app.use("/",router);
 app.use("/", express.static("public"));
