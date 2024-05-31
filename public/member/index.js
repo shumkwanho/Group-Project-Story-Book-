@@ -2,6 +2,7 @@ import { showCharacterCard } from "../helpers/characterCard.js"
 import { createCharacter } from "../helpers/createCharacter.js"
 import { createStorybook } from "../helpers/createStorybook.js"
 import { convertDisplayAge } from '../helpers/convertDisplayAge.js';
+import { getUserInfo } from "../helpers/getUserInfo.js";
 
 window["showCharacterCard"] = showCharacterCard
 window["createCharacter"] = createCharacter
@@ -15,12 +16,6 @@ window.addEventListener("load", async (e) => {
     const storybooks = await getStorybookByUserId()
     loadStorybooks(storybooks)
 })
-
-async function getUserInfo() {
-    const res = await fetch("../user")
-    const data = (await res.json()).data
-    return data
-}
 
 function loadUserInfo(user) {
     document.querySelector(".user-name").innerHTML = user.username

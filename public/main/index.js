@@ -2,6 +2,7 @@ import { createStorybook } from '../helpers/createStorybook.js';
 import { login } from './login.js';
 import { register } from './register.js';
 import { convertDisplayAge } from '../helpers/convertDisplayAge.js';
+import { getUserInfo } from '../helpers/getUserInfo.js';
 
 const storybookArea = document.querySelector(".storybook-area")
 
@@ -106,6 +107,9 @@ const checkLogin = async () => {
     const navbar = document.querySelector(".navbar")
 
     if (data.data) {
+        const userInfo = await getUserInfo()
+        document.querySelector("#username-display").innerHTML = userInfo.username;
+
         //users has logged in
         const isMember = await checkIsMember()
         const isAttemped = await hasFirstAttempt()
