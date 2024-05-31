@@ -12,19 +12,21 @@
 </head>
 
 <body>
-    
-    <div id="navbarBorder" class="navbar border">
+
+    <div id="navbarBorder" class="navbar border" class="navbar-border">
         <div id="icon">ICON</div>
-        <div class="search-container">
-            <input type="text" placeholder="Search Bar" class="test">
-            <div class="search-result-container">
-            </div>
-        </div>
+        <form action="" class="search-container">
+            <input type="text" placeholder="Search Bar" class="test" pattern=".*\S.*" required>
+            <button class="search-btn" type="submit">
+                <span>Search</span>
+                <div class="search-result-container">
+                </div>
+        </form>
         <button type="submit" class="btn btn-primary submit" onclick="logout()">Logout</button>
     </div>
 
     <div id="containerBorder" class="container border">
-        <a href="../mainPage">Home Page</a>
+        <button><a id="homePageButton" href="../mainPage">Home Page</a></button>
         <div class="personal-info border">
             <div class="image border"><img src="" alt=""></div>
             <button type="button" class="btn btn-primary edit" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -213,7 +215,7 @@
                         <div class="new-story-character-image">
                             <!-- contents to be printed in js -->
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-character">Main Character</label>
                             <select class="form-select" id="new-storybook-character">
@@ -266,8 +268,8 @@
         </div>
     </div>
 
-     <!-- Payment Modal -->
-     <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Payment Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
