@@ -10,7 +10,7 @@ export async function seed(knex: Knex): Promise<void> {
             { 
               user_id: "1", 
               name: 'Yuko the Cat', 
-              image: '1716804286875.jpeg',
+              image: '1716803792305.jpeg',
               prompt: `Draw a vibrant and colorful illustration of a fictional character named Yuko. Yuko is a young female cat with a petite body shape and short height. She has big round eyes with long eyelashes, which are her distinctive features. She is wearing a colorful sundress and has a flower-shaped hair clip as an accessory.
 
               For the color theme, use primary colors such as pink, yellow, and blue as well as secondary colors like purple and green. Yuko has stripes as her pattern markings, and the shading should be soft and gradient.

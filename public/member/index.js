@@ -1,6 +1,7 @@
 import { showCharacterCard } from "../helpers/characterCard.js"
 import { createCharacter } from "../helpers/createCharacter.js"
 import { createStorybook } from "../helpers/createStorybook.js"
+import { convertDisplayAge } from '../helpers/convertDisplayAge.js';
 
 window["showCharacterCard"] = showCharacterCard
 window["createCharacter"] = createCharacter
@@ -45,7 +46,7 @@ function loadCharacter(charactersData) {
             `
         <div class="card border character" onclick="showCharacterCard(${character.id})">
             <div class="character-img">
-                <img src="../uploads/characterImg/${character.image}" alt="">
+                <img src="../../uploads/characterImg/${character.image}" alt="">
             </div>
             <div class="character-name">${character.name}</div>
         </div>
@@ -66,12 +67,15 @@ async function loadStorybooks(storybooksData) {
 
     displayArea.innerHTML = `<div class="create-storybook card" onclick=${ableToCreateStorybook ? "createStorybook()" : "requirePayment()"}>Create Storybook</div>`
     for (let storybook of storybooksData) {
+        
+        let displayAge = convertDisplayAge(storybook.target_age);
+
         displayArea.innerHTML += `
         <div class="book card border" onclick="window.location.href ='../book/?id=${storybook.id}'">
-                <div class="book-img border">img</div>
+            <img src="../../uploads/pageImg/${storybook.image}" class="book-img border">
                 <div class="book-detail border">
                     <div class="book-title">${storybook.bookname}</div>
-                    <div class="suitable-age">${storybook.target_age} years old</div>
+                    <div class="suitable-age">Age: ${displayAge}</div>
                 </div>
         </div>
         `

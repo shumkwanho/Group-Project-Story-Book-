@@ -84,7 +84,7 @@ export async function seed(knex: Knex): Promise<void> {
         },
         {
             storybook_id: "2",
-            page_number: "1",
+            page_number: "5",
             caption: "In the lively market, Loki met new friends who taught him a joyful dance. With a beaming smile, Loki joined the festive celebration, his energetic movements captured in full-shot. The colorful market and lively music added to the excitement of the moment.",
             image: "1716802555543.jpeg",
             prompt: `Draw Loki, a male teenage sheep with a slim body shape, short height, and distinctive fluffy white wool. Loki is wearing a colorful t-shirt and shorts, accessorized with a wristband. The primary color theme of the illustration is blue, with secondary colors in green. Loki has stripes as pattern markings, and the shading gradient goes from light to dark. The art style is a clean cartoon, with an intermediate level of detail and a vibrant color palette resembling watercolor. The intended use of this illustration is for children. 
