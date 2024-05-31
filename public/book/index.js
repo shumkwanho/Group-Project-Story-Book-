@@ -25,7 +25,7 @@ async function getStoryBook (id) {
                 <div class="description border">About Story: <h class="textcolor">${response.data[0].description}</h></div>
             </div>
             <div class="function border">
-                <img src="./img/ReadBook.jpg" class="border img-fluid w-100 h-100" >
+                
                 <button id="read" type="button" class="btn btn-primary" onclick="bookReader(${id})">Read Now</button>
             </div>
             `
