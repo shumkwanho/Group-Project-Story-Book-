@@ -43,11 +43,13 @@ export class StorybookService {
             .limit(5)
     }
 
-    getStoryBookByCategory = async (category: string) => {
+    getStoryBookById = async (storybookId: string) => {
         return await this.knex
-            .select("bookname", "description", "target_age", "total_page", "category", "created_at")
+            .select("bookname", "description", "target_age", "total_page", "category", "storybooks.created_at","image")
             .from("storybooks")
-            .where(`id`, category)
+            .join("storybook_pages","storybooks.id","storybook_id")
+            .where(`storybooks.id`, storybookId)
+            .andWhere("page_number","1")
     }
 
     getCharacterByStorybookId = async (id: string) => {
@@ -111,6 +113,14 @@ export class StorybookService {
         right join storybooks 
         on storybooks.id = storybook_id 
         group by storybook_id,bookname,description,target_age`)).rows
+    }
+
+    getFirstPageImg = async (storybookId:string)=>{
+        return this.knex.raw(`
+        select img from storybooks 
+        join storybook_pages
+        on storybooks.id = storybook_id
+        where storybooks.id = ?`,[storybookId])
     }
 }
 

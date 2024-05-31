@@ -8,43 +8,43 @@ var searchParams = new URLSearchParams(window.location.search);
 const id = searchParams.get("id");
 
 window["bookReader"] = bookReader;
-window["editComment"]= editComment;
-window["deleteComment"]= deleteComment;
-window["confirmEdit"]= confirmEdit;
+window["editComment"] = editComment;
+window["deleteComment"] = deleteComment;
+window["confirmEdit"] = confirmEdit;
+window["logout"] = logout
+window["search"] = search
+window["toBookPage"] = toBookPage
 
-async function getStoryBook (id) {
+window.addEventListener("load", async (e) => {
+    const userId = await checkLogin()
+    await getStoryBook(id)
+    await loadComment()
+    if (userId) {
+        await loadBtn(userId)
+    }
+})
+
+
+
+async function getStoryBook(id) {
     let res = await fetch(`/storybookByid?id=${id}`)
-    let response = await res.json()
-    if(res.ok){
+    let data = (await res.json()).data[0]
+    console.log(data);
+    if (res.ok) {
         let target = document.querySelector(".upper-part");
-            target.innerHTML += `
-            <img src="" alt="" class="book-cover border">
+        target.innerHTML += `
+            <img src="../../uploads/pageImg/${data.image}" alt="" class="book-cover border">
             <div class="book-detail border ">
-                <div class="book-name">Book Name:  <h class="textcolor"> ${response.data[0].bookname}</h></div>
+                <div class="book-name">Book Name:  <h class="textcolor"> ${data.bookname}</h></div>
                 <div class="author border">Author By:</div>
-                <div class="description border">About Story: <h class="textcolor">${response.data[0].description}</h></div>
+                <div class="description border">About Story: <h class="textcolor">${data.description}</h></div>
             </div>
             <div class="function border">
                 <img src="./img/ReadBook.jpg" class="border img-fluid w-100 h-100" >
                 <button id="read" type="button" class="btn btn-primary" onclick="bookReader(${id})">Read Now</button>
             </div>
             `
-        }
-        console.log(response)
     }
-getStoryBook(id)
-
-
-window.addEventListener("load", async (e) => {
-    const userId = await checkLogin()
-    await loadComment()
-    if (userId) {
-        await loadBtn()
-    }
-})
-
-const loadBookInfo = async () => {
-    const res = await fetch("/")
 }
 
 const loadComment = async () => {
@@ -69,18 +69,52 @@ const checkLogin = async () => {
     const navbar = document.querySelector("#navbar")
     if (data.data) {
         navbar.innerHTML += `<button id="logout" type="button" class="btn btn-primary" onclick=logout()>Logout</button>`
+        document.querySelector(".search-bar").addEventListener("input", search)
         return data.data
     }
     navbar.innerHTML += `<button id="login" type="button" class="btn btn-primary" onclick=login()>Login</button>`
+    document.querySelector(".search-bar").addEventListener("input", search)
     return null
 }
 
+async function search(e) {
+    const searchResult = document.querySelector(".search-result-container")
+    searchResult.innerHTML = ""
+    const search = e.target.value
+    if (search.length == 0) {
+        searchResult.classList.add("hide")
+        return
+    }
+    searchResult.classList.remove("hide")
+    const res = await fetch('../search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ search }),
+    })
+    const data = (await res.json()).data
 
-const login = () => {
-    window.location.href = "../login"
+    for (let book of data) {
+        console.log(book);
+        let bookname = book.bookname.replace(search, `<b>${search}</b>`)
+
+        searchResult.innerHTML += `
+        <div class="search-result border">
+            <div class="book-detail" onclick="toBookPage(${book.id})">
+                <div class="search-bookname">${bookname}</div>
+            </div>
+            <img src="../../uploads/pageImg/${book.image}" alt="" class="search-image">
+        </div>
+        `
+    }
 }
 
-const logout = async () => {
+function toBookPage(bookId) {
+    window.location.href = `../book/?id=${bookId}`
+}
+
+async function logout ()  {
     const res = await fetch("/logout")
     const data = await res.json()
     window.location.reload()
@@ -145,7 +179,7 @@ async function confirmEdit(event, commentId) {
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
         },
-        body: JSON.stringify({ content,commentId }),
+        body: JSON.stringify({ content, commentId }),
     })
     if (res.ok) {
         window.location.reload()
