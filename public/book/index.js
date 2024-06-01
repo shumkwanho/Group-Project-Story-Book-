@@ -188,24 +188,24 @@ async function loadBtn() {
     const res = await fetch("/comment-user")
     const data = (await res.json()).data
     const commentIds = data.map(e => (e.id).toString())
-
+    console.log(commentIds);
     const comments = Array.from(document.querySelectorAll(".comment-container"))
     for (let comment of comments){
         const commentId = comment.id.slice(8)
         if (!commentIds.includes(commentId)){
            continue
         }
-        document.querySelector(`#comment_${id}`).innerHTML += `
+        document.querySelector(`#comment_${commentId}`).innerHTML += `
         <div class="btn-group">
-            <div id="editComment" onclick=editComment(${id})> <i class="fa-solid fa-pen" style="color: #48A0FF;"></i> </div>
-            <div id="deleteComment" onclick=deleteComment(${id})> <i class="fa-solid fa-trash" style="color: #48A0FF;"></i> </div>
+            <div id="editComment" onclick=editComment(${commentId})> <i class="fa-solid fa-pen" style="color: #48A0FF;"></i> </div>
+            <div id="deleteComment"> <i onclick=deleteComment(event,${commentId}) class="fa-solid fa-trash" style="color: #48A0FF;"></i> </div>
         </div>
         `
     }
 
 }
 
-async function deleteComment(commentId) {
+async function deleteComment(e,commentId) {
     const res = await fetch('/comment', {
         method: 'DELETE',
         headers: {
@@ -215,7 +215,7 @@ async function deleteComment(commentId) {
     })
     const data = await res.json()
     if (res.ok) {
-        window.location.reload()
+        e.target.parentElement.parentElement.parentElement.remove()
     }
 }
 
