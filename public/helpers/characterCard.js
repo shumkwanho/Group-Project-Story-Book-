@@ -5,7 +5,8 @@ const characterCardModal = new bootstrap.Modal(document.getElementById('characte
 const characterContentBody = document.querySelector("#character-content-body");
 const characterContentHeader = document.querySelector(".character-content-header");
 const deleteBtn = document.querySelector(".delete-btn");
-const createStoryWithCharacterBtn = document.querySelector(".create-story-with-character-btn");
+
+// const createStoryWithCharacterBtn = document.querySelector(".create-story-with-character-btn");
 
 export async function showCharacterCard(characterId) {
 
@@ -19,14 +20,30 @@ export async function showCharacterCard(characterId) {
     characterCardModal.show()
 
     deleteBtn.addEventListener('click', () => {
-        deleteCharacter(characterId)
-        //TODO: add confirmation pop up
-        window.location.reload()
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your character has been deleted.",
+                icon: "success"
+              });
+              deleteCharacter(characterId)
+              window.location.reload()
+            }
+          });
     })
 
-    createStoryWithCharacterBtn.addEventListener('click', () => {
-        createStoryWithCharacter(characterId)
-    })
+    // createStoryWithCharacterBtn.addEventListener('click', () => {
+    //     createStoryWithCharacter(characterId)
+    // })
 }
 
 async function deleteCharacter(id) {
@@ -43,6 +60,6 @@ async function deleteCharacter(id) {
     }
 }
 
-function createStoryWithCharacter(id) {
-    //TODO
-}
+// function createStoryWithCharacter(id) {
+//     //TODO
+// }

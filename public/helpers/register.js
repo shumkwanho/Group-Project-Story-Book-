@@ -41,12 +41,29 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
 
     const data = await response.json();
 
-    //TODO: not to use alert
     if (response.ok) {
       alert(data.message);
-      window.location.reload();
+
+      Swal.fire({
+        title: data.message,
+        icon: "success"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      });
+
     } else {
-      alert(data.message);
+
+      Swal.fire({
+        title: data.message,
+        icon: "error"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      });
+
     }
   } catch (error) {
     alert('An error occurred during registration.');

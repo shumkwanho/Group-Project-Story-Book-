@@ -40,12 +40,28 @@ loginForm.addEventListener('submit', async (event) => {
 
     const data = await response.json();
 
-    //TODO: do not use alert, use pop up
     if (response.ok) {
-      alert('Login successful!');
-      window.location.reload();
+
+      Swal.fire({
+        title: 'Login successful!',
+        icon: "success"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      });
+      
     } else {
-      alert(`Login failed: ${data.message}`);
+
+      Swal.fire({
+        title: `Login failed: ${data.message}`,
+        icon: "error"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      });
+
     }
   } catch (error) {
     alert('An error occurred during login.');
