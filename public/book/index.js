@@ -33,14 +33,27 @@ window.addEventListener("load", async (e) => {
 const checkLogin = async () => {
     const res = await fetch("/checkLogin")
     const data = await res.json()
-    const navbar = document.querySelector("#navbar")
 
     if (data.data) {
-        navbar.innerHTML += `<button id="logout" type="button" class="btn btn-primary" onclick=logout()>Logout</button>`
+
+        const userInfo = await getUserInfo()
+
+        document.querySelector("#username-display").innerHTML = userInfo.username;
+
+        document.querySelector("#user-page-redirect").classList.toggle("hide")
+        document.querySelector("#logout").classList.toggle("hide")
         document.querySelector(".search-bar").addEventListener("input", search)
+
+        document.querySelector("#user-page-redirect")
+            .addEventListener("click", () => {
+                window.location.href = '../member';
+            });
+        
         return data.data
     }
-    navbar.innerHTML += `<button id="login" type="button" class="btn btn-primary" onclick=login()>Login</button>`
+
+    document.querySelector("#login").classList.toggle("hide")
+    document.querySelector("#register").classList.toggle("hide")
     document.querySelector(".search-bar").addEventListener("input", search)
     return null
 }
@@ -59,8 +72,8 @@ async function getStoryBook(id) {
                 <div class="description">About Story: <h class="textcolor">${data.description}</h></div>
             </div>
             <div class="function">
-                <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${id})"> <img src="./img/stars.gif" style="width: 50px; height: 30px; alt="grc">Read Now</button>
-                
+                <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${id})">
+                <img src="./img/stars.gif" style="width: 50px; height: 30px; alt="grc">Read Now</button>
             </div>
             `
             return data
@@ -226,8 +239,6 @@ function editComment(commentId) {
         <textarea class="edit-input" cols="72">${content}</textarea>
         <button type="button" onclick=confirmEdit(event,${commentId}) class="btn btn-primary">Confirm</button>
     `
-
-
 }
 
 async function confirmEdit(event, commentId) {
