@@ -56,7 +56,6 @@ export class PaymentController {
                 const stripeId = paymentIntentSucceeded.id
                 const userId = paymentIntentSucceeded.metadata.userId
                 const result = await this.service.checkUserPayment(userId as string)
-                console.log(result);
                 
                 if (!result[0]) {
                     await this.service.updatePayment(userId, stripeId)
