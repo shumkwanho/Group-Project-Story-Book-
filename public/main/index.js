@@ -1,8 +1,8 @@
 import { createStorybook } from '../helpers/createStorybook.js';
-import { login } from './login.js';
-import { register } from './register.js';
+import { login } from '../helpers/login.js';
+import { register } from '../helpers/register.js';
 import { convertDisplayAge } from '../helpers/convertDisplayAge.js';
-import { getUserInfo } from '../helpers/getUserInfo.js';
+import { getUserInfo, checkIsMember, hasFirstAttempt } from '../helpers/auth.js';
 
 const storybookArea = document.querySelector(".storybook-area")
 
@@ -102,15 +102,13 @@ const displayLike = async () => {
 }
 
 const checkLogin = async () => {
-    const res = await fetch("../checkLogin")
+    const res = await fetch("/checkLogin")
     const data = await res.json()
-    const navbar = document.querySelector(".navbar")
 
     if (data.data) {
         const userInfo = await getUserInfo()
         document.querySelector("#username-display").innerHTML = userInfo.username;
 
-        //users has logged in
         const isMember = await checkIsMember()
         const isAttemped = await hasFirstAttempt()
         const ableToCreateStorybook = !isAttemped || isMember
@@ -127,7 +125,8 @@ const checkLogin = async () => {
             )
         }
 
-        document.querySelector("#logout").classList.toggle("hide");
+        document.querySelector("#user-page-redirect").classList.toggle("hide")
+        document.querySelector("#logout").classList.toggle("hide")
         document.querySelector(".search-bar").addEventListener("input", search)
         
         document.querySelector("#user-page-redirect")
@@ -290,23 +289,6 @@ async function sort(e) {
 
 function randomNum(num) {
     return Math.floor(Math.random() * num)
-}
-
-
-
-async function checkIsMember() {
-    const res = await fetch("../payment")
-    const data = (await res.json()).data
-    if (data.length > 0) {
-        return true
-    }
-    return false
-}
-
-async function hasFirstAttempt() {
-    const res = await fetch("../free-trial")
-    const data = (await res.json()).data
-    return data[0].has_first_attempt
 }
 
 function requirePayment(e) {

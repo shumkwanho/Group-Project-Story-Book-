@@ -1,5 +1,7 @@
 import { bookReader } from "../helpers/bookReader.js";
-
+import { login } from "../helpers/login.js";
+import { register } from "../helpers/register.js";
+import { getUserInfo } from "../helpers/auth.js";
 
 const createComment = document.querySelector("#create-comment")
 const commentArea = document.querySelector(".comment-area")
@@ -11,6 +13,8 @@ window["bookReader"] = bookReader;
 window["editComment"] = editComment;
 window["deleteComment"] = deleteComment;
 window["confirmEdit"] = confirmEdit;
+window["login"] = login
+window["register"] = register
 window["logout"] = logout
 window["search"] = search
 window["toBookPage"] = toBookPage
@@ -25,8 +29,6 @@ window.addEventListener("load", async (e) => {
     }
 })
 
-
-
 async function getStoryBook(id) {
     let res = await fetch(`/storybookByid?id=${id}`)
     let data = (await res.json()).data
@@ -40,21 +42,11 @@ async function getStoryBook(id) {
                 <div class="description">About Story: <h class="textcolor">${data.description}</h></div>
             </div>
             <div class="function">
-                
-                <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${id})"> <img src="./img/stars.gif" style="width: 50px; height: 30px; alt="grc">Read Now</button>
+                <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${id})">
+                <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc">Read Now
+                </button>
             </div>
             `
-
-        if (await checkLogin()) {
-            const likeRes = await fetch("../like")
-            const likeData = (await likeRes.json()).data.map(elem => elem.id)
-            const isLiked = likeData.includes(parseInt(id))
-            document.querySelector(".function").innerHTML += `
-                <div class="like-container">
-                    <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #9ECDFF;" onclick=toggleLike(event,${id})></i>
-                    <span class="like-count">${data.likeCount}</span>
-                </div>`
-        }
     }
 }
 
@@ -109,14 +101,45 @@ const loadComment = async () => {
 const checkLogin = async () => {
     const res = await fetch("/checkLogin")
     const data = await res.json()
-    const navbar = document.querySelector("#navbar")
+
     if (data.data) {
-        navbar.innerHTML += `<button id="logout" type="button" class="btn btn-primary" onclick=logout()>Logout</button>`
+
+        const userInfo = await getUserInfo()
+
+        console.log(userInfo)
+
+        document.querySelector("#username-display").innerHTML = userInfo.username;
+
+        document.querySelector("#user-page-redirect").classList.toggle("hide")
+        document.querySelector("#logout").classList.toggle("hide")
         document.querySelector(".search-bar").addEventListener("input", search)
+
+        document.querySelector("#user-page-redirect")
+            .addEventListener("click", () => {
+                window.location.href = '../member';
+            });
+        
         return data.data
     }
-    navbar.innerHTML += `<button id="login" type="button" class="btn btn-primary" onclick=login()>Login</button>`
+
+    document.querySelector("#login").classList.toggle("hide")
+    document.querySelector("#register").classList.toggle("hide")
+
     document.querySelector(".search-bar").addEventListener("input", search)
+
+    // const likeRes = await fetch("../like")
+    // const likeData = (
+    //     await likeRes.json()).data.map(
+    //         elem => elem.id
+    //     )
+    // const isLiked = likeData.includes(parseInt(id))
+    
+    // document.querySelector(".function").innerHTML += `
+    //         <div class="like-container">
+    //             <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #9ECDFF;" onclick=toggleLike(event,${id})></i>
+    //             <span class="like-count">${data.likeCount}</span>
+    //         </div>`
+
     return null
 }
 
