@@ -2,7 +2,7 @@ import { showCharacterCard } from "../helpers/characterCard.js"
 import { createCharacter } from "../helpers/createCharacter.js"
 import { createStorybook } from "../helpers/createStorybook.js"
 import { convertDisplayAge } from '../helpers/convertDisplayAge.js';
-import { getUserInfo } from "../helpers/getUserInfo.js";
+import { getUserInfo } from "../helpers/auth.js";
 
 window["showCharacterCard"] = showCharacterCard
 window["createCharacter"] = createCharacter
