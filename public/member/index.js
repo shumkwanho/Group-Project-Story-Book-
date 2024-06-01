@@ -7,6 +7,7 @@ import { getUserInfo } from "../helpers/auth.js";
 window["showCharacterCard"] = showCharacterCard
 window["createCharacter"] = createCharacter
 window["createStorybook"] = createStorybook
+window["logout"] = logout
 
 const displayArea = document.querySelector(".display-area")
 
@@ -187,4 +188,10 @@ function requirePayment(e) {
     const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'), {});
     paymentModal.show()
 
+}
+
+async function logout() {
+    const res = await fetch("/logout")
+    const data = await res.json()
+    window.location.href = "../main"
 }
