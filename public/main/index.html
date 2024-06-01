@@ -15,55 +15,23 @@
 </head>
 
 <body>
-    <div class="navbar" id="navbar">
-        <div id="user-page-redirect" class="border-large">
-            <i class="fa-regular fa-user"></i>
-            Hello <span id="username-display">Guest</span>
-        </div>
+    <div class="navbar fixed-top p0" id="navbar">
         <div class="search-container">
             <input type="text" placeholder="Search Bar" class="search-bar">
             <div class="search-result-container">
             </div>
         </div>
-    </div>
-
-    <div class="form-popup" id="myForm">
-        <form class="form-container">
-            <h1>Login</h1>
-
-            <label for="username"><b>Username</b></label>
-            <input id="username" type="text" placeholder="Enter Username" name="username" value="admin" required>
-
-            <label for="email"><b>Email</b></label>
-            <input id="email" type="text" placeholder="Enter Email" name="email" value="admin@storybook.com" required>
-
-            <label for="password"><b>Password</b></label>
-            <input id="password" type="password" placeholder="Enter Password" name="password" value="123" required>
-
-            <button type="submit" class="btn">Login</button>
-            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-        </form>
-    </div>
-
-    <div class="registerPopup" id="registerForm">
-        <form class="registerFormContainer">
-            <h1>Register</h1>
-
-            <label for="newUsername"><b>Username</b></label>
-            <input id="newUsername" type="text" placeholder="Enter Username" name="newUsername" value="1" required>
-
-            <label for="newEmail"><b>Email</b></label>
-            <input id="newEmail" type="text" placeholder="Enter Email" name="newEmail" value="1@gmail.com" required>
-
-            <label for="newPassword"><b>Password</b></label>
-            <input id="newPassword" type="password" placeholder="Enter Password" name="newPassword" value="1" required>
-
-            <label for="confirmpassword"><b>Confirm Password</b></label>
-            <input id="confirmPassword" type="password" placeholder="Confirm Password" name="confirmPassword" value="1" required>
-
-            <button type="submit" class="btn">Register</button>
-            <button type="button" class="registerCancel" onclick="registerCloseForm()">Close</button>
-        </form>
+        <button id="user-page-redirect" type="button" class="btn btn-primary hide">
+            <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc"> Hello <span
+                id="username-display"></span>
+        </button>
+        <button id="login" onclick=login() type="button" class="btn btn-primary hide">
+            <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc"> Login
+        </button>
+        <button id="register" onclick="register()" type="button" class="btn btn-primary hide">
+            <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc"> Register</button>
+        <button id="logout" onclick="logout()" type="button" class="btn btn-primary hide">
+            <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc"> Logout</button>
     </div>
 
     <div>
@@ -163,7 +131,7 @@
 
             <div class="selection-area">
                 <div class="create-storybook border" style="width:300px; height: 800px;" onclick="login()">
-                    <img src="./img/readbook.png" class="border img-fluid w-100 h-100" >
+                    <img src="./img/readbook.png" class="border img-fluid w-100 h-100">
                     <p class="textAbsolute">Create Story Book</p>
                 </div>
                 <section class="storybook-area border">
@@ -171,6 +139,47 @@
                 </section>
             </div>
         </div>
+    </div>
+
+    <!-- login form -->
+    <div class="login-form" id="loginForm">
+        <form class="login-form-container">
+            <h1>Login</h1>
+
+            <label for="username"><b>Username</b></label>
+            <input id="username" type="text" placeholder="Enter Username" name="username" value="admin" required>
+
+            <label for="email"><b>Email</b></label>
+            <input id="email" type="text" placeholder="Enter Email" name="email" value="admin@storybook.com" required>
+
+            <label for="password"><b>Password</b></label>
+            <input id="password" type="password" placeholder="Enter Password" name="password" value="123" required>
+
+            <button type="submit" class="btn">Login</button>
+            <button type="button" class="btn cancel" onclick="loginCloseForm()">Close</button>
+        </form>
+    </div>
+
+    <!-- register form -->
+    <div class="register-form" id="registerForm">
+        <form class="register-form-container">
+            <h1>Register</h1>
+
+            <label for="newUsername"><b>Username</b></label>
+            <input id="newUsername" type="text" placeholder="Enter Username" name="newUsername" required>
+
+            <label for="newEmail"><b>Email</b></label>
+            <input id="newEmail" type="text" placeholder="Enter Email" name="newEmail" required>
+
+            <label for="newPassword"><b>Password</b></label>
+            <input id="newPassword" type="password" placeholder="Enter Password" name="newPassword" required>
+
+            <label for="confirmpassword"><b>Confirm Password</b></label>
+            <input id="confirmPassword" type="password" placeholder="Confirm Password" name="confirmPassword" required>
+
+            <button type="submit" class="btn">Register</button>
+            <button type="button" class="btn cancel" onclick="registerCloseForm()">Close</button>
+        </form>
     </div>
 
     <!-- create new story modal -->
@@ -189,14 +198,14 @@
                         <div class="new-story-character-image">
                             <!-- contents to be printed in js -->
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-character">Main Character</label>
                             <select class="form-select" id="new-storybook-character">
                                 <!-- contents to be printed in js -->
                             </select>
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-category">Category</label>
                             <select class="form-select" id="new-storybook-category">
@@ -210,7 +219,7 @@
                                 <option value="Kindness">Kindness</option>
                             </select>
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-target-age">Target Age</label>
                             <select class="form-select" id="new-storybook-target-age">
@@ -221,7 +230,7 @@
                                 <option value="12">10 or above</option>
                             </select>
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-total-page">Total Pages</label>
                             <select class="form-select" id="new-storybook-total-page">
@@ -232,14 +241,15 @@
                                 <option value="10">10</option>
                             </select>
                         </div>
-    
+
                     </div>
                     <div class="modal-footer" id="create-storybook-footer">
                         <span class="create-story-book-done-status"></span>
                         <span class="create-story-book-status"></span>
                         <i class="fa-solid fa-spinner fa-spin-pulse hidden" id="create-story-book-in-progress-icon"
                             style="color: #74C0FC;"></i>
-                        <i class="fa-solid fa-check hidden" id="create-story-book-done-icon" style="color: #74C0FC;"></i>
+                        <i class="fa-solid fa-check hidden" id="create-story-book-done-icon"
+                            style="color: #74C0FC;"></i>
                         <button class="btn btn-primary" type="submit" for="new-storybook-form"
                             id="new-storybook-submit-btn">Create Story Book</button>
                     </div>
@@ -247,7 +257,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- storybook reader -->
     <div class="modal fade modal" id="readerModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true"
         aria-labelledby="readerModalLabel" tabindex="-1">
@@ -315,22 +325,26 @@
         </div>
     </div>
 
-    
+
 
     <footer class="footer bg-dark text-white mt-5">
         <div class="container">
             <footer class="py-5">
                 <div class="row d-flex justify-content-between">
-                    <div class="col-4 col-md-2 mb-3">
-                        <h5>Section</h5>
-                        <ul class="nav flex-column text-white">
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Home</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Features</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Pricing</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">FAQs</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">About</a></li>
-                        </ul>
+                    <div class="publishedBy col-4 col-md-4 mb-3">
+                        <div class="belowContainer-top p1">
+                            About
+                        </div>
+                        <div class="belowContainer-below">
+                            <a href="../ourStory/index.html" class="nav-link p-0 text-white p1">Our Story</a>
+                            <a href="../aboutus/index.html" class="nav-link p-0 text-white p1">About us</a>
+
+                        </div>
+
+
                     </div>
+
+
 
                     <div class="publishedBy col-4 col-md-4 mb-3">
                         <div class="belowContainer-top p1">
@@ -339,12 +353,12 @@
                         <div class="belowContainer-below">
                             <img src="./img/DALL.E 3.png" style="width: 200px;">
                         </div>
-                        
+
                     </div>
                     <div class="supportedBy col-4 col-md-4 mb-3">
                         <div class="belowContainer-top p1">
-                        Supported By
-                        </div> 
+                            Supported By
+                        </div>
                         <div class="belowContainer-below p1">
                             Adams Ip
                             <img src="./img/adams.webp" style="width: 175px;">
@@ -374,8 +388,6 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script type="module" src="index.js"></script>
-    <!-- <script type="module" src="login.js"></script>
-    <script type="module" src="register.js"></script> -->
 </body>
 
 

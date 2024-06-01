@@ -1,5 +1,7 @@
 import { bookReader } from "../helpers/bookReader.js";
-
+import { login } from "../helpers/login.js";
+import { register } from "../helpers/register.js";
+import { getUserInfo } from "../helpers/auth.js";
 
 const createComment = document.querySelector("#create-comment")
 const commentArea = document.querySelector(".comment-area")
@@ -11,6 +13,8 @@ window["bookReader"] = bookReader;
 window["editComment"] = editComment;
 window["deleteComment"] = deleteComment;
 window["confirmEdit"] = confirmEdit;
+window["login"] = login
+window["register"] = register
 window["logout"] = logout
 window["search"] = search
 window["toBookPage"] = toBookPage

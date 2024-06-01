@@ -1,7 +1,10 @@
 @import url('../helpers/bookReader.css');
+@import url('../helpers/login-register.css');
 
 body{
     min-width: 1400px;
+    position: relative;
+    top:158px;
 }
 
 .border {
@@ -83,42 +86,6 @@ body{
     object-fit: cover;
 }
 
-/* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
-    opacity: 1;
-  }
-
-.form-popup,
-.registerPopup{
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    border: 3px solid #f1f1f1;
-    z-index: 9;
-}
-
-/* The popup form - hidden by default */
-.form-popup,
-.registerPopup{
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    border: 3px solid #f1f1f1;
-    z-index: 9;
-}
-/* Add styles to the form container */
-.form-container,
-.registerFormContainer {
-    max-width: 300px;
-    padding: 10px;
-    background-color: white;
-}
-
-
-
-
 .upper-part{
     display:flex;
     justify-content: space-between;
@@ -147,8 +114,6 @@ body{
     padding: 10px;
     margin-bottom: 10px;
     font-weight: bold;
-    
-    
 }
 
 .textcolor{
@@ -181,7 +146,6 @@ body{
     scrollbar-color: #016864 #fffefe;
 }
 
-
 h2{
     color: white;
     padding: 10px;  
@@ -198,11 +162,8 @@ h2{
     border-color: rgb(168, 252, 252);
 }
 
-
-
 .comment-container:hover{
     background-color: rgb(217, 245, 247);
-    
 }
 
 #read{
@@ -239,11 +200,9 @@ h2{
 .otherBook{
     width: 350px;
     height: 300px;
-    
 }
 
 .otherBookContainer{
-   
     width: 250px;
     height: 250px;
     background-color: bisque;
@@ -259,7 +218,6 @@ h2{
 .supportedBy{
     width: 350px;
     height: 300px;
-    
 }
 
 .p0{
@@ -317,7 +275,7 @@ h2{
 
 .sellArea{
     width: 100%;
-    height: 300px;
+    height: 400px;
     background-image: url(./img/sky.png);
     background-size: cover;
      background-repeat: no-repeat;

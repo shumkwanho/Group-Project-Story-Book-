@@ -148,9 +148,14 @@ export class StorybookController {
 
             let characterName = characterInfo[0].name;
 
+            console.log(`Creating Storybook Content for ${characterName}`)
+
             let storybookTextPrompt = genStorybookTextPrompt(characterName, targetAge, category, totalPage);
             let storybookContent = await textGeneratorModel(storybookTextPrompt, TEXT_MODEL);
             let storybookContentJSON = JSON.parse(storybookContent as string);
+
+            console.log(`Storybook Plot:`)
+            console.log(storybookContentJSON)
 
             let bookName = storybookContentJSON.story_name;
             let description = storybookContentJSON.description_summary;

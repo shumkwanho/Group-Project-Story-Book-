@@ -19,28 +19,28 @@ export function createCharacter() {
             document.querySelector("#new-character-content-footer")
                 .insertAdjacentHTML(
                     "afterbegin",
-                    `<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
+                    `Creating "${name} the ${speciesType }<i class="fa-solid fa-spinner fa-spin-pulse" style="color: #74C0FC;"></i>`
                 )
 
             //TODO: guide user to input better names
             console.log(name)
 
-            // let res = await fetch('/character', {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify({ name, speciesType, gender, age, bodyShape, heightSize })
-            // })
+            let res = await fetch('/character', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, speciesType, gender, age, bodyShape, heightSize })
+            })
 
-            // let result = await res.json()
+            let result = await res.json()
 
-            // if (res.ok) {
-            //     //create character successful
-            //     //TODO: better user experience
-            //     window.location.reload();
-            // } else {
-            //     console.log(result);
-            // }
+            if (res.ok) {
+                //create character successful
+                //TODO: better user experience
+                window.location.reload();
+            } else {
+                console.log(result);
+            }
         })
 }

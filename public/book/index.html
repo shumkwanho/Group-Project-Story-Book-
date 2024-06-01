@@ -10,57 +10,32 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="index.css">
 
-    <title>Document</title>
+    <title>Group Project - Story Book Creator</title>
 </head>
 
 <body>
-    <div class="navbar" id="navbar">
-
+    <div class="navbar fixed-top p0" id="navbar">
         <div class="search-container">
             <input type="text" placeholder="Search Bar" class="search-bar">
             <div class="search-result-container">
             </div>
         </div>
-    </div>
+        <button id="user-page-redirect" type="button" class="btn btn-primary hide">
+            <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc"> Hello <span
+                id="username-display"></span>
+        </button>
 
-    <div class="form-popup" id="myForm">
-        <form class="form-container">
-            <h1>Login</h1>
+        <button id="login" onclick=login() type="button" class="btn btn-primary hide">
+            <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc"> Login
+        </button>
 
-            <label for="username"><b>Username</b></label>
-            <input id="username" type="text" placeholder="Enter Username" name="username" value="admin" required>
+        <button id="register" onclick="register()" type="button" class="btn btn-primary hide">
+            <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc"> Register
+        </button>
 
-            <label for="email"><b>Email</b></label>
-            <input id="email" type="text" placeholder="Enter Email" name="email" value="admin@storybook.com" required>
-
-            <label for="password"><b>Password</b></label>
-            <input id="password" type="password" placeholder="Enter Password" name="password" value="123" required>
-
-            <button type="submit" class="btn">Login</button>
-            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-        </form>
-    </div>
-
-    <div class="registerPopup" id="registerForm">
-        <form class="registerFormContainer">
-            <h1>Register</h1>
-
-            <label for="newUsername"><b>Username</b></label>
-            <input id="newUsername" type="text" placeholder="Enter Username" name="newUsername" value="1" required>
-
-            <label for="newEmail"><b>Email</b></label>
-            <input id="newEmail" type="text" placeholder="Enter Email" name="newEmail" value="1@gmail.com" required>
-
-            <label for="newPassword"><b>Password</b></label>
-            <input id="newPassword" type="password" placeholder="Enter Password" name="newPassword" value="1" required>
-
-            <label for="comfirmpassword"><b>Comfirm Password</b></label>
-            <input id="confirmPassword" type="password" placeholder="Comfirm Password" name="confirmPassword" value="1"
-                required>
-
-            <button type="submit" class="btn">Register</button>
-            <button type="button" class="registerCancel" onclick="registerCloseForm()">Close</button>
-        </form>
+        <button id="logout" onclick="logout()" type="button" class="btn btn-primary hide">
+            <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc"> Logout
+        </button>
     </div>
 
     <div class="sellArea">
@@ -86,7 +61,16 @@
         </a>
     </div>
 
+    <div id="main-page-redirect">
+        <a href="../main">
+            <i class="fa-solid fa-house"></i>
+            <span> Main Page</span>
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </div>
+
     <br>
+
     <div class="bookContainer">
         <session class="upper-part p2">
         </session>
@@ -96,8 +80,8 @@
             </div>
         </session>
         <div class="create-comment-container">
-            <textarea class="border p2" rows="4" cols="144" id="new-comment"></textarea>
-            <button id="create-comment" type="button" class="btn btn-primary">Create Comment</button>
+            <textarea class="border p2" rows="4" cols="144" id="new-comment" required></textarea>
+            <button id="create-comment" type="button" class="btn btn-primary p2">Create Comment</button>
         </div>
 
         <div class="bookContainerBelow">
@@ -120,7 +104,46 @@
         </div>
     </div>
 
+    <!-- login form -->
+    <div class="login-form" id="loginForm">
+        <form class="login-form-container">
+            <h1>Login</h1>
 
+            <label for="username"><b>Username</b></label>
+            <input id="username" type="text" placeholder="Enter Username" name="username" value="admin" required>
+
+            <label for="email"><b>Email</b></label>
+            <input id="email" type="text" placeholder="Enter Email" name="email" value="admin@storybook.com" required>
+
+            <label for="password"><b>Password</b></label>
+            <input id="password" type="password" placeholder="Enter Password" name="password" value="123" required>
+
+            <button type="submit" class="btn">Login</button>
+            <button type="button" class="btn cancel" onclick="loginCloseForm()">Close</button>
+        </form>
+    </div>
+
+    <!-- register form -->
+    <div class="register-form" id="registerForm">
+        <form class="register-form-container">
+            <h1>Register</h1>
+
+            <label for="newUsername"><b>Username</b></label>
+            <input id="newUsername" type="text" placeholder="Enter Username" name="newUsername" required>
+
+            <label for="newEmail"><b>Email</b></label>
+            <input id="newEmail" type="text" placeholder="Enter Email" name="newEmail" required>
+
+            <label for="newPassword"><b>Password</b></label>
+            <input id="newPassword" type="password" placeholder="Enter Password" name="newPassword" required>
+
+            <label for="confirmpassword"><b>Confirm Password</b></label>
+            <input id="confirmPassword" type="password" placeholder="Confirm Password" name="confirmPassword" required>
+
+            <button type="submit" class="btn">Register</button>
+            <button type="button" class="btn cancel" onclick="registerCloseForm()">Close</button>
+        </form>
+    </div>
 
     <!-- storybook reader -->
     <div class="modal fade modal" id="readerModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true"
@@ -151,15 +174,15 @@
         <div class="container">
             <footer class="py-5">
                 <div class="row d-flex justify-content-between">
-                    <div class="col-4 col-md-2 mb-3 ml-4">
-                        <h5>Section</h5>
-                        <ul class="nav flex-column text-white">
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Home</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Features</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Pricing</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">FAQs</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">About</a></li>
-                        </ul>
+                    <div class="publishedBy col-4 col-md-4 mb-3">
+                        <div class="belowContainer-top p1">
+                            About
+                        </div>
+                        <div class="belowContainer-below">
+                            <a href="../ourStory/index.html" class="nav-link p-0 text-white p1">Our Story</a>
+                            <a href="../aboutus/index.html" class="nav-link p-0 text-white p1">About us</a>
+                            
+                        </div>
                     </div>
 
                     <div class="publishedBy col-4 col-md-4 mb-3">
