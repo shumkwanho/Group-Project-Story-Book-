@@ -60,7 +60,11 @@ export class StorybookController {
 
     onclickStoryBookById = async (req:Request, res: Response) => {
         try{
-            const { id } = req.query;
+            let { id } = req.query;
+            if(req.body.storybookId){
+                id = req.body.storybookId
+            }
+            
             let storybookQueryResult:any = (await this.service.getStoryBookById(id as string))[0]
             const likes = await this.service.getBookLikes(id as string)
             

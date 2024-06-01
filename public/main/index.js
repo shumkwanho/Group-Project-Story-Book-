@@ -15,25 +15,22 @@ window["requirePayment"] = requirePayment
 window["toBookPage"] = toBookPage
 
 window.addEventListener("load", async (e) => {
-    const userId = await checkLogin();
+    await checkLogin();
     const data = await getAllStorybook();
     loadStorybooks(data);
     const bookTypeData = await storybookType();
     loadFilter(bookTypeData);
-    if (!userId) {
-        return
-    }
-    await displayLike();
 });
 
-const loadStorybooks = (data) => {
+document.querySelector(".search-bar").addEventListener("input", search)
 
+const loadStorybooks = (data) => {
     storybookArea.innerHTML = ""    //only showing public books
     for (let storybook of data) {
         if (storybook.is_public === true) {
-            
+
             let displayAge = convertDisplayAge(storybook.target_age);
-            
+
             storybookArea.innerHTML +=
                 `<div class="book border" id="book_${storybook.id}" onclick="window.location.href ='../book/?id=${storybook.id}'">
                 <img src="../../uploads/pageImg/${storybook.image}" class="book-img border">
@@ -43,6 +40,7 @@ const loadStorybooks = (data) => {
             </div>`
         }
     }
+    displayLike()
 }
 
 async function getAllStorybook() {
@@ -85,20 +83,41 @@ async function toggleLike(e, bookId) {
 const displayLike = async () => {
     const res = await fetch("../like")
     const data = (await res.json()).data
-    const bookIds = data.map(elem => elem.id)
+    let bookIds
+    if (data) {
+        bookIds = data.map(elem => elem.id)
+    }
     const books = document.querySelectorAll(".book")
     for (let book of books) {
         if (book.classList.contains("create-storybook")) {
             continue
         }
         const bookId = parseInt(book.id.slice(5, 7))
-        const isLiked = bookIds.includes(bookId)
-        if (isLiked) {
-            book.innerHTML += `<i class="fa-solid fa-heart like-btn" style="color: #efad5c;" onclick=toggleLike(event,${bookId})></i>`
-            continue
+        let isLiked
+        if (bookIds) {
+            isLiked = bookIds.includes(bookId)
         }
-        book.innerHTML += `<i class="fa-regular fa-heart like-btn" style="color: #efad5c;" onclick=toggleLike(event,${bookId})></i>`
+        isLiked = isLiked || !!data
+
+        book.innerHTML += `
+            <div class="like">
+                <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #efad5c;")></i>
+                <span class="like-count p2">${await likeCount(bookId)}</span>
+            </div>`
     }
+}
+
+async function likeCount(bookId) {
+    const res = await fetch('../like-count', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({ bookId }),
+    })
+    const data = (await res.json()).data
+    console.log(data);
+    return data.count
 }
 
 const checkLogin = async () => {
@@ -127,21 +146,19 @@ const checkLogin = async () => {
 
         document.querySelector("#user-page-redirect").classList.toggle("hide")
         document.querySelector("#logout").classList.toggle("hide")
-        document.querySelector(".search-bar").addEventListener("input", search)
         
+
         document.querySelector("#user-page-redirect")
             .addEventListener("click", () => {
                 window.location.href = '../member';
             });
-
-        return data.data
+        return 
     }
 
     document.querySelector("#login").classList.toggle("hide")
     document.querySelector("#register").classList.toggle("hide")
+    return 
 
-    document.querySelector(".search-bar").addEventListener("input", search)
-    return null
 }
 
 async function search(e) {
@@ -163,7 +180,6 @@ async function search(e) {
     const data = (await res.json()).data
 
     for (let book of data) {
-        console.log(book);
         let bookname = book.bookname.replace(search, `<b>${search}</b>`)
 
         searchResult.innerHTML += `
@@ -190,7 +206,6 @@ async function storybookType() {
 }
 
 function loadFilter(list) {
-
     for (let type in list) {
         if (type == "all") {
             continue
@@ -203,7 +218,7 @@ function loadFilter(list) {
         </div>
         `
 
-        for (let i = 0; i < list[type].length; i++) {   
+        for (let i = 0; i < list[type].length; i++) {
             let displayAge = convertDisplayAge(list[type][i][type])
             filterForm.innerHTML += `
             <div class="option">
@@ -224,7 +239,7 @@ function loadFilter(list) {
 
 function selectAll(e) {
     const targetForm = e.target.parentElement.parentElement
-    const category = targetForm.classList[0].slice(7)
+    const category = targetForm.classList[1].slice(7)
     const checkboxes = Array.from(document.getElementsByName(category))
     for (let checkbox of checkboxes) {
         if (e.target.checked) {
@@ -248,13 +263,17 @@ async function submitFilterForm(e) {
     if (e.target.all.checked) {
         const data = await getAllStorybook()
         loadStorybooks(data)
+        displayLike()
         return
     }
     const submitTarget = e.target.querySelector("label").id
     const checkboxes = Array.from(document.getElementsByName(submitTarget))
     const condition = checkboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value)
     let obj = { key: submitTarget, condition }
-    if (!obj.condition[0]) {
+    if (!condition[0]) {
+        const data = await getAllStorybook()
+        loadStorybooks(data)
+
         return
     }
     const res = await fetch('../filter', {
@@ -265,7 +284,8 @@ async function submitFilterForm(e) {
         body: JSON.stringify({ obj }),
     })
     const data = (await res.json()).data
-    await loadStorybooks(data)
+    loadStorybooks(data)
+
 }
 
 document.querySelector("#sort").addEventListener("change", sort)
@@ -284,6 +304,7 @@ async function sort(e) {
     })
 
     const data = (await res.json()).data
+
     loadStorybooks(data)
 }
 
@@ -313,18 +334,3 @@ document.addEventListener("click", (e) => {
         searchBar.value = ""
     }
 })
-
-// document.addEventListener("click", (e) => {
-//     const toggleFilter = Array.from(document.querySelectorAll(".toggle-filter"))
-//     const option = Array.from(document.querySelectorAll(".option"))
-//     const filterList = document.querySelectorAll(".filter-list")
-//     //display ture when click outside
-//     const clickOutside = e.target in toggleFilter == false && e.target in option == false
-//     filterList.forEach((list) => {
-//         if (!list.classList.contains("hide")) {
-//             if (clickOutside) {
-//                 list.classList.add("hide")
-//             }
-//         }
-//     })
-// })

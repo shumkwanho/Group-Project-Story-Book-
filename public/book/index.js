@@ -129,7 +129,6 @@ const loadComment = async () => {
 
 
 async function search(e) {
-    console.log(e.target.value);
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
     const search = e.target.value
@@ -148,7 +147,6 @@ async function search(e) {
     const data = (await res.json()).data
 
     for (let book of data) {
-        console.log(book);
         let bookname = book.bookname.replace(search, `<b>${search}</b>`)
 
         searchResult.innerHTML += `
@@ -189,8 +187,14 @@ createComment.addEventListener("click", async (e) => {
 async function loadBtn() {
     const res = await fetch("/comment-user")
     const data = (await res.json()).data
-    const commentIds = data.map(e => e.id)
-    for (let id of commentIds) {
+    const commentIds = data.map(e => (e.id).toString())
+
+    const comments = Array.from(document.querySelectorAll(".comment-container"))
+    for (let comment of comments){
+        const commentId = comment.id.slice(8)
+        if (!commentIds.includes(commentId)){
+           continue
+        }
         document.querySelector(`#comment_${id}`).innerHTML += `
         <div class="btn-group">
             <div id="editComment" onclick=editComment(${id})> <i class="fa-solid fa-pen" style="color: #48A0FF;"></i> </div>
@@ -198,6 +202,7 @@ async function loadBtn() {
         </div>
         `
     }
+
 }
 
 async function deleteComment(commentId) {
@@ -216,9 +221,9 @@ async function deleteComment(commentId) {
 
 function editComment(commentId) {
     const targetComment = document.querySelector(`#comment_${commentId}`)
-    const content = targetComment.querySelector(".comment").innerHTML
+    const content = targetComment.querySelector(".comment-content").innerHTML
     targetComment.innerHTML = `
-        <textarea cols="85">${content}</textarea>
+        <textarea class="edit-input" cols="72">${content}</textarea>
         <button type="button" onclick=confirmEdit(event,${commentId}) class="btn btn-primary">Confirm</button>
     `
 

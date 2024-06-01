@@ -37,9 +37,10 @@ export class StorybookService {
     searchStoryBook = async (str: string) => {
         return await this.knex("storybooks")
             .join("storybook_pages", "storybook_id", "storybooks.id")
-            .select("storybooks.id", "bookname", "target_age", "category", "description", "image")
+            .select("storybooks.id", "bookname", "target_age", "category", "description", "image","is_public")
             .whereILike("bookname", `%${str}%`)
             .andWhere("page_number", "1")
+            .andWhere("is_public","true")
             .limit(5)
     }
 
@@ -99,20 +100,35 @@ export class StorybookService {
     }
 
     filterBook = async (column: string, condition: string[]) => {
-        return await this.knex.select("id", "bookname", "description", "target_age").from("storybooks").where(`${column}`, condition)
+        return await this.knex.select("storybooks.id as id", "bookname", "description", "target_age","is_public","image")
+        .from("storybooks")
+        .join("storybook_pages","storybooks.id","storybook_id")
+        .where(`${column}`, condition)
+        .andWhere("page_number","1")
     }
 
     storybookSorting = async (category: string) => {
-        return await this.knex.select("id", "bookname", "description", "target_age").from("storybooks").orderBy(category)
+        if (category == "created_at") {
+            category = "storybooks.created_at"
+        }
+        return await this.knex.select("storybooks.id as id", "bookname", "description", "target_age","is_public","image")
+        .from("storybooks")
+        .join("storybook_pages","storybooks.id","storybook_id")
+        .where("page_number","1")
+        .orderBy(category)
     }
 
     aggregateSorting = async () => {
         return (await this.knex.raw(`
-        select count(storybook_id),bookname,description,target_age,storybook_id 
+        select count(like_relation.storybook_id) as count,bookname,description,target_age,like_relation.storybook_id as id,is_public,image
         from like_relation 
         right join storybooks 
-        on storybooks.id = storybook_id 
-        group by storybook_id,bookname,description,target_age`)).rows
+        on storybooks.id = like_relation.storybook_id 
+        join storybook_pages
+        on storybooks.id = storybook_pages.storybook_id
+        where page_number = 1
+        group by like_relation.storybook_id,bookname,description,target_age,is_public,image
+        order by count desc`)).rows
     }
 
     getBookLikes = async (storybookId: string) => {

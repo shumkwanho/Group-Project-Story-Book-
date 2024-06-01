@@ -49,7 +49,7 @@ body{
 }
 
 .search-bar {
-    width: 800px;
+    width: 40vw;
     height: 35px;
     font-size: 20px;
     border: 1px solid black;
@@ -60,10 +60,10 @@ body{
 
 .search-result-container {
     position: absolute;
-    top: 35px;
+    top: 60px;
     background-color: rgb(197, 231, 255);
     z-index: 100;
-    width : 800px;
+    width: 40vw;
     border-radius: 10px;
     
 }
@@ -73,6 +73,7 @@ body{
     align-items: center;
     height: 50px;
     padding: 0 50px 0 30px;
+    font-size: 15px;
 }
 
 .search-result:hover{
@@ -293,14 +294,20 @@ h2{
     width: 95%;
 }
 
-
-textarea{
+.edit-input{
+    padding: 10px 0px 10px 30px;
+    border-radius: 10px;
+    height:60px;
+    position:relative;
+    right: 30px;
+}
+#new-comment{
     position: relative;
     left: 28px;
     margin-top: 50px;
     font-family: "Papyrus", "fantasy";
     font-style: italic;
-    font-size: 15px;
+    font-size: 25px;
     padding: 15px;
     width: 95%;
 }
