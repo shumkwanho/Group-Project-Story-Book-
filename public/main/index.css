@@ -188,6 +188,10 @@ body{
     z-index: 99;
 }
 
+.filter-list::-webkit-scrollbar {
+    display: none;
+}
+
 .option {
     display: flex;
     justify-content: space-between;
@@ -214,6 +218,7 @@ body{
     justify-content: space-between;
     width: 800px;
     padding: 0 30px;
+    font-size: 15px;
 }
 
 .search-result:hover {
@@ -226,7 +231,7 @@ body{
 
 .search-result-container {
     position: absolute;
-    top: 35px;
+    top: 60px;
     background-color: bisque;
     z-index: 100;
     border-radius: 10px;
@@ -395,4 +400,10 @@ body{
     padding-top: 30px;
     height: 400px;
     width: 100%;
+}
+
+.like-count{
+    position: absolute;
+    left: 50px;
+    bottom: 0px;
 }

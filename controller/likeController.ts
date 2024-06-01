@@ -6,6 +6,9 @@ export class LikeController {
 
     getLikes = async (req: Request, res: Response) => {
         try {
+            if(!req.session.userId){
+                return res.json({data:null})
+            }
             const userId = req.session.userId
             const result = await this.service.getLikes(userId as string)
             res.status(200).json({data:result})
@@ -39,4 +42,15 @@ export class LikeController {
         }
     }
 
+
+    getLikeCount= async (req: Request, res: Response) => {
+        try {
+            const {bookId} = req.body
+            const data = await this.service.getLikeCount(bookId as string)
+            res.json({data})
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+    }
 }
