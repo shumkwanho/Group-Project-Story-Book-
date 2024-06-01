@@ -28,7 +28,7 @@ body{
 
 .navbar {
     display: flex;
-    
+    justify-content:space-between;
     margin: 0;
     margin-bottom: 5px;
     width: 100%;
@@ -38,6 +38,7 @@ body{
     border-image-source: url(./img/borderBlue.jpg);
     border-image-slice: 80 fill;
     border-image-repeat: round;
+    padding-left: 25%;
 }
 
 .search-container {
@@ -378,4 +379,10 @@ textarea{
     width: 70%;
     justify-content: space-between;
     align-items: end;
+}
+
+#main-page-redirect{
+    position:relative;
+    left: 10%;
+    font-size: 30px;
 }

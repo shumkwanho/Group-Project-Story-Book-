@@ -17,20 +17,35 @@ window["toBookPage"] = toBookPage
 window["toggleLike"] = toggleLike;
 
 window.addEventListener("load", async (e) => {
-    const userId = await checkLogin()
-    await getStoryBook(id)
+    const bookData = await getStoryBook(id)
     await loadComment()
+    const userId = await checkLogin()
     if (userId) {
         await loadBtn()
+        await loadLike(bookData)
     }
 })
 
+const checkLogin = async () => {
+    const res = await fetch("/checkLogin")
+    const data = await res.json()
+    const navbar = document.querySelector("#navbar")
 
+    if (data.data) {
+        navbar.innerHTML += `<button id="logout" type="button" class="btn btn-primary" onclick=logout()>Logout</button>`
+        document.querySelector(".search-bar").addEventListener("input", search)
+        return data.data
+    }
+    navbar.innerHTML += `<button id="login" type="button" class="btn btn-primary" onclick=login()>Login</button>`
+    document.querySelector(".search-bar").addEventListener("input", search)
+    return null
+}
 
 async function getStoryBook(id) {
     let res = await fetch(`/storybookByid?id=${id}`)
     let data = (await res.json()).data
     if (res.ok) {
+
         let target = document.querySelector(".upper-part");
         target.innerHTML += `
             <img src="../../uploads/pageImg/${data.image}" alt="" class="book-cover border">
@@ -40,22 +55,23 @@ async function getStoryBook(id) {
                 <div class="description">About Story: <h class="textcolor">${data.description}</h></div>
             </div>
             <div class="function">
-                
                 <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${id})"> <img src="./img/stars.gif" style="width: 50px; height: 30px; alt="grc">Read Now</button>
+                
             </div>
             `
-
-        if (await checkLogin()) {
-            const likeRes = await fetch("../like")
-            const likeData = (await likeRes.json()).data.map(elem => elem.id)
-            const isLiked = likeData.includes(parseInt(id))
-            document.querySelector(".function").innerHTML += `
-                <div class="like-container">
-                    <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #9ECDFF;" onclick=toggleLike(event,${id})></i>
-                    <span class="like-count">${data.likeCount}</span>
-                </div>`
-        }
+            return data
     }
+}
+
+async function loadLike(bookData) {
+    const likeRes = await fetch("../like")
+    const likeData = (await likeRes.json()).data.map(elem => elem.id)
+    const isLiked = likeData.includes(parseInt(id))
+    document.querySelector(".function").innerHTML += `
+    <div class="like-container">
+        <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #9ECDFF;" onclick=toggleLike(event,${id})></i>
+        <span class="like-count">${bookData.likeCount}</span>
+    </div>`
 }
 
 async function toggleLike(e, bookId) {
@@ -106,19 +122,7 @@ const loadComment = async () => {
     }
 }
 
-const checkLogin = async () => {
-    const res = await fetch("/checkLogin")
-    const data = await res.json()
-    const navbar = document.querySelector("#navbar")
-    if (data.data) {
-        navbar.innerHTML += `<button id="logout" type="button" class="btn btn-primary" onclick=logout()>Logout</button>`
-        document.querySelector(".search-bar").addEventListener("input", search)
-        return data.data
-    }
-    navbar.innerHTML += `<button id="login" type="button" class="btn btn-primary" onclick=login()>Login</button>`
-    document.querySelector(".search-bar").addEventListener("input", search)
-    return null
-}
+
 
 async function search(e) {
     console.log(e.target.value);
