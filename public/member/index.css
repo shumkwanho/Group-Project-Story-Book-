@@ -7,29 +7,39 @@ body {
     flex-direction: column;
     align-items: center;
     margin: 40px;
-    background-size: cover;
-    background-position: center;
+    background-position: 100% 100%, 0 100%;
+    background-size: 25% 40%, 20% 25%;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-image: url(../main/img/chiikawa-usagi.gif),
+    url(../main/img/cover-1.thumb256.png);
+}
+
+#homePageButton {
+    display: flex;
+
 }
 
 #navbarBorder {
-    /* background-size: 100% 100%; */
+    background-image: url(../main/img/Usagidaner.gif);
+    background-size: 50% 100%;
     padding: 60px;
     width: 100%;
-    background-position: center;
+    border-radius: 70px;
     background-repeat: no-repeat;
-    background-color: #000000;
 }
 
 #containerBorder {
+    display: flex;
+    flex-direction: column;
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
     height: 900px;
     width: 1000px;
-    border-radius: 125px;
-    border: 0;
+    border: 0px solid;
+    border-radius: 10px;
+    border: none;
 }
 
 #createStorybookCard {
@@ -61,10 +71,11 @@ a {
     margin: 10px;
     background-color: #dabf49;
     border-radius: 225px;
+
 }
 
 .border {
-    border: solid 1px black;
+    border: solid 2px black;
 }
 
 .image {
@@ -96,7 +107,7 @@ a {
 }
 
 .collection {
-    background-color: #C00;
+    /* background-color: #C00; */
     display: flex;
     align-items: center;
     position: relative;
@@ -131,7 +142,7 @@ a {
     border-radius: 200px;
 }
 
-#collectionBorder > div {
+#collectionBorder>div {
     width: 33.33%;
     text-align: center;
 }
@@ -240,11 +251,11 @@ a {
 
 .search-container {
     margin: auto;
-    padding: 1.5em;
+    display: flex;
     justify-content: center;
     max-width: 30em;
-    /* background-color: #171717; */
-    background: linear-gradient(to left, #C00 50%, #000000 100%);
+    background-color: rgba(23, 23, 23, 0.3);
+    margin-right: 0px
 }
 
 .search-container input {
@@ -354,14 +365,6 @@ a {
 
 @media screen and (prefers-color-scheme: dark) {
 
-    body,
-    input {
-        /* color: #f1f1f1; */
-    }
-
-    /* body {
-      background: #171717;
-    } */
     .search-container input {
         box-shadow: 0 0 0 0.4em #f1f1f1 inset;
     }
@@ -376,5 +379,82 @@ a {
 
     .search-btn {
         background: #f1f1f1;
+    }
+}
+
+.glow-on-hover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 20%;
+    max-height: 100px;
+    /* border: 1px solid #ccc; */
+    margin-top: 10px;
+    position: relative;
+}
+
+#homePageButton {
+    text-decoration: none;
+    color: inherit;
+}
+
+a{
+    text-transform:uppercase;
+    font-size:18px;
+    padding:20px;
+  }
+
+.characters:before,
+.storybooks:before,
+.likes:before,
+.glow-on-hover:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.characters:active,
+.storybooks:active,
+.likes:active,
+.glow-on-hover:active {
+    color: #000
+}
+
+.characters:active:after,
+.storybooks:active:after,
+.likes:active:after,
+.glow-on-hover:active:after {
+    background: transparent;
+}
+
+.characters:hover:before,
+.storybooks:hover:before,
+.likes:hover:before,
+.glow-on-hover:hover:before {
+    opacity: 1;
+}
+
+@keyframes glowing {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
     }
 }

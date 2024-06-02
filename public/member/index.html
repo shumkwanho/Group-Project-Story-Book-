@@ -13,8 +13,11 @@
 
 <body>
 
+    <div class="background">
+        <!-- your website content here -->
+    </div>
+
     <div id="navbarBorder" class="navbar border" class="navbar-border">
-        <div id="icon">ICON</div>
         <form action="" class="search-container">
             <input type="text" placeholder="Search Bar" class="test" pattern=".*\S.*" required>
             <button class="search-btn" type="submit">
@@ -26,7 +29,9 @@
     </div>
 
     <div id="containerBorder" class="container border">
-        <button><a id="homePageButton" href="../main">Home Page</a></button>
+        <div class="glow-on-hover" type="button">
+            <a id="homePageButton" href="../main">Home Page</a>
+        </div>
         <div class="personal-info border">
             <div class="image border"><img src="" alt=""></div>
             <button type="button" class="btn btn-primary edit" data-bs-toggle="modal" data-bs-target="#exampleModal">
