@@ -5,6 +5,7 @@ import expressSession from "express-session";
 import { Request, Response } from "express";
 import { router } from "./router";
 import { error } from "console";
+import { isLoggedIn } from "./utils/guards";
 
 const app = express();
 const PORT = 8080;
@@ -32,8 +33,13 @@ declare module "express-session" {
 }
 
 app.use("/uploads", express.static("uploads"))
-app.use("/",router);
-app.use("/", express.static("public"));
+app.use("/",router)
+app.use("/", express.static("public"))
+app.use("/member", isLoggedIn, express.static("private/member"))
+
+app.get('/', (req, res) => {
+  res.redirect('/main')
+})
 
 app.use((req: Request, res: Response) => {
     res.status(404).json({ "Message": "404 NOT FOUND" })

@@ -2,14 +2,17 @@ import { bookReader } from "../helpers/bookReader.js";
 import { login } from "../helpers/login.js";
 import { register } from "../helpers/register.js";
 import { getUserInfo } from "../helpers/auth.js";
+import { storybookUpdatePrivate, storybookUpdatePublic } from "../helpers/updateBookStatus.js";
 
 const createComment = document.querySelector("#create-comment")
 const commentArea = document.querySelector(".comment-area")
 
 var searchParams = new URLSearchParams(window.location.search);
-const id = searchParams.get("id");
+const storybookId = searchParams.get("id");
 
 window["bookReader"] = bookReader;
+window["storybookUpdatePrivate"] = storybookUpdatePrivate;
+window["storybookUpdatePublic"] = storybookUpdatePublic;
 window["editComment"] = editComment;
 window["deleteComment"] = deleteComment;
 window["confirmEdit"] = confirmEdit;
@@ -21,9 +24,11 @@ window["toBookPage"] = toBookPage
 window["toggleLike"] = toggleLike;
 
 window.addEventListener("load", async (e) => {
-    const bookData = await getStoryBook(id)
-    await loadComment()
     const userId = await checkLogin()
+
+    const bookData = await getStoryBook(storybookId, userId)
+    await loadComment(storybookId)
+    
     if (userId) {
         await loadBtn()
         await loadLike(bookData)
@@ -58,24 +63,52 @@ const checkLogin = async () => {
     return null
 }
 
-async function getStoryBook(id) {
-    let res = await fetch(`/storybookByid?id=${id}`)
+async function getStoryBook(storybookId, userId) {
+    let res = await fetch(`/storybookById?id=${storybookId}`)
     let data = (await res.json()).data
+
     if (res.ok) {
 
         let target = document.querySelector(".upper-part");
-        target.innerHTML += `
+        target.insertAdjacentHTML(
+            "afterbegin",
+            `
             <img src="../../uploads/pageImg/${data.image}" alt="" class="book-cover border">
             <div class="book-detail">
                 <div class="book-name">Book Name:  <h class="textcolor"> ${data.bookname}</h></div>
-                <div class="author">Author By:</div>
+                <div class="author">Created By:</div>
                 <div class="description">About Story: <h class="textcolor">${data.description}</h></div>
             </div>
-            <div class="function">
-                <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${id})">
-                <img src="./img/stars.gif" style="width: 50px; height: 30px; alt="grc">Read Now</button>
+
+            <div class="function book-button-group">
+            <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${storybookId})">
+                <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc">Read Now
+            </button>
             </div>
             `
+        )
+
+        if (userId) {
+            if (data.is_public) {
+
+                document.querySelector(".book-button-group").insertAdjacentHTML(
+                    "beforeend",
+                    `
+                <button id="make-private" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="storybookUpdatePrivate(${storybookId})">
+                Make it Private</button>`
+                )
+
+            } else {
+
+                document.querySelector(".book-button-group").insertAdjacentHTML(
+                    "beforeend",
+                    `
+                <button id="make-public" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="storybookUpdatePublic(${storybookId})">
+                Make it Public</button>`
+                )
+
+            }
+        }
             return data
     }
 }
@@ -83,10 +116,10 @@ async function getStoryBook(id) {
 async function loadLike(bookData) {
     const likeRes = await fetch("../like")
     const likeData = (await likeRes.json()).data.map(elem => elem.id)
-    const isLiked = likeData.includes(parseInt(id))
+    const isLiked = likeData.includes(parseInt(storybookId))
     document.querySelector(".function").innerHTML += `
     <div class="like-container">
-        <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #9ECDFF;" onclick=toggleLike(event,${id})></i>
+        <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #9ECDFF;" onclick=toggleLike(event,${storybookId})></i>
         <span class="like-count">${bookData.likeCount}</span>
     </div>`
 }
@@ -121,8 +154,8 @@ async function toggleLike(e, bookId) {
 }
 
 
-const loadComment = async () => {
-    const res = await fetch(`/comment?id=${id}`)
+const loadComment = async (storybookId) => {
+    const res = await fetch(`/comment?id=${storybookId}`)
     const data = (await res.json()).data
     for (let comment of data) {
         const date = comment.updated_at.slice(0, 10)
@@ -201,7 +234,7 @@ async function loadBtn() {
     const res = await fetch("/comment-user")
     const data = (await res.json()).data
     const commentIds = data.map(e => (e.id).toString())
-    console.log(commentIds);
+
     const comments = Array.from(document.querySelectorAll(".comment-container"))
     for (let comment of comments){
         const commentId = comment.id.slice(8)

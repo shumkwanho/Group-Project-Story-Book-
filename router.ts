@@ -58,8 +58,9 @@ const storybookService = new StorybookService(knex)
 const storybookController = new StorybookController(storybookService)
 router.get("/storybooks", storybookController.getAllStoryBook)
 router.get("/storybook", storybookController.getStoryBookById)
-router.get("/storybookByid", storybookController.onclickStoryBookById)
-
+router.get("/storybookById", storybookController.onclickStoryBookById)
+router.put("/storybook-to-private", storybookController.storybookUpdatePrivate)
+router.put("/storybook-to-public", storybookController.storybookUpdatePublic)
 
 //create storybook at once, keep to test if result will be better
 router.post("/storybook", storybookController.createStoryBook)
