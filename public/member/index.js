@@ -1,8 +1,8 @@
-import { showCharacterCard } from "../../public/helpers/characterCard.js"
-import { createCharacter } from "../../public/helpers/createCharacter.js"
-import { createStorybook } from "../../public/helpers/createStorybook.js"
-import { convertDisplayAge } from '../../public/helpers/convertDisplayAge.js';
-import { getUserInfo } from "../../public/helpers/auth.js";
+import { showCharacterCard } from "../helpers/characterCard.js"
+import { createCharacter } from "../helpers/createCharacter.js"
+import { createStorybook } from "../helpers/createStorybook.js"
+import { convertDisplayAge } from '../helpers/convertDisplayAge.js';
+import { getUserInfo } from "../helpers/auth.js";
 
 window["showCharacterCard"] = showCharacterCard
 window["createCharacter"] = createCharacter
@@ -52,7 +52,7 @@ function loadCharacter(charactersData) {
 }
 
 async function getStorybookByUserId() {
-    const res = await fetch("/user-storybooks")
+    const res = await fetch("../user-storybooks")
     const data = (await res.json()).data
     return data
 }
@@ -131,7 +131,7 @@ document.querySelectorAll(".collection div").forEach((selection) => {
 async function editUserInfo(e) {
     e.preventDefault()
     let username = e.target.username.value
-    const res = await fetch('/username', {
+    const res = await fetch('../username', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -152,7 +152,7 @@ async function changePassword(e) {
     const newPassword = e.target.newPassword.value
     const confirmPassword = e.target.confirmPassword.value
 
-    const res = await fetch('/password', {
+    const res = await fetch('../password', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -171,7 +171,7 @@ async function changePassword(e) {
 }
 
 async function checkIsMember() {
-    const res = await fetch("/payment")
+    const res = await fetch("../payment")
     const data = (await res.json()).data
     if (data.length > 0) {
         return true
@@ -180,7 +180,7 @@ async function checkIsMember() {
 }
 
 async function hasFirstAttempt() {
-    const res = await fetch("/free-trial")
+    const res = await fetch("../free-trial")
     const data = (await res.json()).data
     return data[0].has_first_attempt
 }
@@ -192,7 +192,7 @@ function requirePayment(e) {
 }
 
 async function logout() {
-    const res = await fetch("/logout")
+    const res = await fetch("../logout")
     const data = await res.json()
     window.location.href = "../main"
 }
