@@ -8,6 +8,7 @@ window["showCharacterCard"] = showCharacterCard
 window["createCharacter"] = createCharacter
 window["createStorybook"] = createStorybook
 window["logout"] = logout
+window["requirePayment"] = requirePayment
 
 const displayArea = document.querySelector(".display-area")
 
