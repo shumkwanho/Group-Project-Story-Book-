@@ -65,13 +65,13 @@ async function loadStorybooks(storybooksData) {
     const isAttemped = await hasFirstAttempt()
     const ableToCreateStorybook = !isAttemped || isMember
 
-    displayArea.innerHTML = `<div class="create-storybook card" onclick=${ableToCreateStorybook ? "createStorybook()" : "requirePayment()"}>Create Storybook</div>`
+    displayArea.innerHTML = `<div id="createStorybookCard" class="create-storybook card" onclick=${ableToCreateStorybook ? "createStorybook()" : "requirePayment()"}>Create Storybook</div>`
     for (let storybook of storybooksData) {
-        
+
         let displayAge = convertDisplayAge(storybook.target_age);
 
         displayArea.innerHTML += `
-        <div class="book card border" onclick="window.location.href ='../book/?id=${storybook.id}'">
+        <div id="bookCardBorder"class="book card border" onclick="window.location.href ='../book/?id=${storybook.id}'">
             <img src="../../uploads/pageImg/${storybook.image}" class="book-img border">
                 <div class="book-detail border">
                     <div class="book-title">${storybook.bookname}</div>
@@ -103,27 +103,46 @@ function displayLikes(likesData) {
     }
 }
 
+function myFunction() {
+    let storybooks = document.getElementsByClassName("storybooks");
+    let characters = document.getElementsByClassName("characters");
+    let likes = document.getElementsByClassName("likes");
+  
+    for (let i = 0; i < storybooks.length; i++) {
+      storybooks[i].style.color = "red";
+    }
+  
+    for (let j = 0; j < characters.length; j++) {
+      characters[j].style.color = "red";
+    }
+  
+    for (let k = 0; k < likes.length; k++) {
+      likes[k].style.color = "red";
+    }
+  }
+
 document.querySelectorAll(".collection div").forEach((selection) => {
     selection.addEventListener("click", async (e) => {
         const selectedDiv = document.querySelector(".selected")
         let target = e.target.classList.value
+        
         if (target == "storybooks") {
             selectedDiv.style.left = "43px"
-            selectedDiv.style.width = "130px"
+            selectedDiv.style.width = "326.1px"
             const storybooks = await getStorybookByUserId()
             loadStorybooks(storybooks)
             return
         }
         if (target == "characters") {
             selectedDiv.style.left = "213px"
-            selectedDiv.style.width = "130px"
+            selectedDiv.style.width = "652.2px"
             const characters = await getcharacter()
             loadCharacter(characters)
             return
         }
         if (target == "likes") {
             selectedDiv.style.left = "375px"
-            selectedDiv.style.width = "70px"
+            selectedDiv.style.width = "978.3px"
             const likes = await loadLikes()
             displayLikes(likes)
             return
@@ -191,5 +210,33 @@ async function hasFirstAttempt() {
 function requirePayment(e) {
     const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'), {});
     paymentModal.show()
-
 }
+
+const storybooks = document.querySelector('.storybooks');
+const characters = document.querySelector('.characters');
+const likes = document.querySelector('.likes');
+let selected = null;
+
+function toggleSelected(element) {
+    if (selected) {
+        selected.style.backgroundColor = '';
+        selected.style.color = '';
+        selected.style.borderRadius = '';
+    }
+    element.style.backgroundColor = '#008CBA';
+    element.style.color = 'white';
+    element.style.borderRadius = '200px';
+    selected = element;
+}
+
+storybooks.addEventListener('click', () => {
+    toggleSelected(storybooks);
+});
+
+characters.addEventListener('click', () => {
+    toggleSelected(characters);
+});
+
+likes.addEventListener('click', () => {
+    toggleSelected(likes);
+});

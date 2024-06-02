@@ -25,7 +25,7 @@
         <button type="submit" class="btn btn-primary submit" onclick="logout()">Logout</button>
     </div>
 
-    <div id="containerBorder" class="container border">
+    <div id="containerBorder" class="">
         <button><a id="homePageButton" href="../mainPage">Home Page</a></button>
         <div class="personal-info border">
             <div class="image border"><img src="" alt=""></div>
@@ -35,7 +35,7 @@
             <div class="user-name"></div>
             <div class="email"></div>
         </div>
-        <div class="collection border">
+        <div id="collectionBorder" class="collection border">
             <div class="storybooks">My Bookshelf</div>
             <div class="characters">My Character</div>
             <div class="likes">Likes</div>
@@ -222,7 +222,7 @@
                                 <!-- contents to be printed in js -->
                             </select>
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-category">Category</label>
                             <select class="form-select" id="new-storybook-category">
@@ -236,7 +236,7 @@
                                 <option value="Kindness">Kindness</option>
                             </select>
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-target-age">Target Age</label>
                             <select class="form-select" id="new-storybook-target-age">
@@ -247,7 +247,7 @@
                                 <option value="12">10 or above</option>
                             </select>
                         </div>
-    
+
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="new-storybook-total-page">Total Pages</label>
                             <select class="form-select" id="new-storybook-total-page">
@@ -258,14 +258,15 @@
                                 <option value="10">10</option>
                             </select>
                         </div>
-    
+
                     </div>
                     <div class="modal-footer" id="create-storybook-footer">
                         <span class="create-story-book-done-status"></span>
                         <span class="create-story-book-status"></span>
                         <i class="fa-solid fa-spinner fa-spin-pulse hidden" id="create-story-book-in-progress-icon"
                             style="color: #74C0FC;"></i>
-                        <i class="fa-solid fa-check hidden" id="create-story-book-done-icon" style="color: #74C0FC;"></i>
+                        <i class="fa-solid fa-check hidden" id="create-story-book-done-icon"
+                            style="color: #74C0FC;"></i>
                         <button class="btn btn-primary" type="submit" for="new-storybook-form"
                             id="new-storybook-submit-btn">Create Story Book</button>
                     </div>
@@ -273,7 +274,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- storybook reader -->
     <div class="modal fade modal" id="readerModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true"
         aria-labelledby="readerModalLabel" tabindex="-1">
