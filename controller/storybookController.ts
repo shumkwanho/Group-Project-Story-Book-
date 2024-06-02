@@ -60,8 +60,9 @@ export class StorybookController {
 
     onclickStoryBookById = async (req:Request, res: Response) => {
         try{
-            const { id } = req.query;
-            let storybookQueryResult:any = (await this.service.getStoryBookById(id as string))[0]
+            let { id } = req.query;
+            
+            let storybookQueryResult = (await this.service.getStoryBookById(id as string))[0]
             const likes = await this.service.getBookLikes(id as string)
             
             storybookQueryResult.likeCount = likes.count
@@ -148,9 +149,14 @@ export class StorybookController {
 
             let characterName = characterInfo[0].name;
 
+            console.log(`Creating Storybook Content for ${characterName}`)
+
             let storybookTextPrompt = genStorybookTextPrompt(characterName, targetAge, category, totalPage);
             let storybookContent = await textGeneratorModel(storybookTextPrompt, TEXT_MODEL);
             let storybookContentJSON = JSON.parse(storybookContent as string);
+
+            console.log(`Storybook Plot:`)
+            console.log(storybookContentJSON)
 
             let bookName = storybookContentJSON.story_name;
             let description = storybookContentJSON.description_summary;
@@ -230,6 +236,35 @@ export class StorybookController {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })  
         }
-    } 
-   
+    }
+
+    //TODO: check if book is created by user
+    storybookUpdatePrivate = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.query;
+            await this.service.storybookUpdatePrivate(id as string)
+            return res.json({
+                message: "Made storybook private"
+            })
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+    }
+
+    //TODO: check if book is created by user
+    storybookUpdatePublic = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.query;
+            await this.service.storybookUpdatePublic(id as string)
+            return res.json({
+                message: "Made storybook public"
+            })
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" })
+        }
+    }
 }

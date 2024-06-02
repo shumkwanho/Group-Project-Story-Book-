@@ -23,7 +23,7 @@ export class PaymentController {
                     },
                 ],
                 mode: 'payment',
-                success_url: `${YOUR_DOMAIN}/testingPage/success.html`,
+                success_url: `${YOUR_DOMAIN}/main/index.html`,
                 cancel_url: `${YOUR_DOMAIN}/cancel.html`,
                 payment_intent_data: {
                     metadata: { userId },
@@ -55,7 +55,12 @@ export class PaymentController {
                 const paymentIntentSucceeded = event.data.object;
                 const stripeId = paymentIntentSucceeded.id
                 const userId = paymentIntentSucceeded.metadata.userId
-                await this.service.updatePayment(userId, stripeId)
+                const result = await this.service.checkUserPayment(userId as string)
+                
+                if (!result[0]) {
+                    await this.service.updatePayment(userId, stripeId)
+                }
+
                 break;
             // ... handle other event types
             default:

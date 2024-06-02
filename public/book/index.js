@@ -1,16 +1,23 @@
 import { bookReader } from "../helpers/bookReader.js";
-
+import { login } from "../helpers/login.js";
+import { register } from "../helpers/register.js";
+import { getUserInfo } from "../helpers/auth.js";
+import { storybookUpdatePrivate, storybookUpdatePublic } from "../helpers/updateBookStatus.js";
 
 const createComment = document.querySelector("#create-comment")
 const commentArea = document.querySelector(".comment-area")
 
 var searchParams = new URLSearchParams(window.location.search);
-const id = searchParams.get("id");
+const storybookId = searchParams.get("id");
 
 window["bookReader"] = bookReader;
+window["storybookUpdatePrivate"] = storybookUpdatePrivate;
+window["storybookUpdatePublic"] = storybookUpdatePublic;
 window["editComment"] = editComment;
 window["deleteComment"] = deleteComment;
 window["confirmEdit"] = confirmEdit;
+window["login"] = login
+window["register"] = register
 window["logout"] = logout
 window["search"] = search
 window["toBookPage"] = toBookPage
@@ -18,44 +25,103 @@ window["toggleLike"] = toggleLike;
 
 window.addEventListener("load", async (e) => {
     const userId = await checkLogin()
-    await getStoryBook(id)
-    await loadComment()
+
+    const bookData = await getStoryBook(storybookId, userId)
+    await loadComment(storybookId)
+    
     if (userId) {
         await loadBtn()
+        await loadLike(bookData)
     }
 })
 
+const checkLogin = async () => {
+    const res = await fetch("/checkLogin")
+    const data = await res.json()
 
+    if (data.data) {
 
-async function getStoryBook(id) {
-    let res = await fetch(`/storybookByid?id=${id}`)
+        const userInfo = await getUserInfo()
+
+        document.querySelector("#username-display").innerHTML = userInfo.username;
+
+        document.querySelector("#user-page-redirect").classList.toggle("hide")
+        document.querySelector("#logout").classList.toggle("hide")
+        document.querySelector(".search-bar").addEventListener("input", search)
+
+        document.querySelector("#user-page-redirect")
+            .addEventListener("click", () => {
+                window.location.href = '../member';
+            });
+        
+        return data.data
+    }
+
+    document.querySelector("#login").classList.toggle("hide")
+    document.querySelector("#register").classList.toggle("hide")
+    document.querySelector(".search-bar").addEventListener("input", search)
+    return null
+}
+
+async function getStoryBook(storybookId, userId) {
+    let res = await fetch(`/storybookById?id=${storybookId}`)
     let data = (await res.json()).data
+
     if (res.ok) {
+
         let target = document.querySelector(".upper-part");
-        target.innerHTML += `
+        target.insertAdjacentHTML(
+            "afterbegin",
+            `
             <img src="../../uploads/pageImg/${data.image}" alt="" class="book-cover border">
             <div class="book-detail">
                 <div class="book-name">Book Name:  <h class="textcolor"> ${data.bookname}</h></div>
-                <div class="author">Author By:</div>
+                <div class="author">Created By:</div>
                 <div class="description">About Story: <h class="textcolor">${data.description}</h></div>
             </div>
-            <div class="function">
-                
-                <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${id})"> <img src="./img/stars.gif" style="width: 50px; height: 30px; alt="grc">Read Now</button>
+
+            <div class="function book-button-group">
+            <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${storybookId})">
+                <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc">Read Now
+            </button>
             </div>
             `
+        )
 
-        if (await checkLogin()) {
-            const likeRes = await fetch("../like")
-            const likeData = (await likeRes.json()).data.map(elem => elem.id)
-            const isLiked = likeData.includes(parseInt(id))
-            document.querySelector(".function").innerHTML += `
-                <div class="like-container">
-                    <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #9ECDFF;" onclick=toggleLike(event,${id})></i>
-                    <span class="like-count">${data.likeCount}</span>
-                </div>`
+        if (userId) {
+            if (data.is_public) {
+
+                document.querySelector(".book-button-group").insertAdjacentHTML(
+                    "beforeend",
+                    `
+                <button id="make-private" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="storybookUpdatePrivate(${storybookId})">
+                Make it Private</button>`
+                )
+
+            } else {
+
+                document.querySelector(".book-button-group").insertAdjacentHTML(
+                    "beforeend",
+                    `
+                <button id="make-public" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="storybookUpdatePublic(${storybookId})">
+                Make it Public</button>`
+                )
+
+            }
         }
+            return data
     }
+}
+
+async function loadLike(bookData) {
+    const likeRes = await fetch("../like")
+    const likeData = (await likeRes.json()).data.map(elem => elem.id)
+    const isLiked = likeData.includes(parseInt(storybookId))
+    document.querySelector(".function").innerHTML += `
+    <div class="like-container">
+        <i class="fa-${isLiked ? "solid" : "regular"} fa-heart like-btn" style="color: #9ECDFF;" onclick=toggleLike(event,${storybookId})></i>
+        <span class="like-count">${bookData.likeCount}</span>
+    </div>`
 }
 
 async function toggleLike(e, bookId) {
@@ -88,8 +154,8 @@ async function toggleLike(e, bookId) {
 }
 
 
-const loadComment = async () => {
-    const res = await fetch(`/comment?id=${id}`)
+const loadComment = async (storybookId) => {
+    const res = await fetch(`/comment?id=${storybookId}`)
     const data = (await res.json()).data
     for (let comment of data) {
         const date = comment.updated_at.slice(0, 10)
@@ -106,22 +172,9 @@ const loadComment = async () => {
     }
 }
 
-const checkLogin = async () => {
-    const res = await fetch("/checkLogin")
-    const data = await res.json()
-    const navbar = document.querySelector("#navbar")
-    if (data.data) {
-        navbar.innerHTML += `<button id="logout" type="button" class="btn btn-primary" onclick=logout()>Logout</button>`
-        document.querySelector(".search-bar").addEventListener("input", search)
-        return data.data
-    }
-    navbar.innerHTML += `<button id="login" type="button" class="btn btn-primary" onclick=login()>Login</button>`
-    document.querySelector(".search-bar").addEventListener("input", search)
-    return null
-}
+
 
 async function search(e) {
-    console.log(e.target.value);
     const searchResult = document.querySelector(".search-result-container")
     searchResult.innerHTML = ""
     const search = e.target.value
@@ -140,7 +193,6 @@ async function search(e) {
     const data = (await res.json()).data
 
     for (let book of data) {
-        console.log(book);
         let bookname = book.bookname.replace(search, `<b>${search}</b>`)
 
         searchResult.innerHTML += `
@@ -181,18 +233,25 @@ createComment.addEventListener("click", async (e) => {
 async function loadBtn() {
     const res = await fetch("/comment-user")
     const data = (await res.json()).data
-    const commentIds = data.map(e => e.id)
-    for (let id of commentIds) {
-        document.querySelector(`#comment_${id}`).innerHTML += `
+    const commentIds = data.map(e => (e.id).toString())
+
+    const comments = Array.from(document.querySelectorAll(".comment-container"))
+    for (let comment of comments){
+        const commentId = comment.id.slice(8)
+        if (!commentIds.includes(commentId)){
+           continue
+        }
+        document.querySelector(`#comment_${commentId}`).innerHTML += `
         <div class="btn-group">
-            <div id="editComment" onclick=editComment(${id})> <i class="fa-solid fa-pen" style="color: #48A0FF;"></i> </div>
-            <div id="deleteComment" onclick=deleteComment(${id})> <i class="fa-solid fa-trash" style="color: #48A0FF;"></i> </div>
+            <div id="editComment" onclick=editComment(${commentId})> <i class="fa-solid fa-pen" style="color: #48A0FF;"></i> </div>
+            <div id="deleteComment"> <i onclick=deleteComment(event,${commentId}) class="fa-solid fa-trash" style="color: #48A0FF;"></i> </div>
         </div>
         `
     }
+
 }
 
-async function deleteComment(commentId) {
+async function deleteComment(e,commentId) {
     const res = await fetch('/comment', {
         method: 'DELETE',
         headers: {
@@ -202,19 +261,17 @@ async function deleteComment(commentId) {
     })
     const data = await res.json()
     if (res.ok) {
-        window.location.reload()
+        e.target.parentElement.parentElement.parentElement.remove()
     }
 }
 
 function editComment(commentId) {
     const targetComment = document.querySelector(`#comment_${commentId}`)
-    const content = targetComment.querySelector(".comment").innerHTML
+    const content = targetComment.querySelector(".comment-content").innerHTML
     targetComment.innerHTML = `
-        <textarea cols="85">${content}</textarea>
+        <textarea class="edit-input" cols="72">${content}</textarea>
         <button type="button" onclick=confirmEdit(event,${commentId}) class="btn btn-primary">Confirm</button>
     `
-
-
 }
 
 async function confirmEdit(event, commentId) {

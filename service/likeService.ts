@@ -22,4 +22,14 @@ export class LikeService {
     dislikeBook = async (user_id:string, storybook_id:string) =>{
         await this.knex("like_relation").where("user_id", user_id).andWhere("storybook_id",storybook_id).del()
     }
+
+    getLikeCount = async (storybookId: string) => {
+        const result = (await this.knex.raw(`
+        select count(storybook_id)
+        from like_relation
+        where storybook_id = ?
+        group by storybook_id`, [storybookId])).rows[0]
+
+        return result || { count: 0 }
+    }
 }

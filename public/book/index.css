@@ -1,7 +1,10 @@
 @import url('../helpers/bookReader.css');
+@import url('../helpers/login-register.css');
 
 body{
     min-width: 1400px;
+    position: relative;
+    top:158px;
 }
 
 .border {
@@ -28,7 +31,7 @@ body{
 
 .navbar {
     display: flex;
-    
+    justify-content:space-between;
     margin: 0;
     margin-bottom: 5px;
     width: 100%;
@@ -38,6 +41,7 @@ body{
     border-image-source: url(./img/borderBlue.jpg);
     border-image-slice: 80 fill;
     border-image-repeat: round;
+    padding-left: 25%;
 }
 
 .search-container {
@@ -45,7 +49,7 @@ body{
 }
 
 .search-bar {
-    width: 800px;
+    width: 40vw;
     height: 35px;
     font-size: 20px;
     border: 1px solid black;
@@ -56,10 +60,10 @@ body{
 
 .search-result-container {
     position: absolute;
-    top: 35px;
+    top: 60px;
     background-color: rgb(197, 231, 255);
     z-index: 100;
-    width : 800px;
+    width: 40vw;
     border-radius: 10px;
     
 }
@@ -69,6 +73,7 @@ body{
     align-items: center;
     height: 50px;
     padding: 0 50px 0 30px;
+    font-size: 15px;
 }
 
 .search-result:hover{
@@ -81,42 +86,6 @@ body{
     background-repeat: no-repeat;
     object-fit: cover;
 }
-
-/* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
-    opacity: 1;
-  }
-
-.form-popup,
-.registerPopup{
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    border: 3px solid #f1f1f1;
-    z-index: 9;
-}
-
-/* The popup form - hidden by default */
-.form-popup,
-.registerPopup{
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    border: 3px solid #f1f1f1;
-    z-index: 9;
-}
-/* Add styles to the form container */
-.form-container,
-.registerFormContainer {
-    max-width: 300px;
-    padding: 10px;
-    background-color: white;
-}
-
-
-
 
 .upper-part{
     display:flex;
@@ -146,8 +115,6 @@ body{
     padding: 10px;
     margin-bottom: 10px;
     font-weight: bold;
-    
-    
 }
 
 .textcolor{
@@ -180,7 +147,6 @@ body{
     scrollbar-color: #016864 #fffefe;
 }
 
-
 h2{
     color: white;
     padding: 10px;  
@@ -197,11 +163,8 @@ h2{
     border-color: rgb(168, 252, 252);
 }
 
-
-
 .comment-container:hover{
     background-color: rgb(217, 245, 247);
-    
 }
 
 #read{
@@ -238,11 +201,9 @@ h2{
 .otherBook{
     width: 350px;
     height: 300px;
-    
 }
 
 .otherBookContainer{
-   
     width: 250px;
     height: 250px;
     background-color: bisque;
@@ -258,7 +219,6 @@ h2{
 .supportedBy{
     width: 350px;
     height: 300px;
-    
 }
 
 .p0{
@@ -316,7 +276,7 @@ h2{
 
 .sellArea{
     width: 100%;
-    height: 300px;
+    height: 400px;
     background-image: url(./img/sky.png);
     background-size: cover;
      background-repeat: no-repeat;
@@ -334,14 +294,20 @@ h2{
     width: 95%;
 }
 
-
-textarea{
+.edit-input{
+    padding: 10px 0px 10px 30px;
+    border-radius: 10px;
+    height:60px;
+    position:relative;
+    right: 30px;
+}
+#new-comment{
     position: relative;
     left: 28px;
     margin-top: 50px;
     font-family: "Papyrus", "fantasy";
     font-style: italic;
-    font-size: 15px;
+    font-size: 25px;
     padding: 15px;
     width: 95%;
 }
@@ -378,4 +344,16 @@ textarea{
     width: 70%;
     justify-content: space-between;
     align-items: end;
+}
+
+#main-page-redirect{
+    position:relative;
+    left: 10%;
+    font-size: 30px;
+}
+
+#read, 
+#make-private, 
+#make-private {
+    margin: 5px;
 }

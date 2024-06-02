@@ -22,11 +22,11 @@
                 <div class="search-result-container">
                 </div>
         </form>
-        <button type="submit" class="btn btn-primary submit" onclick="logout()">Logout</button>
+        <button type="button" class="btn btn-primary" onclick="logout()">Logout</button>
     </div>
 
-    <div id="containerBorder" class="">
-        <button><a id="homePageButton" href="../mainPage">Home Page</a></button>
+    <div id="containerBorder" class="container border">
+        <button><a id="homePageButton" href="../main">Home Page</a></button>
         <div class="personal-info border">
             <div class="image border"><img src="" alt=""></div>
             <button type="button" class="btn btn-primary edit" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -106,7 +106,7 @@
                 </div>
                 <div class="modal-footer" id="character-content-footer">
                     <button class="btn btn-danger delete-btn">Delete Character</button>
-                    <button class="btn btn-primary create-story-with-character-btn">Create Story with Character</button>
+                    <!-- <button class="btn btn-primary create-story-with-character-btn">Create Story with Character</button> -->
                 </div>
             </div>
         </div>
@@ -305,7 +305,7 @@
         <div class="modal-dialog  modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Payment</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -344,6 +344,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="index.js"></script>
 </body>
 

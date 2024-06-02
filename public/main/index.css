@@ -1,9 +1,13 @@
 @import url('../helpers/createStorybook.css');
 @import url('../helpers/bookReader.css');
+@import url('../helpers/login-register.css');
 
 body{
     min-width: 1400px;
+    position: relative;
+    top:159px;
 }
+
 .border {
     border: 1px solid black;
     border-radius: 10px;
@@ -134,7 +138,7 @@ body{
     left: 0px;
     border: none;
     cursor: pointer;
-    z-index: 20;
+    z-index: 10;
     font-size: xx-large;
 }
 
@@ -184,6 +188,10 @@ body{
     z-index: 99;
 }
 
+.filter-list::-webkit-scrollbar {
+    display: none;
+}
+
 .option {
     display: flex;
     justify-content: space-between;
@@ -210,6 +218,7 @@ body{
     justify-content: space-between;
     width: 800px;
     padding: 0 30px;
+    font-size: 15px;
 }
 
 .search-result:hover {
@@ -222,72 +231,10 @@ body{
 
 .search-result-container {
     position: absolute;
-    top: 35px;
+    top: 60px;
     background-color: bisque;
     z-index: 100;
     border-radius: 10px;
-}
-
-/* The popup form - hidden by default */
-.form-popup,
-.registerPopup {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    border: 3px solid #f1f1f1;
-    z-index: 9;
-}
-
-/* Add styles to the form container */
-.form-container,
-.registerFormContainer {
-    max-width: 300px;
-    padding: 10px;
-    background-color: white;
-}
-
-/* Full-width input fields */
-.form-container input[type=text],
-.form-container input[type=password],
-.registerFormContainer[type=text],
-.registerFormContainer[type=password] {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
-    border: none;
-    background: #f1f1f1;
-}
-
-/* When the inputs get focus, do something */
-.form-container input[type=text]:focus,
-.form-container input[type=password]:focus {
-    background-color: #ddd;
-    outline: none;
-}
-
-/* Set a style for the submit/login button */
-.form-container .btn {
-    background-color: #04AA6D;
-    color: white;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-bottom: 10px;
-    opacity: 0.8;
-}
-
-/* Add a red background color to the cancel button */
-.form-container .cancel {
-    background-color: red;
-}
-
-/* Add some hover effects to buttons */
-.form-container .btn:hover,
-.open-button:hover,
-.filter:hover {
-    opacity: 1;
 }
 
 .introductionBox {
@@ -297,6 +244,12 @@ body{
     display: block;
     text-align: center;
     height: 130px
+}
+
+.p0{
+    font-size: 50px;
+    font-family: "Papyrus", "fantasy";
+    font-style: italic;
 }
 
 .p1 {
@@ -447,4 +400,10 @@ body{
     padding-top: 30px;
     height: 400px;
     width: 100%;
+}
+
+.like-count{
+    position: absolute;
+    left: 50px;
+    bottom: 0px;
 }
