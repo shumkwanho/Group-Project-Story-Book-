@@ -46,7 +46,7 @@ export class StorybookService {
 
     getStoryBookById = async (storybookId: string) => {
         return await this.knex
-            .select("bookname", "description", "target_age", "total_page", "category", "storybooks.created_at", "image")
+            .select("bookname", "description", "target_age", "total_page", "category", "storybooks.created_at", "image", "is_public")
             .from("storybooks")
             .join("storybook_pages", "storybooks.id", "storybook_id")
             .where(`storybooks.id`, storybookId)
@@ -141,5 +141,16 @@ export class StorybookService {
         return result || { count: 0 }
     }
 
+    storybookUpdatePrivate = async (storybookId: string) => {
+        await this.knex('storybooks')
+            .update("is_public", false)
+            .where("id", storybookId)
+    }
+
+    storybookUpdatePublic = async (storybookId: string) => {
+        await this.knex('storybooks')
+            .update("is_public", true)
+            .where("id", storybookId)
+    }
 }
 

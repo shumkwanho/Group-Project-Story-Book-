@@ -351,3 +351,9 @@ h2{
     left: 10%;
     font-size: 30px;
 }
+
+#read, 
+#make-private, 
+#make-private {
+    margin: 5px;
+}
