@@ -218,7 +218,7 @@ async function logout() {
 
 createComment.addEventListener("click", async (e) => {
     const newComment = document.querySelector("#new-comment").value
-    const res = await fetch('/comment', {
+    const res = await fetch(`/comment/?id=${storybookId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',

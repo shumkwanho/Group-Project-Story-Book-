@@ -27,9 +27,9 @@ export class CommentController {
             if (req.session.userId) {
                 userId = req.session.userId
             }
-            let storybookId = "1"
+            let storybookId = req.query.id
 
-            const comment = await this.service.createComment(newComment, storybookId, userId);
+            const comment = await this.service.createComment(newComment, storybookId as string, userId);
             // res.status(200).json({ message: "create comment success"})
             res.status(200).json({ "message": "Success" })
 
