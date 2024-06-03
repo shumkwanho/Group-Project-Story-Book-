@@ -37,9 +37,9 @@ app.use("/",router)
 app.use("/", express.static("public"))
 // app.use("/member", isLoggedIn, express.static("private/member"))
 
-// app.get('/', (req, res) => {
-//   res.redirect('/main')
-// })
+app.get('/', (req, res) => {
+  res.redirect('/main')
+})
 
 app.use((req: Request, res: Response) => {
     res.status(404).json({ "Message": "404 NOT FOUND" })
