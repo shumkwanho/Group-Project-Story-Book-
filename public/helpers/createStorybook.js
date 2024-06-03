@@ -90,6 +90,10 @@ async function generateStoryPlot(characterId, category, targetAge, totalPage) {
             await generatePage(characterId, storybookContentJSON, storybookId, page)
         }
 
+        let res = fetch("../first-attempt-finish", {
+            method: "PUT"
+        })
+
         createStatus.innerHTML = ""
         createStatus.innerHTML = "All Done!"
         createInProgressIcon.classList.toggle("hidden")

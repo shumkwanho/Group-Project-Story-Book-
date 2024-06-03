@@ -161,4 +161,15 @@ export class UserController {
             return res.status(500).json({ message: 'Internal server error' })
         }
     }
+
+    firstAttemptFinish = async (req: Request, res: Response) => {
+        try {
+            const userId = req.session.userId
+            await this.service.firstAttemptDone(userId as string)
+            
+        } catch (error) {
+            console.error('Error in login route:', error);
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
 }

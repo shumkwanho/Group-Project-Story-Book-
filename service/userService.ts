@@ -58,4 +58,8 @@ export class UserService {
     checkFreeTrial = async (userId:string)=>{
         return await this.knex.select("has_first_attempt").from("users").where("id",userId)
     }
+
+    firstAttemptDone = async (userId: string) => {
+        await this.knex.raw('UPDATE users SET has_first_attempt = true WHERE id = ?', [userId])
+    }
 }

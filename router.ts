@@ -89,6 +89,7 @@ router.get("/user-storybooks",userController.getStorybookbyUserId)
 router.put("/username",isLoggedIn,userController.editUsername)
 router.put("/password",userController.changePassword)
 router.get("/free-trial",userController.checkFirstTrial)
+router.put("/first-attempt-finish", userController.firstAttemptFinish)
 
 const likeService = new LikeService(knex)
 const likeController = new LikeController(likeService)
