@@ -5,11 +5,14 @@ export class LikeService {
 
     getLikes = async (user_id:string)=>{
         const result = (await this.knex.raw(`
-        select s.id as id, character_id,bookname,description,target_age,created_at,category,total_page 
+        select s.id as id, character_id,bookname,description,target_age,s.created_at,category,total_page,image
         from like_relation l 
         join storybooks s 
         on storybook_id = s.id 
-        where s.user_id = ?;
+        join storybook_pages p
+        on s.id = p.storybook_id
+        where s.user_id = ?
+        and page_number = '1'
         `,[user_id])).rows
         return result
     }

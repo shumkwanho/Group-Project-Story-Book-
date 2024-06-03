@@ -90,7 +90,7 @@ function displayLikes(likesData) {
     for (let like of likesData) {
         displayArea.innerHTML += `
         <div class="like card border" onclick="window.location.href ='../book/?id=${like.id}'" >
-            <div class="book-img border">img</div>
+            <img src="../../uploads/pageImg/${like.image}" class="book-img border">
             <div class="book-detail border">
                 <div class="book-title">${like.bookname}</div>
                 <div class="suitable-age">${like.target_age} years old</div>
