@@ -458,3 +458,9 @@ a{
         background-position: 0 0;
     }
 }
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+}
