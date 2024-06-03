@@ -4,6 +4,8 @@ import { createStorybook } from "../helpers/createStorybook.js"
 import { convertDisplayAge } from '../helpers/convertDisplayAge.js';
 import { getUserInfo } from "../helpers/auth.js";
 
+console.log("hello member page")
+
 window["showCharacterCard"] = showCharacterCard
 window["createCharacter"] = createCharacter
 window["createStorybook"] = createStorybook
