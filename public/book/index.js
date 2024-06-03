@@ -261,7 +261,25 @@ async function deleteComment(e,commentId) {
     })
     const data = await res.json()
     if (res.ok) {
-        e.target.parentElement.parentElement.parentElement.remove()
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your comment has been deleted.",
+                icon: "success"
+              });
+              e.target.parentElement.parentElement.parentElement.remove()
+              window.location.reload()
+            }
+          });
     }
 }
 
