@@ -27,13 +27,13 @@ app.use(
 )
 
 declare module "express-session" {
-    interface SessionData {
-        userId?: string;
-    }
+  interface SessionData {
+    userId?: string;
+  }
 }
 
 app.use("/uploads", express.static("uploads"))
-app.use("/",router)
+app.use("/", router)
 app.use("/", express.static("public"))
 app.use("/member", isLoggedIn, express.static("private/member"))
 
@@ -42,9 +42,9 @@ app.get('/', (req, res) => {
 })
 
 app.use((req: Request, res: Response) => {
-    res.status(404).json({ "Message": "404 NOT FOUND" })
+  res.status(404).json({ "Message": "404 NOT FOUND" })
 })
 
 app.listen(PORT, () => {
-    console.log(`Listening at http://localhost:${PORT}/`);
+  console.log(`Listening at http://localhost:${PORT}/`);
 });
