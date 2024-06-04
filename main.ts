@@ -35,7 +35,7 @@ declare module "express-session" {
 app.use("/uploads", express.static("uploads"))
 app.use("/",router)
 app.use("/", express.static("public"))
-// app.use("/member", isLoggedIn, express.static("private/member"))
+app.use("/member", isLoggedIn, express.static("private/member"))
 
 app.get('/', (req, res) => {
   res.redirect('/main')
