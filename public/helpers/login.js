@@ -13,18 +13,19 @@ window["loginOpenForm"] = loginOpenForm;
 window["loginCloseForm"] = loginCloseForm;
 
 export function login() {
+
   loginOpenForm();
 
-  document.addEventListener('click', (e) => {
-    if(!loginForm.contains(e.target) && !loginBtn.contains(e.target)) {
-      loginCloseForm();
-    }
-  })
+  // document.addEventListener('click', (e) => {
+  //   if (!loginForm.contains(e.target) && !loginBtn.contains(e.target)) {
+  //     loginCloseForm();
+  //   }
+  // })
 }
 
 loginForm.addEventListener('submit', async (event) => {
   event.preventDefault();
-  
+
   const username = document.getElementById('username').value;
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
@@ -50,7 +51,7 @@ loginForm.addEventListener('submit', async (event) => {
           window.location.reload();
         }
       });
-      
+
     } else {
 
       Swal.fire({
