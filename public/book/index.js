@@ -7,8 +7,6 @@ import {
   storybookUpdatePublic,
 } from "../helpers/updateBookStatus.js";
 
-console.log("testing");
-
 const createComment = document.querySelector("#create-comment");
 const commentArea = document.querySelector(".comment-area");
 
