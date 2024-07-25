@@ -83,7 +83,7 @@ async function getStoryBook(storybookId, userId) {
             </div>
 
             <div class="function book-button-group">
-            <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(${storybookId})">
+            <button id="read" type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" onclick="bookReader(event,${storybookId})">
                 <img src="./img/stars.gif" style="width: 50px; height: 30px;" alt="grc">Read Now
             </button>
             </div>

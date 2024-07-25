@@ -60,7 +60,7 @@ async function loadCharacters() {
     return result.data;
 }
 
-async function displayCharacterImage (id) {
+async function displayCharacterImage(id) {
     let characterData = await getCharacterData(id)
 
     characterImage.innerHTML = `<img src="../uploads/characterImg/${characterData[0].image}" id="character-image">`
@@ -100,7 +100,7 @@ async function generateStoryPlot(characterId, category, targetAge, totalPage) {
         createDoneIcon.classList.toggle("hidden")
         createStorybookFooter.insertAdjacentHTML(
             'beforeend',
-            `<button class="btn btn-primary" id="read-now-btn" onclick="bookReader(${storybookId})">Read Now</button>`
+            `<button class="btn btn-primary" id="read-now-btn" onclick="bookReader(event,${storybookId})">Read Now</button>`
         )
 
     } else {
@@ -111,7 +111,7 @@ async function generateStoryPlot(characterId, category, targetAge, totalPage) {
 async function generatePage(characterId, storybookContentJSON, storybookId, pageNumber) {
 
     let storybookContentJSONStr = JSON.stringify(storybookContentJSON)
-    
+
     createStatus.innerHTML = `Now Generating Page ${pageNumber} ... `
 
     let res = await fetch("/page", {

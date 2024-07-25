@@ -6,8 +6,8 @@ const pageNumber = document.querySelector(".story-page-number-container");
 const nextPageBtn = document.querySelector(".next-page-btn");
 const prevPageBtn = document.querySelector(".prev-page-btn");
 
-export async function bookReader(storybookId) {
-
+export async function bookReader(event,storybookId) {
+    event.preventDefault()
     const storybookData = await getStorybookData(storybookId)
     const coverData = storybookData.cover[0]
     const pagesData = storybookData.pages
