@@ -37,7 +37,7 @@ export function createCharacter() {
         );
 
       //TODO: guide user to input better names
-      console.log(name);
+      console.log("Creating Character: " + name);
 
       let res = await fetch("/character", {
         method: "POST",

@@ -6,7 +6,8 @@
     "start": "ts-node main.ts",
     "dev": "ts-node-dev main.ts",
     "test": "jest",
-    "openai": "ts-node openaiTest.ts"
+    "openai": "ts-node openaiTest.ts",
+    "replicate": "ts-node replicateTest.ts"
   },
   "keywords": [],
   "author": "Ah Ho <shumkwanho@gmail.com>",

@@ -4,6 +4,7 @@ import { imageGeneratorModel, textGeneratorModel } from "../aiEngine/openaiGener
 import { downloadImage } from "../utils/downloadImg";
 import { genCharacterRequirementJSON } from "../utils/characterRequirement";
 import { genCharacterTextPrompt } from "../utils/promptGenerator";
+import { imageModelVII } from "../aiEngine/replicateGenerator";
 
 const TEXT_MODEL = 'gpt-3.5-turbo';
 const IMAGE_MODEL = 'dall-e-3'
@@ -27,7 +28,7 @@ export class CharacterController {
             const { id } = req.query
             const characterData = await this.service.loadCharacterById(id as string)
             res.status(200).json({ data: characterData })
-            
+
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
@@ -42,12 +43,16 @@ export class CharacterController {
         try {
             const userId = req.session.userId;
             const { name, speciesType, gender, age, bodyShape, heightSize } = req.body;
-            
+
             let characterRequirementJSON = await genCharacterRequirementJSON(name, speciesType, gender, age, bodyShape, heightSize);
             let characterTextPrompt = genCharacterTextPrompt(characterRequirementJSON);
             let characterTextPromptGPT = await textGeneratorModel(characterTextPrompt, TEXT_MODEL);
 
-            let imageURL = await imageGeneratorModel(characterTextPromptGPT as string, IMAGE_MODEL);
+            //using openai dall-e 3 model
+            // let imageURL = await imageGeneratorModel(characterTextPromptGPT as string, IMAGE_MODEL);
+
+            //using stable diffusion model from replicate
+            let imageURL = await imageModelVII(characterTextPromptGPT as string);
             let filename = await downloadImage(imageURL as string, 'character');
 
             let characterName = `${name} the ${speciesType}`
