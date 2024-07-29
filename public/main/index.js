@@ -34,19 +34,16 @@ const loadStorybooks = (data) => {
     if (storybook.is_public === true) {
       let displayAge = convertDisplayAge(storybook.target_age);
 
-      storybookArea.innerHTML += `<div class="book border" id="book_${
-        storybook.id
-      }" onclick="window.location.href ='../book/?id=${storybook.id}'">
-                <img src="../../uploads/pageImg/${
-                  storybook.image
-                }" class="book-img border">
-                <div class="book-title"><p class="p2">${
-                  storybook.bookname
-                }</p></div>
+      storybookArea.innerHTML += `<div class="book border" id="book_${storybook.id
+        }" onclick="window.location.href ='../book/?id=${storybook.id}'">
+                <img src="../../uploads/pageImg/${storybook.image
+        }" class="book-img border">
+                <div class="book-title"><p class="p2">${storybook.bookname
+        }</p></div>
                 <div class="suitable-age"><p class="p2">Age: ${displayAge}</p></div>          
                 <img src="./img/icons/${randomNum(
-                  12
-                )}.png" class="image1 style="width: 3px ;height: 3px;">
+          12
+        )}.png" class="image1 style="width: 3px ;height: 3px;">
             </div>`;
     }
   }
@@ -111,9 +108,8 @@ const displayLike = async () => {
 
     book.innerHTML += `
             <div class="like">
-                <i class="fa-${
-                  isLiked ? "solid" : "regular"
-                } fa-heart like-btn" style="color: #efad5c;")></i>
+                <i class="fa-${isLiked ? "solid" : "regular"
+      } fa-heart like-btn" style="color: #efad5c;")></i>
                 <span class="like-count p2">${await likeCount(bookId)}</span>
             </div>`;
   }
@@ -141,7 +137,12 @@ const checkLogin = async () => {
     document.querySelector("#username-display").innerHTML = userInfo.username;
 
     const isMember = await checkIsMember();
-    const isAttemped = await hasFirstAttempt();
+
+    //check if user has already create one free story book, if yes, payment will be required
+    //inactive for demo purposes
+    // const isAttemped = await hasFirstAttempt();
+    const isAttemped = false
+
     const ableToCreateStorybook = !isAttemped || isMember;
 
     if (ableToCreateStorybook) {
@@ -231,16 +232,14 @@ function loadFilter(list) {
       let displayAge = convertDisplayAge(list[type][i][type]);
       filterForm.innerHTML += `
             <div class="option">
-                <label class="type">${
-                  type == "total_page"
-                    ? list[type][i][type] + " Pages"
-                    : type == "target_age"
-                    ? "Age " + displayAge
-                    : list[type][i][type]
-                }</label>
-                <input type="checkbox" name="${type}" value="${
-        list[type][i][type]
-      }">
+                <label class="type">${type == "total_page"
+          ? list[type][i][type] + " Pages"
+          : type == "target_age"
+            ? "Age " + displayAge
+            : list[type][i][type]
+        }</label>
+                <input type="checkbox" name="${type}" value="${list[type][i][type]
+        }">
             </div>
             `;
     }

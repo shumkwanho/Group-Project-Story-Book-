@@ -6,6 +6,7 @@ import { Request, Response } from "express";
 import { genPageImagePrompt, genStorybookTextPrompt } from "../utils/promptGenerator";
 import { imageGeneratorModel, textGeneratorModel } from "../aiEngine/openaiGenerator";
 import { downloadImage } from "../utils/downloadImg";
+import { imageModelVII } from "../aiEngine/replicateGenerator";
 
 const TEXT_MODEL = 'gpt-3.5-turbo';
 const IMAGE_MODEL = 'dall-e-3'
@@ -29,7 +30,7 @@ export class StorybookController {
     getStoryBookById = async (req: Request, res: Response) => {
         try {
             const { id } = req.query;
-            
+
             const storybookQueryResult = await this.service.getStoryBookInfoById(id as string);
 
             const totalPage = parseInt(storybookQueryResult[0].total_page);
@@ -58,16 +59,16 @@ export class StorybookController {
         }
     }
 
-    onclickStoryBookById = async (req:Request, res: Response) => {
-        try{
+    onclickStoryBookById = async (req: Request, res: Response) => {
+        try {
             let { id } = req.query;
-            
+
             let storybookQueryResult = (await this.service.getStoryBookById(id as string))[0]
             const likes = await this.service.getBookLikes(id as string)
-            
+
             storybookQueryResult.likeCount = likes.count
-            res.status(200).json({data: storybookQueryResult})
-        } 
+            res.status(200).json({ data: storybookQueryResult })
+        }
         catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
@@ -97,12 +98,12 @@ export class StorybookController {
             let description = storybookContentJSON.description_summary;
 
             let createStorybookQuery = await this.service.createStorybook(
-                parseInt(userId as string), 
-                bookName as string, 
+                parseInt(userId as string),
+                bookName as string,
                 description as string,
-                parseInt(characterId), 
-                parseInt(targetAge), 
-                category as string, 
+                parseInt(characterId),
+                parseInt(targetAge),
+                category as string,
                 parseInt(totalPage),
                 JSON.stringify(storybookContentJSON)
             );
@@ -114,14 +115,19 @@ export class StorybookController {
                 let pageTextPrompt = genPageImagePrompt(characterRequirementJSON, pageDetails);
                 let pageTextPromptGPT = await textGeneratorModel(pageTextPrompt, TEXT_MODEL);
 
-                let pageImageURL = await imageGeneratorModel(pageTextPromptGPT as string, IMAGE_MODEL);
+                //using openai dall-e 3 model
+                // let pageImageURL = await imageGeneratorModel(pageTextPromptGPT as string, IMAGE_MODEL);
+
+                //using stable diffusion model from replicate
+                let pageImageURL = await imageModelVII(pageTextPromptGPT as string);
+
                 let pageImageFileName = await downloadImage(pageImageURL as string, 'page');
 
                 await pageService.createPage(
-                    storybookId, 
-                    pageDetails.description, 
-                    pageImageFileName as string, 
-                    i+1, 
+                    storybookId,
+                    pageDetails.description,
+                    pageImageFileName as string,
+                    i + 1,
                     pageTextPromptGPT as string)
             }
 
@@ -133,7 +139,7 @@ export class StorybookController {
                     content: storybookContentJSON
                 }
             })
-            
+
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
@@ -162,12 +168,12 @@ export class StorybookController {
             let description = storybookContentJSON.description_summary;
 
             let createStoryBookPlotQuery = await this.service.createStorybook(
-                parseInt(userId as string), 
-                bookName as string, 
+                parseInt(userId as string),
+                bookName as string,
                 description as string,
-                parseInt(characterId), 
-                parseInt(targetAge), 
-                category as string, 
+                parseInt(characterId),
+                parseInt(targetAge),
+                category as string,
                 parseInt(totalPage),
                 JSON.stringify(storybookContentJSON)
             );
@@ -179,7 +185,7 @@ export class StorybookController {
                     plot: storybookContentJSON,
                 }
             })
-            
+
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
@@ -189,7 +195,7 @@ export class StorybookController {
     getStoryBookType = async (req: Request, res: Response) => {
         try {
             const data = await this.service.getStoryBookCategory()
-            return res.json({data})
+            return res.json({ data })
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
@@ -199,28 +205,28 @@ export class StorybookController {
     filterBook = async (req: Request, res: Response) => {
         try {
             const { obj } = req.body
-            let result:any[] = []
-            for (let condition of obj.condition){
-                const data = await this.service.filterBook(obj.key,condition)
+            let result: any[] = []
+            for (let condition of obj.condition) {
+                const data = await this.service.filterBook(obj.key, condition)
                 result = result.concat(data)
             }
-            return res.json({data:result})
+            return res.json({ data: result })
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
         }
-        
+
     }
 
     bookSorting = async (req: Request, res: Response) => {
         try {
-            const {category} = req.body
-            if(category == "likes"){
+            const { category } = req.body
+            if (category == "likes") {
                 const data = await this.service.aggregateSorting()
-                return res.json({data})
+                return res.json({ data })
             }
             const data = await this.service.storybookSorting(category)
-            return res.json({data})
+            return res.json({ data })
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" })
@@ -229,12 +235,12 @@ export class StorybookController {
 
     searchStoryBook = async (req: Request, res: Response) => {
         try {
-            const {search} = req.body 
+            const { search } = req.body
             const data = await this.service.searchStoryBook(search)
-            return res.json({data})
+            return res.json({ data })
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Internal Server Error" })  
+            res.status(500).json({ message: "Internal Server Error" })
         }
     }
 
