@@ -5,7 +5,8 @@
   "scripts": {
     "start": "ts-node main.ts",
     "dev": "ts-node-dev main.ts",
-    "test": "jest"
+    "test": "jest",
+    "openai": "ts-node openaiTest.ts"
   },
   "keywords": [],
   "author": "Ah Ho <shumkwanho@gmail.com>",
