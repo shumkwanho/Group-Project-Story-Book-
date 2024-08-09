@@ -1,2 +1,3 @@
-stripe listen --forward-to localhost:8080/webhook
+##AI Children Storybook
 
+This is a student project that uses yarn for package management.
