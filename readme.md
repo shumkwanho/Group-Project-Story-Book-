@@ -20,7 +20,7 @@ Gen-A-Book is an AI-powered storybook generator that allows users to create and 
 
 ### AI Story & Character Generator
 
-- Generate unique stories and characters using advanced AI algorithms.
+- Generate unique stories and characters using openAI API.
 - Customize story elements such as plot, characters, and settings.
 
 ### Comment and Rating System
